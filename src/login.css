@@ -1,0 +1,13 @@
+#log{
+    -fx-font: 12px "Serif";
+}
+#logCombo{
+ -fx-background-color: white;
+}
+#logPane{
+-fx-background-color: #4682B4;
+}
+#logmail{
+  -fx-background-color:green;
+}
+

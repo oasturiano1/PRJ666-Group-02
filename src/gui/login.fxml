@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="logPane" fx:id="apane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="708.0" stylesheets="@../login.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
+   <children>
+      <Label fx:id="status" layoutX="319.0" layoutY="31.0" text="Db status" />
+      <Label fx:id="dbstatus" layoutX="128.0" layoutY="36.0" />
+      <TextField id="log" fx:id="username" alignment="CENTER" layoutX="280.0" layoutY="99.0" promptText="username" stylesheets="@../login.css" />
+      <Label layoutX="207.0" layoutY="103.0" prefHeight="17.0" prefWidth="43.0" stylesheets="@./" text="Email:">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font></Label>
+      <Label layoutX="198.0" layoutY="146.0" text="Password">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <Button fx:id="okbtn" layoutX="290.0" layoutY="268.0" mnemonicParsing="false" onAction="#loginMethod" prefHeight="25.0" prefWidth="54.0" text="Login" />
+      <Button fx:id="canbtn" layoutX="354.0" layoutY="268.0" mnemonicParsing="false" onAction="#closeLoginScene" text="Cancel" />
+      <PasswordField id="log" fx:id="password" alignment="CENTER" layoutX="280.0" layoutY="142.0" stylesheets="@../login.css" />
+      <ComboBox id="logCombo" fx:id="combo" layoutX="279.0" layoutY="198.0" prefWidth="150.0" promptText="Admin/User" styleClass="logCombo" stylesheets="@../login.css" />
+      <Label fx:id="errorMsg" layoutX="122.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" textFill="#f24141" />
+      <Button fx:id="signbtn" layoutX="288.0" layoutY="311.0" mnemonicParsing="false" onAction="#signUpMethod" text="Sign Up" />
+      <JFXCheckBox layoutX="184.0" layoutY="272.0" text="Remeber me" />
+   </children>
+</AnchorPane>

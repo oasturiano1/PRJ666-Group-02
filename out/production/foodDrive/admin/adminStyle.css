@@ -1,0 +1,87 @@
+#search{
+-fx-border-color: #DCDCDC;
+-fx-border-width: 3;
+-fx-border-insets: 5;
+}
+
+/*source: http://fxexperience.com/2011/12/styling-fx-buttons-with-css/ */
+#bevel-blue {
+    -fx-background-color:
+        #000000,
+        linear-gradient(#7ebcea, #2f4b8f),
+        linear-gradient(#426ab7, #263e75),
+        linear-gradient(#395cab, #223768);
+    -fx-background-radius: 8,7,6;
+    -fx-background-insets: 0,1,2;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+#bevel-grey {
+    -fx-background-color:
+        linear-gradient(#f2f2f2, #d6d6d6),
+        linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),
+        linear-gradient(#dddddd 0%, #f6f6f6 50%);
+    -fx-background-radius: 8,7,6;
+    -fx-background-insets: 0,1,2;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+#bevel-red {
+    -fx-background-color:
+            linear-gradient(#ed9797, #b76e6e),
+            linear-gradient(#f25959 0%, #b74242 20%, #7f2c2c 100%),
+            linear-gradient(#f90e0e 0%, #ce0c0c 50%);
+        -fx-background-radius: 8,7,6;
+        -fx-background-insets: 0,1,2;
+        -fx-text-fill: black;
+        -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+#hbox{
+
+        -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+}
+
+#loadDataBasebtn {
+    -fx-background-image: url("img/ref16.png");
+    -fx-background-size: 18 18;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:left;
+}
+
+
+#table-cell.name-column {
+    -fx-background-color: palegreen;
+}
+
+
+
+default-label{
+    -fx-font-size:14px;
+    -fx-pref-height:30;
+}
+.textfield{
+    -fx-font-size:14px;
+    -fx-pref-height:30;
+}
+.label-header{
+    -fx-font:18pt sans-serif;
+    -fx-text-alignment: center;
+}
+
+.btn{
+    -fx-font-size:14px;
+}
+.check-box{
+    -fx-font-size:14px;
+}
+#my_table .table-column{
+    -fx-alignment: CENTER_LEFT;
+}
+
+#searchBtn{
+-fx-background-image = url('C:\Users\dance\IdeaProjects\foodDrive\src\img\refresh.png');
+
+}

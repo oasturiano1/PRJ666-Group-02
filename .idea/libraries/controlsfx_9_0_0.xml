@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="controlsfx-9.0.0">
+    <CLASSES>
+      <root url="jar://E:/all files/controlsfx/controlsfx-9.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$USER_HOME$/Downloads/poi-bin-3.17-20170915/poi-3.17/docs/apidocs" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>
