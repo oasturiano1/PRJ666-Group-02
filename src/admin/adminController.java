@@ -6,6 +6,7 @@ package admin;
         import com.jfoenix.validation.RequiredFieldValidator;
         import com.sun.rowset.internal.Row;
         import database.dbConnection;
+        import drives.drivesController;
         import javafx.beans.value.ChangeListener;
         import javafx.beans.value.ObservableValue;
         import javafx.collections.FXCollections;
@@ -14,7 +15,9 @@ package admin;
         import javafx.event.Event;
         import javafx.event.EventHandler;
         import javafx.fxml.FXML;
+        import javafx.fxml.FXMLLoader;
         import javafx.fxml.Initializable;
+        import javafx.scene.Scene;
         import javafx.scene.control.*;
         import javafx.scene.control.cell.PropertyValueFactory;
         import javafx.scene.control.cell.TextFieldTableCell;
@@ -23,11 +26,13 @@ package admin;
         import javafx.scene.input.KeyCode;
         import javafx.scene.input.KeyEvent;
         import javafx.scene.input.MouseEvent;
+        import javafx.scene.layout.Pane;
         import javafx.scene.text.Text;
         import javafx.stage.FileChooser;
-        import org.apache.poi.xssf.usermodel.XSSFRow;
-        import org.apache.poi.xssf.usermodel.XSSFSheet;
-        import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+        import javafx.stage.Stage;
+        //import org.apache.poi.xssf.usermodel.XSSFRow;
+        //import org.apache.poi.xssf.usermodel.XSSFSheet;
+        //import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
         import java.io.File;
         import java.io.FileNotFoundException;
@@ -57,9 +62,13 @@ public class adminController implements Initializable {
     @FXML
     private JFXTextField postCode;
     @FXML
+    private JFXTextField contactNum;
+    @FXML
     private JFXTextField email;
     @FXML
     private JFXTextField dob;
+    @FXML
+    private JFXTextField passw;
     @FXML
     private TextField searchId;
     @FXML
@@ -77,6 +86,8 @@ public class adminController implements Initializable {
     private Button excelButton;
     @FXML
     private Button searchButton;
+    @FXML
+    private Button s;
     @FXML
     private RadioButton Female;
     @FXML
@@ -101,9 +112,12 @@ public class adminController implements Initializable {
     @FXML
     private TableColumn<UserData, String> postCol;
     @FXML
+    private TableColumn<UserData, String> conNumCol;
+    @FXML
     private TableColumn<UserData, String> emailCol;
     @FXML
     private TableColumn<UserData, String> idCol;
+
     //-----------------------------------------------------------//
 
     private dbConnection db;
@@ -187,11 +201,15 @@ public class adminController implements Initializable {
                 dob.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
                 dob.setPromptText("");
 
-                if (data.getRadio1() == "Male") {
+                passw.setText(data.getRadio1());
+                dob.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
+                dob.setPromptText("");
+
+                /*if (data.getRadio1() == "Male") {
                     Male.setSelected(true);
                 } else {
                     Female.setSelected(true);
-                }
+                }*/
                 contact.setText(data.getContact());
                 contact.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
                 contact.setPromptText("");
@@ -203,6 +221,10 @@ public class adminController implements Initializable {
                 postCode.setText(data.getPostal());
                 postCode.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
                 postCode.setPromptText("");
+
+                contactNum.setText(data.getcontactNum());
+                contactNum.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
+                contactNum.setPromptText("");
 
                 email.setText(data.getEmail());
                 email.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
@@ -231,7 +253,7 @@ public class adminController implements Initializable {
             while (resultSet.next()) {
                 this.observableList.add(new UserData(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3)
                         , resultSet.getString(4), resultSet.getString(5), resultSet.getString(6)
-                        , resultSet.getString(7), resultSet.getString(8), resultSet.getString(9)));
+                        , resultSet.getString(7), resultSet.getString(8), resultSet.getString(9), resultSet.getString(10)));
             }
             connection.close();
         } catch (SQLException e) {
@@ -247,6 +269,7 @@ public class adminController implements Initializable {
         this.contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
         this.emergencyCol.setCellValueFactory(new PropertyValueFactory<>("emergency"));
         this.postCol.setCellValueFactory(new PropertyValueFactory<>("postal"));
+        this.conNumCol.setCellValueFactory(new PropertyValueFactory<>("contactNum"));
         this.idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
 
         this.userTable.setItems(null);
@@ -259,14 +282,14 @@ public class adminController implements Initializable {
 
         if (errCatch && !fname.getText().isEmpty() && !lname.getText().isEmpty()) {
 
-            String insertsql = "INSERT INTO volunteer(fname,lname,email,Dob,gender,phone,emergency,postal) VALUES (?,?,?,?,?,?,?,?)";
-            String gender = "";
+            String insertsql = "INSERT INTO volunteer(fname, lname, email, phoneNumber, password, contactName, contactPhone, hoursTotal, hoursSigned) VALUES (?,?,?,?,?,?,?,?,?)";
+            /*String gender = "";
             if (Male.isSelected()) {
                 gender += Male.getText();
             }
             if (Female.isSelected()) {
                 gender += Female.getText();
-            }
+            }*/
 
             try {
                 Connection connection = db.connect();
@@ -276,10 +299,11 @@ public class adminController implements Initializable {
                 stmt.setString(2, this.lname.getText());
                 stmt.setString(3, this.email.getText());
                 stmt.setString(4, this.dob.getText());
-                stmt.setString(5, gender);
-                stmt.setString(6, this.contact.getText());
-                stmt.setString(7, this.emergency.getText());
-                stmt.setString(8, this.postCode.getText());
+                stmt.setString(5, this.passw.getText());
+                stmt.setString(6, this.postCode.getText());
+                stmt.setString(7, this.contactNum.getText());
+                stmt.setString(8, this.contact.getText());
+                stmt.setString(9, this.emergency.getText());
                 stmt.execute();
                 connection.close();
             } catch (SQLException e) {
@@ -380,7 +404,7 @@ public class adminController implements Initializable {
             while (resultSet.next()) {
                 this.observableList.add(new UserData(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3)
                         , resultSet.getString(4), resultSet.getString(5), resultSet.getString(6)
-                        , resultSet.getString(7), resultSet.getString(8), resultSet.getString(9)));
+                        , resultSet.getString(7), resultSet.getString(8), resultSet.getString(9), resultSet.getString(10)));
             }
             connection.close();
         } catch (SQLException e) {
@@ -396,6 +420,7 @@ public class adminController implements Initializable {
         this.contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
         this.emergencyCol.setCellValueFactory(new PropertyValueFactory<>("emergency"));
         this.postCol.setCellValueFactory(new PropertyValueFactory<>("postal"));
+        this.conNumCol.setCellValueFactory(new PropertyValueFactory<>("contactNum"));
         this.idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
 
         this.userTable.setItems(null);
@@ -519,8 +544,26 @@ public class adminController implements Initializable {
 
     }
 
-    public void ExportToExcel(ActionEvent event) {
+    @FXML
+    public void drivesView() throws IOException, SQLException {
 
+        Connection connection = db.connect();
+
+        System.out.print("PRESSED!");
+        Stage userStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = (Pane) loader.load(getClass().getResource("/drives/drives.fxml").openStream());
+        drivesController ac =(drivesController) loader.getController();
+        ac.setDB(db);
+
+        Scene scene = new Scene(root);
+        userStage.setScene(scene);
+        userStage.setTitle("Drives");
+        userStage.show();
+    }
+
+    public void ExportToExcel(ActionEvent event) {
+    /*
         String sql = "SELECT * FROM volunteer";
 
         try {
@@ -574,7 +617,7 @@ public class adminController implements Initializable {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 

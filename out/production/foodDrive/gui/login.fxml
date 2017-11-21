@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="logPane" fx:id="apane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="708.0" stylesheets="@../login.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
+<AnchorPane id="logPane" fx:id="apane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="708.0" stylesheets="@../login.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
    <children>
       <Label fx:id="status" layoutX="319.0" layoutY="31.0" text="Db status" />
       <Label fx:id="dbstatus" layoutX="128.0" layoutY="36.0" />
@@ -27,7 +27,7 @@
       <PasswordField id="log" fx:id="password" alignment="CENTER" layoutX="280.0" layoutY="142.0" stylesheets="@../login.css" />
       <ComboBox id="logCombo" fx:id="combo" layoutX="279.0" layoutY="198.0" prefWidth="150.0" promptText="Admin/User" styleClass="logCombo" stylesheets="@../login.css" />
       <Label fx:id="errorMsg" layoutX="122.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" textFill="#f24141" />
-      <Button fx:id="signbtn" layoutX="325.0" layoutY="253.0" mnemonicParsing="false" onAction="#signUpMethod" text="Sign Up" />
+      <Button fx:id="signbtn" layoutX="288.0" layoutY="311.0" mnemonicParsing="false" onAction="#signUpMethod" text="Sign Up" />
       <JFXCheckBox layoutX="184.0" layoutY="272.0" text="Remeber me" />
    </children>
 </AnchorPane>

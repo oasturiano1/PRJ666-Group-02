@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -16,7 +15,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -25,7 +23,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1328.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.adminController">
+<AnchorPane prefHeight="720.0" prefWidth="1328.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.adminController">
    <children>
       <MenuBar layoutX="-3.0" layoutY="-1.0" prefHeight="32.0" prefWidth="1376.0">
          <menus>
@@ -74,25 +72,24 @@
                                     <Label />
                                     <Label text="First name:" />
                                     <Label layoutX="20.0" layoutY="52.0" text="Last name:" GridPane.rowIndex="1" />
-                                    <Label text="Date of Birth:" GridPane.rowIndex="2" />
-                                    <Label text="Gender:" GridPane.rowIndex="3" />
-                                    <Label text="Contact #:" GridPane.rowIndex="5" />
-                                    <Label text="Emergency #:" GridPane.rowIndex="6" />
-                                    <Label text="Post Code:" GridPane.rowIndex="7" />
-                                    <JFXRadioButton fx:id="Male" stylesheets="@adminStyle.css" text="Male" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="radioGroup" />
-                                       </toggleGroup>
-                                    </JFXRadioButton>
-                                    <JFXRadioButton fx:id="Female" stylesheets="@adminStyle.css" text="Female" toggleGroup="$radioGroup" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <JFXTextField fx:id="email" labelFloat="true" promptText="me@someMall.com" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <Label text="Phone Number:" GridPane.rowIndex="2" />
+                                    <Label text="Password:" GridPane.rowIndex="3" />
+                                    <Label prefHeight="17.0" prefWidth="78.0" text="Total Hours:" GridPane.rowIndex="4" />
+                                    <Label prefHeight="17.0" prefWidth="88.0" text="Hours Signed:" GridPane.rowIndex="5" />
+                                    <Label text="Contact Name:" GridPane.rowIndex="6" />
+                                    <Label text="Contact Number:" GridPane.rowIndex="7" />
                                     <Label text="Email:" GridPane.rowIndex="8" />
-                                    <JFXTextField fx:id="postCode" labelFloat="true" promptText="l6a3a4" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+
+                                    <JFXTextField fx:id="passw" labelFloat="true" promptText="Password" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <JFXTextField fx:id="email" labelFloat="true" promptText="me@someMall.com" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <JFXTextField fx:id="postCode" labelFloat="true" promptText="l6a3a4" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <JFXTextField fx:id="contactNum" labelFloat="true" promptText="l6a3a4" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                     <JFXTextField fx:id="fname" labelFloat="true" promptText="First Name" stylesheets="@adminStyle.css" GridPane.columnIndex="1" />
                                     <JFXTextField fx:id="lname" labelFloat="true" promptText="Last name" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <JFXTextField fx:id="dob" labelFloat="true" promptText="01-01-1901" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <JFXTextField fx:id="contact" labelFloat="true" promptText="555-555-5555" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                    <JFXTextField fx:id="emergency" labelFloat="true" promptText="555-555-5555" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <JFXTextField fx:id="contact" labelFloat="true" promptText="0.0" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <JFXTextField fx:id="emergency" labelFloat="true" promptText="0.0" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -107,6 +104,7 @@
                               <Separator layoutX="23.0" layoutY="671.0" prefHeight="3.0" prefWidth="374.0" />
                               <Separator layoutX="23.0" layoutY="687.0" prefHeight="10.0" prefWidth="374.0" />
                               <Separator layoutY="492.0" prefHeight="10.0" prefWidth="374.0" />
+                              <JFXButton id="bevel-grey" buttonType="RAISED" layoutX="163.0" layoutY="511.0" onAction="#drivesView" prefHeight="25.0" prefWidth="81.0" stylesheets="@adminStyle.css" text="View Drives" />
                            </children>
                         </AnchorPane>
                         <AnchorPane minWidth="948.0" prefHeight="673.0" prefWidth="948.0">
@@ -155,12 +153,13 @@
                                     <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
                                     <TableColumn fx:id="fnameCol" prefWidth="75.0" text="First Name" />
                                     <TableColumn fx:id="lnameCol" prefWidth="75.0" text="Last Name" />
-                                    <TableColumn fx:id="dobCol" prefWidth="75.0" text="DOB" />
-                                    <TableColumn fx:id="genderCol" prefWidth="75.0" text="Gender" />
-                                    <TableColumn fx:id="contactCol" prefWidth="75.0" text="Conatct" />
-                                    <TableColumn fx:id="emergencyCol" prefWidth="75.0" text="Emergency#" />
-                                    <TableColumn fx:id="postCol" minWidth="0.0" prefWidth="84.0" text="Post Code" />
-                                    <TableColumn fx:id="emailCol" prefWidth="90.0" text="Email" />
+                                    <TableColumn fx:id="dobCol" prefWidth="75.0" text="Phone Number" />
+                                    <TableColumn fx:id="genderCol" prefWidth="75.0" text="Password" />
+                                    <TableColumn fx:id="contactCol" prefWidth="75.0" text="Total Hours" />
+                                    <TableColumn fx:id="emergencyCol" prefWidth="82.0" text="Hours Signed" />
+                                    <TableColumn fx:id="postCol" minWidth="0.0" prefWidth="102.0" text="Contact Name" />
+                                    <TableColumn fx:id="conNumCol" minWidth="0.0" prefWidth="102.0" text="Contact Number" />
+                                    <TableColumn fx:id="emailCol" prefWidth="102.0" text="Email" />
                                  </columns>
                               </TableView>
                               <TextField id="search" fx:id="searchId" layoutX="538.0" layoutY="3.0" onAction="#loadSelectedData" prefHeight="41.0" prefWidth="182.0" promptText="first,last" stylesheets="@adminStyle.css" />

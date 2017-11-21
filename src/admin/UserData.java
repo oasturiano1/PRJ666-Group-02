@@ -14,8 +14,9 @@ public class UserData {
     private final StringProperty postal;
     private final StringProperty email;
     private final StringProperty ID;
+    private final StringProperty contactNum;
 
-    public UserData(String ID,String firstName, String lastName, String email,String DOB,String radio1, String contact, String emergency, String postal) {
+    public UserData(String ID,String firstName, String lastName, String email,String DOB,String radio1, String contact, String emergency, String postal, String contactNum) {
         this.firstName =  new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
         this.DOB = new SimpleStringProperty(DOB);
@@ -25,6 +26,7 @@ public class UserData {
         this.postal = new SimpleStringProperty(postal);
         this.email = new SimpleStringProperty(email);
         this.ID = new SimpleStringProperty(ID);
+        this.contactNum = new SimpleStringProperty(contactNum);
     }
 
     public String getFirstName() {
@@ -134,5 +136,17 @@ public class UserData {
 
     public void setID(String ID) {
         this.ID.set(ID);
+    }
+
+    public String getcontactNum() {
+        return contactNum.get();
+    }
+
+    public StringProperty contactNumProperty() {
+        return contactNum;
+    }
+
+    public void setcontactNum(String contactNum) {
+        this.contactNum.set(contactNum);
     }
 }

@@ -30,7 +30,8 @@ public class formValidation {
         }
     }
     public static Boolean isPhone(String dob){
-        String regex = "\\d{3}-\\d{3}-\\d{4}";
+        //String regex = "\\d{3}-\\d{3}-\\d{4}";
+        String regex = "\\d{10}";
 
         if(dob.matches(regex)){
             return true;

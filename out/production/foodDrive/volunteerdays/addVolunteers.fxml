@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="volunteerdays.addVolunteers">
+    <children>
+        <ListView fx:id="volunteerList" layoutX="300.0" layoutY="125.0" prefHeight="200.0" prefWidth="200.0" />
+        <TextField fx:id="volSearch" layoutX="300.0" layoutY="100.0" promptText="Search..." />
+        <Button layoutX="448.0" layoutY="100.0" mnemonicParsing="false" onAction="#search" text="Search" />
+        <Button layoutX="269.0" layoutY="344.0" mnemonicParsing="false" onAction="#addVols" text="Add/Edit Volunteer" />
+        <TextField fx:id="hoursCont" layoutX="114.0" layoutY="140.0" promptText="Contributed Hours" />
+        <Label fx:id="range" layoutX="114.0" layoutY="76.0" text="---" />
+    </children>
+
+</AnchorPane>
