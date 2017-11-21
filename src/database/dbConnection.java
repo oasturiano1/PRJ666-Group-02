@@ -48,11 +48,23 @@ public class dbConnection {
         ResultSet checkRs = null;
         String checksql = "SELECT * FROM login where email = ? and password = ? and division = ?";
 
+        if(opt == "ADMIN"){
+            checksql = "SELECT * FROM login where email = ? and password = ? and division = ?";;
+        }else{
+            checksql = "SELECT * FROM volunteer WHERE email = ? AND password = ?";
+        }
+
         try {
             checkStmt = con.prepareStatement(checksql);
+
+            if(opt == "ADMIN"){
             checkStmt.setString(1,name);
             checkStmt.setString(2,pass);
             checkStmt.setString(3,opt);
+            }else{
+                checkStmt.setString(1,name);
+                checkStmt.setString(2,pass);
+            }
             checkRs = checkStmt.executeQuery();
 
             if(checkRs.next()){
@@ -206,7 +218,7 @@ public class dbConnection {
         Statement stmt = null;
         ResultSet resultSet = null;
 
-        checksql = "SELECT operationDayRecords.hoursContributed, volunteer.fname ,volunteer.lname, volunteer.email, volunteer.phoneNumber FROM operationDayRecords " +
+        checksql = "SELECT operationDayRecords.hoursContributed, volunteer.fname ,volunteer.lname, volunteer.email, volunteer.phoneNumber, volunteer.contactName, volunteer.contactPhone FROM operationDayRecords " +
                 "INNER JOIN volunteer ON operationDayRecords.volunteerId=volunteer.id " +
                 "WHERE operationDayRecords.operationDayDate = '" + odate + "'";
 
@@ -222,6 +234,8 @@ public class dbConnection {
                 user.lname = resultSet.getString("lname");
                 user.phone = resultSet.getString("phoneNumber");
                 user.hoursCon = resultSet.getString("hoursContributed");
+                user.ename =  resultSet.getString("contactName");
+                user.ephone =  resultSet.getString("contactPhone");
                 /*user.hourssigned = resultSet.getString("hoursTotal");
                 user.hourstotal = resultSet.getString("hoursSigned");
                 user.ename = resultSet.getString("contactName");

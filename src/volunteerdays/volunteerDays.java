@@ -17,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import records.record;
+import viewuser.userViewController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -44,9 +45,17 @@ public class volunteerDays   extends Application implements Initializable {
     @FXML
     Labeled hours;
 
+    @FXML
+    Labeled contactNa;
+
+    @FXML
+    Labeled contactNu;
+
     String opDay;
 
     drive selectD;
+
+    userObject sel = new userObject();
 
     /*@FXML
     ListView<String> drivedateslist;
@@ -128,7 +137,7 @@ public class volunteerDays   extends Application implements Initializable {
             public void handle(MouseEvent event) {
                 System.out.println("clicked on " + volList.getSelectionModel().getSelectedItem());
                 System.out.println(records.get(volList.getSelectionModel().getSelectedIndex()).fname);
-                userObject sel = new userObject();
+                sel = new userObject();
 
                 sel = records.get(volList.getSelectionModel().getSelectedIndex());
 
@@ -136,6 +145,8 @@ public class volunteerDays   extends Application implements Initializable {
                 email.setText("Email:" + sel.email);
                 pnumber.setText("Phone number:" + sel.phone);
                 hours.setText("Hours Contributed:" + sel.hoursCon);
+                contactNa.setText("Contact Name:" + sel.ename);
+                contactNu.setText("Contact Number:" + sel.ephone);
 
             }
         });
@@ -150,6 +161,24 @@ public class volunteerDays   extends Application implements Initializable {
         }
 
     }
+/*
+    @FXML
+    public void volView() throws IOException {
+        Stage userStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = null;
+        root = (Pane)loader.load(getClass().getResource("/viewuser/userView.fxml").openStream());
+
+        //attach usercontroller to user fxml
+        userViewController uc =(userViewController)loader.getController();
+        uc.setUser(db.getUser(sel.email));//sets user object in next scene
+        uc.setDB(db);
+
+        Scene scene = new Scene(root);
+        userStage.setScene(scene);
+        userStage.setTitle("User DashBoard");
+        userStage.show();
+    }*/
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

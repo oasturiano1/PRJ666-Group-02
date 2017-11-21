@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewuser.userViewController">
     <children>
-        <Button fx:id="addhours" layoutX="190.0" layoutY="179.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Add Hours" />
+        <!--<Button fx:id="addhours" layoutX="190.0" layoutY="179.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Add Hours" />-->
         <Label fx:id="fullname" layoutX="23.0" layoutY="23.0" prefHeight="63.0" prefWidth="106.0" text="Full Name">
             <font>
                 <Font size="20.0" />
@@ -27,7 +27,7 @@
         <Label layoutX="21.0" layoutY="327.0" text="Number:" />
         <Label fx:id="cname" layoutX="73.0" layoutY="301.0" text="Label" />
         <Label fx:id="cnumber" layoutX="73.0" layoutY="327.0" text="Label" />
-      <Button fx:id="signoffhours" layoutX="190.0" layoutY="214.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Sign off Hours" />
-      <Button fx:id="editvol" layoutX="497.0" layoutY="42.0" mnemonicParsing="false" text="Edit Profile" />
+        <!--<Button fx:id="signoffhours" layoutX="190.0" layoutY="214.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Sign off Hours" />-->
+        <!--<Button fx:id="editvol" layoutX="497.0" layoutY="42.0" mnemonicParsing="false" text="Edit Profile" />-->
     </children>
 </AnchorPane>

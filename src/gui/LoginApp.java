@@ -21,13 +21,13 @@ public class LoginApp extends Application {
         session = new Session();
         controller = new Controller();
 
-        if(session.loggedin()){
-            try {
-                controller.adminLogin();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else{
+        //if(session.loggedin()){
+        //   try {
+        //        controller.adminLogin();
+        //    } catch (IOException e) {
+        //        e.printStackTrace();
+        //    }
+        //} else{
             Parent root = (Parent) FXMLLoader.load(getClass().getResource("login.fxml"));
             Scene scene = new Scene(root);
             scene.getStylesheets().add("login.css");
@@ -35,7 +35,7 @@ public class LoginApp extends Application {
             stage.setTitle("LOGIN");
             stage.setResizable(false);
             stage.show();
-        }
+        //}
     }
 
     @Override
