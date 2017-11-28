@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Labeled;
@@ -17,12 +18,14 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class userController extends Application{
+public class userController extends Application implements Initializable{
 
-    dbConnection db;
+    //dbConnection db;
 
     userObject user;
 
@@ -37,7 +40,7 @@ public class userController extends Application{
 
     //private Stage stage;
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception  {
         Parent root = (Parent) FXMLLoader.load(getClass().getResource("userFXML.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -56,7 +59,7 @@ public class userController extends Application{
         Pane root = (Pane) loader.load(getClass().getResource("/user/userEdit.fxml").openStream());
         UserEdit ac =(UserEdit) loader.getController();
         ac.setUser(user);
-        ac.setDB(db);
+        //ac.setDB(db);
 
         Scene scene = new Scene(root);
         userStage.setScene(scene);
@@ -89,9 +92,9 @@ public class userController extends Application{
         cnumber.setText(user.ephone);
     }
 
-    public void setDB (dbConnection db){
-        this.db = db;
-    }
+    //public void setDB (dbConnection db){
+    //    this.db = db;
+    //}
 
     @FXML
     public void close() throws IOException {
@@ -110,6 +113,14 @@ public class userController extends Application{
 
         Stage stage = (Stage) sgnout.getScene().getWindow();
         stage.close();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+
+        //db = new dbConnection();
+
     }
 
 /*

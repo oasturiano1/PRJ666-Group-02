@@ -6,6 +6,7 @@ package admin;
         import com.jfoenix.validation.RequiredFieldValidator;
         import com.sun.rowset.internal.Row;
         import database.dbConnection;
+        import database.userObject;
         import drives.drivesController;
         import javafx.beans.value.ChangeListener;
         import javafx.beans.value.ObservableValue;
@@ -56,17 +57,17 @@ public class adminController implements Initializable {
     @FXML
     private JFXTextField lname;
     @FXML
-    private JFXTextField contact;
+    private JFXTextField totHours;
     @FXML
-    private JFXTextField emergency;
+    private JFXTextField totSigned;
     @FXML
-    private JFXTextField postCode;
+    private JFXTextField contactName;
     @FXML
     private JFXTextField contactNum;
     @FXML
     private JFXTextField email;
     @FXML
-    private JFXTextField dob;
+    private JFXTextField phoneNum;
     @FXML
     private JFXTextField passw;
     @FXML
@@ -102,15 +103,15 @@ public class adminController implements Initializable {
     @FXML
     private TableColumn<UserData, String> lnameCol;
     @FXML
-    private TableColumn<UserData, String> dobCol;
+    private TableColumn<UserData, String> phoneNumCol;
     @FXML
-    private TableColumn<UserData, String> genderCol;
+    private TableColumn<UserData, String> passwordCol;
     @FXML
-    private TableColumn<UserData, String> contactCol;
+    private TableColumn<UserData, String> conNameCol;
     @FXML
-    private TableColumn<UserData, String> emergencyCol;
+    private TableColumn<UserData, String> totHoursCol;
     @FXML
-    private TableColumn<UserData, String> postCol;
+    private TableColumn<UserData, String> totSignedCol;
     @FXML
     private TableColumn<UserData, String> conNumCol;
     @FXML
@@ -138,10 +139,11 @@ public class adminController implements Initializable {
         /**************************validation**********************/
         fname.textProperty().addListener(e -> ErrTester(fname));
         lname.textProperty().addListener(e -> ErrTester(lname));
-        dob.textProperty().addListener(E -> dobTester(dob));
-        contact.textProperty().addListener(E -> phoneTester(contact));
-        emergency.textProperty().addListener(E -> phoneTester(emergency));
-        postCode.textProperty().addListener(P -> postTester(postCode));
+        phoneNum.textProperty().addListener(E -> phoneTester(phoneNum));
+        //totHours.textProperty().addListener(E -> phoneTester(totHours));
+        //totSigned.textProperty().addListener(E -> phoneTester(totSigned));
+        //contactName.textProperty().addListener(P -> postTester(contactName));
+        contactNum.textProperty().addListener(P -> phoneTester(contactNum));
         email.textProperty().addListener(M -> mailTester(email));
         /*fname.getValidators().add(validator);
         fname.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -197,30 +199,30 @@ public class adminController implements Initializable {
                 lname.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
                 lname.setPromptText("");
 
-                dob.setText(data.getDOB());
-                dob.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
-                dob.setPromptText("");
+                phoneNum.setText(data.getPhoneNumber());
+                phoneNum.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
+                phoneNum.setPromptText("");
 
-                passw.setText(data.getRadio1());
-                dob.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
-                dob.setPromptText("");
+                passw.setText(data.getPassword());
+                phoneNum.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
+                phoneNum.setPromptText("");
 
                 /*if (data.getRadio1() == "Male") {
                     Male.setSelected(true);
                 } else {
                     Female.setSelected(true);
                 }*/
-                contact.setText(data.getContact());
-                contact.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
-                contact.setPromptText("");
+                totHours.setText(data.getTotalHours());
+                totHours.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
+                totHours.setPromptText("");
 
-                emergency.setText(data.getEmergency());
-                emergency.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
-                emergency.setPromptText("");
+                totSigned.setText(data.getTotalSigned());
+                totSigned.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
+                totSigned.setPromptText("");
 
-                postCode.setText(data.getPostal());
-                postCode.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
-                postCode.setPromptText("");
+                contactName.setText(data.getContactName());
+                contactName.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
+                contactName.setPromptText("");
 
                 contactNum.setText(data.getcontactNum());
                 contactNum.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
@@ -264,11 +266,11 @@ public class adminController implements Initializable {
         this.fnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         this.lnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         this.emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-        this.dobCol.setCellValueFactory(new PropertyValueFactory<>("DOB"));
-        this.genderCol.setCellValueFactory(new PropertyValueFactory<>("radio1"));
-        this.contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
-        this.emergencyCol.setCellValueFactory(new PropertyValueFactory<>("emergency"));
-        this.postCol.setCellValueFactory(new PropertyValueFactory<>("postal"));
+        this.phoneNumCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        this.passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
+        this.totHoursCol.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
+        this.totSignedCol.setCellValueFactory(new PropertyValueFactory<>("totalSigned"));
+        this.conNameCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
         this.conNumCol.setCellValueFactory(new PropertyValueFactory<>("contactNum"));
         this.idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
 
@@ -298,12 +300,12 @@ public class adminController implements Initializable {
                 stmt.setString(1, this.fname.getText());
                 stmt.setString(2, this.lname.getText());
                 stmt.setString(3, this.email.getText());
-                stmt.setString(4, this.dob.getText());
+                stmt.setString(4, this.phoneNum.getText());
                 stmt.setString(5, this.passw.getText());
-                stmt.setString(6, this.postCode.getText());
+                stmt.setString(6, this.contactName.getText());
                 stmt.setString(7, this.contactNum.getText());
-                stmt.setString(8, this.contact.getText());
-                stmt.setString(9, this.emergency.getText());
+                stmt.setString(8, this.totHours.getText());
+                stmt.setString(9, this.totSigned.getText());
                 stmt.execute();
                 connection.close();
             } catch (SQLException e) {
@@ -324,16 +326,16 @@ public class adminController implements Initializable {
         this.lname.setPromptText("Last Name");
         this.email.setText("");
         this.email.setPromptText("me@someMall.com");
-        this.dob.setText("");
-        this.dob.setPromptText("01-01-1901");
-        this.Male.setSelected(false);
-        this.Female.setSelected(false);
-        this.contact.setText("");
-        this.contact.setPromptText("555-555-5555");
-        this.emergency.setText("");
-        this.emergency.setPromptText("555-555-5555");
-        this.postCode.setText("");
-        this.postCode.setPromptText("l6a3a4");
+        this.phoneNum.setText("");
+        this.phoneNum.setPromptText("XXX-XXX-XXXX");
+        //this.Male.setSelected(false);
+        //this.Female.setSelected(false);
+        this.totHours.setText("");
+        this.totHours.setPromptText("Signed Hours");
+        this.totSigned.setText("0.0");
+        this.totSigned.setPromptText("Signed Hours");
+        this.contactName.setText("");
+        //this.contactName.setPromptText("l6a3a4");
         this.searchId.setText("");
         this.searchId.setPromptText("first,last");
     }
@@ -415,11 +417,11 @@ public class adminController implements Initializable {
         this.fnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         this.lnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         this.emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-        this.dobCol.setCellValueFactory(new PropertyValueFactory<>("DOB"));
-        this.genderCol.setCellValueFactory(new PropertyValueFactory<>("radio1"));
-        this.contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
-        this.emergencyCol.setCellValueFactory(new PropertyValueFactory<>("emergency"));
-        this.postCol.setCellValueFactory(new PropertyValueFactory<>("postal"));
+        this.phoneNumCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        this.passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
+        this.totHoursCol.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
+        this.totSignedCol.setCellValueFactory(new PropertyValueFactory<>("totalSigned"));
+        this.conNameCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
         this.conNumCol.setCellValueFactory(new PropertyValueFactory<>("contactNum"));
         this.idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
 
@@ -445,32 +447,50 @@ public class adminController implements Initializable {
 
             try {
 
-                String insertsql = "UPDATE volunteer set fname=?,lname=?,email=?,Dob=?,gender=?,phone=?,emergency=?,"
-                        + "postal=? "
-                        + "where fname='" + split[0] + "'" + "and lname='" + split[1] + "'";
-                Connection connection = db.connect();
-                PreparedStatement stmt = connection.prepareStatement(insertsql);
-                stmt.setString(1, split[0]);
-                stmt.setString(2, split[1]);
+                //String insertsql = "UPDATE volunteer volunteer(fname = ?, lname = ?, email = ?, phoneNumber = ?, password = ?, contactName = ?, contactPhone = ?, hoursTotal = ?, hoursSigned = ?) WHERE email = ?";
 
-                String gender = "";
+                /*String insertsql = "UPDATE volunteer set fname=?,lname=?,email=?,Dob=?,gender=?,phone=?,emergency=?,"
+                        + "postal=? "
+                        + "where fname='" + split[0] + "'" + "and lname='" + split[1] + "'";*/
+                Connection connection = db.connect();
+
+
+                //PreparedStatement stmt = connection.prepareStatement(insertsql);
+                //stmt.setString(1, split[0]);
+                //stmt.setString(2, split[1]);
+
+                /*String gender = "";
                 if (Male.isSelected()) {
                     gender += Male.getText();
                 }
                 if (Female.isSelected()) {
                     gender += Female.getText();
-                }
+                }*/
 
-                stmt.setString(1, this.fname.getText());
+                userObject user = new userObject();
+
+                user.fname = this.fname.getText();
+                user.lname = this.lname.getText();
+                user.email = this.email.getText();
+                user.phone = this.phoneNum.getText();
+                user.pass = this.passw.getText();
+                user.hourstotal = this.totHours.getText();
+                user.hourssigned = this.totSigned.getText();
+                user.ename = this.contactName.getText();
+                user.ephone = this.contactNum.getText();
+
+
+
+                /*stmt.setString(1, this.fname.getText());
                 stmt.setString(2, this.lname.getText());
                 stmt.setString(3, this.email.getText());
-                stmt.setString(4, this.dob.getText());
-                stmt.setString(5, gender);
-                stmt.setString(6, this.contact.getText());
-                stmt.setString(7, this.emergency.getText());
-                stmt.setString(8, this.postCode.getText());
-
-                stmt.execute();
+                stmt.setString(4, this.phoneNum.getText());
+                stmt.setString(5, this.passw.getText());
+                stmt.setString(6, this.totHours.getText());
+                stmt.setString(7, this.totSigned.getText());
+                stmt.setString(8, this.contactName.getText());*/
+                db.updateUser(user);
+                //stmt.execute();
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -497,13 +517,13 @@ public class adminController implements Initializable {
     }
 
     public void dobTester(JFXTextField textField) {
-        errCatch = formValidation.isDob(textField.getText());
+        errCatch = formValidation.isDate(textField.getText());
         if (errCatch == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid");
         } else {
             textField.setFocusColor(GREEN);
-            textField.setPromptText("01-1-1901");
+            textField.setPromptText("YYYY-MM-DD");
         }
 
     }
@@ -515,7 +535,7 @@ public class adminController implements Initializable {
             textField.setPromptText("Invalid");
         } else {
             textField.setFocusColor(GREEN);
-            textField.setPromptText("555-555-5555");
+            textField.setPromptText("XXX-XXX-XXXX or XXXXXXXXXX");
         }
 
     }
@@ -554,7 +574,6 @@ public class adminController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         Pane root = (Pane) loader.load(getClass().getResource("/drives/drives.fxml").openStream());
         drivesController ac =(drivesController) loader.getController();
-        ac.setDB(db);
 
         Scene scene = new Scene(root);
         userStage.setScene(scene);

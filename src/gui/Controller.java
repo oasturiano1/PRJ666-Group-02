@@ -16,6 +16,8 @@ import signup.SignUp;
 import user.userController;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
@@ -107,17 +109,23 @@ public class Controller implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             Pane root = (Pane)loader.load(getClass().getResource("/user/userFXML.fxml").openStream());
 
+
+            Connection connection = db.connect();
+
             //attach usercontroller to user fxml
             userController uc =(userController)loader.getController();
             uc.setUser(db.getUser(this.username.getText()));//sets user object in next scene
-            uc.setDB(db);// IMPORTANT- NEED TO CLOSE
+            //uc.setDB(db);// IMPORTANT- NEED TO CLOSE
 
             Scene scene = new Scene(root);
             scene.getStylesheets().add("admin/adminStyle.css");
             userStage.setScene(scene);
             userStage.setTitle("User DashBoard");
             userStage.show();
+            connection.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

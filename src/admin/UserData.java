@@ -7,23 +7,23 @@ public class UserData {
     //string property is a java abstract class //
     private final StringProperty firstName;
     private final StringProperty lastName;
-    private final StringProperty DOB;
-    private final StringProperty radio1;
-    private final StringProperty contact;
-    private final StringProperty emergency;
-    private final StringProperty postal;
+    private final StringProperty phoneNumber;
+    private final StringProperty password;
+    private final StringProperty totalHours;
+    private final StringProperty totalSigned;
+    private final StringProperty contactName;
     private final StringProperty email;
     private final StringProperty ID;
     private final StringProperty contactNum;
 
-    public UserData(String ID,String firstName, String lastName, String email,String DOB,String radio1, String contact, String emergency, String postal, String contactNum) {
+    public UserData(String ID,String firstName, String lastName, String email,String phoneNumber,String password, String totalHours, String totalSigned, String contactName, String contactNum) {
         this.firstName =  new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
-        this.DOB = new SimpleStringProperty(DOB);
-        this.radio1 = new SimpleStringProperty(radio1);
-        this.contact = new SimpleStringProperty(contact);
-        this.emergency = new SimpleStringProperty(emergency);
-        this.postal = new SimpleStringProperty(postal);
+        this.phoneNumber = new SimpleStringProperty(phoneNumber);
+        this.password = new SimpleStringProperty(password);
+        this.totalHours = new SimpleStringProperty(totalHours);
+        this.totalSigned = new SimpleStringProperty(totalSigned);
+        this.contactName = new SimpleStringProperty(contactName);
         this.email = new SimpleStringProperty(email);
         this.ID = new SimpleStringProperty(ID);
         this.contactNum = new SimpleStringProperty(contactNum);
@@ -53,65 +53,65 @@ public class UserData {
         this.lastName.set(lastName);
     }
 
-    public String getDOB() {
-        return DOB.get();
+    public String getPhoneNumber() {
+        return phoneNumber.get();
     }
 
-    public StringProperty DOBProperty() {
-        return DOB;
+    public StringProperty phoneNumberProperty() {
+        return phoneNumber;
     }
 
-    public void setDOB(String DOB) {
-        this.DOB.set(DOB);
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber.set(phoneNumber);
     }
 
-    public String getRadio1() {
-        return radio1.get();
+    public String getPassword() {
+        return password.get();
     }
 
-    public StringProperty radio1Property() {
-        return radio1;
+    public StringProperty passwordProperty() {
+        return password;
     }
 
-    public void setRadio1(String radio1) {
-        this.radio1.set(radio1);
+    public void setPassword(String password) {
+        this.password.set(password);
     }
 
 
-    public String getContact() {
-        return contact.get();
+    public String getTotalHours() {
+        return totalHours.get();
     }
 
-    public StringProperty contactProperty() {
-        return contact;
+    public StringProperty totalHoursProperty() {
+        return totalHours;
     }
 
-    public void setContact(String contact) {
-        this.contact.set(contact);
+    public void setTotalHours(String totalHours) {
+        this.totalHours.set(totalHours);
     }
 
-    public String getEmergency() {
-        return emergency.get();
+    public String getTotalSigned() {
+        return totalSigned.get();
     }
 
-    public StringProperty emergencyProperty() {
-        return emergency;
+    public StringProperty totalSignedProperty() {
+        return totalSigned;
     }
 
-    public void setEmergency(String emergency) {
-        this.emergency.set(emergency);
+    public void setTotalSigned(String totalSigned) {
+        this.totalSigned.set(totalSigned);
     }
 
-    public String getPostal() {
-        return postal.get();
+    public String getContactName() {
+        return contactName.get();
     }
 
-    public StringProperty postalProperty() {
-        return postal;
+    public StringProperty contactNameProperty() {
+        return contactName;
     }
 
-    public void setPostal(String postal) {
-        this.postal.set(postal);
+    public void setContactName(String contactName) {
+        this.contactName.set(contactName);
     }
 
     public String getEmail() {

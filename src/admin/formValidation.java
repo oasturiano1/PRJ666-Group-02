@@ -17,12 +17,13 @@ public class formValidation {
             return false;
         }
     }
-    public static Boolean isDob(String dob){
-        String regex = "\\d{2}-\\d{2}-\\d{4}";
+    public static Boolean isDate(String d){
+        //String regex = "\\d{2}-\\d{2}-\\d{4}";
+        String regex = "\\d{4}-\\d{2}-\\d{2}";
 
-        if(dob.matches(regex)){
+        if(d.matches(regex)){
             return true;
-        }else if(dob.isEmpty()){
+        }else if(d.isEmpty()){
             return false;
         }
         else{
@@ -30,10 +31,10 @@ public class formValidation {
         }
     }
     public static Boolean isPhone(String dob){
-        //String regex = "\\d{3}-\\d{3}-\\d{4}";
-        String regex = "\\d{10}";
+        String regex = "\\d{3}-\\d{3}-\\d{4}";
+        String regex2 = "\\d{10}";
 
-        if(dob.matches(regex)){
+        if(dob.matches(regex) || dob.matches(regex2)){
             return true;
         }else if(dob.isEmpty()){
             return false;

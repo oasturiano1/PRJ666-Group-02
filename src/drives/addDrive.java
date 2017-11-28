@@ -4,15 +4,21 @@ import database.dbConnection;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Labeled;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class addDrive extends Application {
+public class addDrive extends Application implements Initializable{
 
     public static final Pattern valDate =
             Pattern.compile("[0-9]{4}[-]{1}[0-9]{2}[-]{1}[0-9]{2}");
@@ -25,6 +31,9 @@ public class addDrive extends Application {
     @FXML
     private javafx.scene.control.TextField eDate;
 
+    @FXML
+    private Labeled error;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = (Parent) FXMLLoader.load(getClass().getResource("addDrive.fxml"));
@@ -34,12 +43,12 @@ public class addDrive extends Application {
         primaryStage.show();
     }
 
-    public void setDB(dbConnection db){
-        this.db = db;
-    }
+    //public void setDB(dbConnection db){
+    //    this.db = db;
+    //}
 
     @FXML
-    public void addDrive(){
+    public void addDrive() throws SQLException {
         String sdate = "";
         String edate = "";
         sdate = sDate.getText();
@@ -55,12 +64,25 @@ public class addDrive extends Application {
             ematch = matcher.matches();
 
             if(smatch && ematch){// MAKE SURE DATES ARE NOT THE SAME AND IN THE RIGHT ORDER
+
+                Connection connection = db.connect();
                 System.out.println("DATES ARE OKAY");
-                db.addDrive(sdate,edate);
+                boolean success = db.addDrive(sdate,edate);
+                connection.close();
+                if(success){
+                    error.setText("Drive Added!");
+                }else {
+                    error.setText("Drive Could Not Be Added!");
+                }
             }
 
             System.out.println(sdate + " " + edate);
 
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        db = new dbConnection();
     }
 }

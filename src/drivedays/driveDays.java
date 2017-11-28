@@ -20,6 +20,8 @@ import volunteerdays.volunteerDays;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -72,7 +74,7 @@ public class driveDays  extends Application implements Initializable {
         Pane root = null;
         root = (Pane) loader.load(getClass().getResource("/drivedays/addDay.fxml").openStream());
         addDay ac = (addDay) loader.getController();
-        ac.setDB(db,selectD);
+        ac.setDrive(selectD);
         //ac.setDrive(selectD);
 
         Scene scene = new Scene(root);
@@ -91,7 +93,7 @@ public class driveDays  extends Application implements Initializable {
             Pane root = null;
             root = (Pane) loader.load(getClass().getResource("/volunteerdays/volunteerDays.fxml").openStream());
             volunteerDays ac = (volunteerDays) loader.getController();
-            ac.setDB(db, opDay, selectD);
+            ac.setDriveDay(opDay, selectD);
             //ac.setDrive(selectD);
 
             Scene scene = new Scene(root);
@@ -104,9 +106,49 @@ public class driveDays  extends Application implements Initializable {
 
     public void setDrive(drive sd){
         selectD = sd;
+        drivestart.setText("Drive Days for "  +selectD.start + " drive");
+        db = new dbConnection();
+
+
+
+        try {
+            Connection connection = db.connect();
+            records = db.getRecordsByDrive(selectD.start);
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        daysList.getItems().clear();
+        for(int i = 0; i < records.size(); i++){
+
+            //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            //Date d = drives.get(i).start;
+            //System.out.println("Working?");
+            //System.out.println(dateFormat.format(d));
+
+            //drives.get(i);
+
+            daysList.getItems().add(records.get(i).operationDayDate);
+            System.out.println(records.get(i).operationDayDate);
+
+            //drivesList.get
+
+        }
+
+        daysList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("clicked on " + daysList.getSelectionModel().getSelectedItem());
+                opDay = daysList.getSelectionModel().getSelectedItem();
+            }
+        });
+
     }
 
-    public void setDB (dbConnection db, drive sd){
+    /*public void setDB (dbConnection db, drive sd){
         selectD = sd;
         this.db = db;
         drivestart.setText("Drive Days for "  +selectD.start + " drive");
@@ -139,7 +181,7 @@ public class driveDays  extends Application implements Initializable {
             }
         });
 
-    }
+    }*/
 
     @FXML
     public void loadData(){
@@ -154,6 +196,8 @@ public class driveDays  extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
 
     }
 

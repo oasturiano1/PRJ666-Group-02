@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class UserEdit extends Application implements Initializable{
@@ -50,6 +52,8 @@ public class UserEdit extends Application implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        db = new dbConnection();
         //db.isDatabaseCon();
     }
 
@@ -80,7 +84,10 @@ public class UserEdit extends Application implements Initializable{
     }
 
     @FXML
-    public void save(){
+    public void save() throws SQLException {
+
+        Connection connection = db.connect();
+
         userObject editUser = new userObject();
 
         editUser.email = temail.getText();
@@ -109,6 +116,7 @@ public class UserEdit extends Application implements Initializable{
             db.editUser(editUser, user);
             user = editUser;//set user to new user
         }
+        connection.close();
     }
 
     public void setUser(userObject userobj){

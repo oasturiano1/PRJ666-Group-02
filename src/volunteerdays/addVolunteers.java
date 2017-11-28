@@ -15,6 +15,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import records.record;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -48,6 +50,9 @@ public class addVolunteers extends Application {
     @FXML
     private javafx.scene.control.TextField volSearch;
 
+    @FXML
+    Labeled error;
+
     int did;
 
     drive selectD;
@@ -63,12 +68,18 @@ public class addVolunteers extends Application {
         volunteerList.setEditable(true);
     }
 
-    public void setDB(dbConnection db, String select, drive sd){
+    public void setAddVol(String select, drive sd){
+        db = new dbConnection();
         opDay = select;
         selectD = sd;
         this.db = db;
-        vols = db.getVols();
-
+        try {
+            Connection connection = db.connect();
+            vols = db.getVols();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         range.setText("Add volunteers to operation day " + opDay);
 
         for(int i = 0; i < vols.size(); i++){
@@ -105,29 +116,34 @@ public class addVolunteers extends Application {
 
         volunteerList.getItems().clear();
         vols.clear();
+        try {
+            Connection connection = db.connect();
+            if(volSearch.getText().compareTo("") == 0){
+                vols = db.getVols();
+                for(int i = 0; i < vols.size(); i++){
+                    volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
+                }
+            }else{
 
-        if(volSearch.getText().compareTo("") == 0){
-            vols = db.getVols();
-            for(int i = 0; i < vols.size(); i++){
-                volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
+                String name = volSearch.getText();
+
+                String[] sp = new String[2];
+
+                sp = name.split(" ");
+
+                if(sp.length == 1) {
+                    vols = db.searchVols(sp[0], " ");
+                }else if(sp.length == 2){
+                    vols = db.searchVols(sp[0], sp[1]);
+                }
+
+                for(int i = 0; i < vols.size(); i++){
+                    volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
+                }
             }
-        }else{
-
-            String name = volSearch.getText();
-
-            String[] sp = new String[2];
-
-            sp = name.split(" ");
-
-            if(sp.length == 1) {
-                vols = db.searchVols(sp[0], " ");
-            }else if(sp.length == 2){
-                vols = db.searchVols(sp[0], sp[1]);
-            }
-
-            for(int i = 0; i < vols.size(); i++){
-                volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
-            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -161,7 +177,18 @@ public class addVolunteers extends Application {
                 //if(db.recordExists(r)) {
                    //record already exists
                 //}else{
-                db.addRecord(r);
+                try {
+                    Connection connection = db.connect();
+                    boolean success = db.addRecord(r);
+                    if(success){
+                        error.setText("Drive Added!");
+                    }else {
+                        error.setText("Drive Could Not Be Added!");
+                    }
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 //}
             //}
 

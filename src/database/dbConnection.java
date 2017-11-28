@@ -107,6 +107,35 @@ public class dbConnection {
         }
     }
 
+    public boolean updateUser(userObject user){
+        String checksql = "UPDATE volunteer SET " +
+                "fname = '" + user.fname + "', " +
+                "lname = '" + user.lname + "', " +
+                "email = '" + user.email + "', " +
+                "hoursTotal = '" + user.hourstotal + "', " +
+                "hoursSigned = '" + user.hourssigned + "', " +
+                "phoneNumber = '" + user.phone + "', " +
+                "password = '" + user.pass + "', " +
+                "contactName = '" + user.ename + "', " +
+                "contactPhone = '" + user.ephone + "' " +
+                "WHERE email = '" + user.email + "'";
+
+        Statement stmt = null;
+        ResultSet resultSet = null;
+        try {
+
+            stmt = con.createStatement();
+            stmt.executeUpdate(checksql);
+
+            System.out.println("SUCCESS");
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            return  false;
+        }
+    }
+
     public boolean editUser(userObject user, userObject originalUser){
 
         String checksql;
@@ -443,7 +472,7 @@ public class dbConnection {
         try {
 
             stmt = con.createStatement();
-            stmt.executeQuery(checksql);
+            stmt.executeUpdate(checksql);
 
             System.out.println("SUCCESS");
             return true;
@@ -526,7 +555,7 @@ public class dbConnection {
 
         boolean exists = false;
 
-        checksql = "SELECT * FROM operationDayRecords WHERE volunteerId = " + rec.volunteerId + " AND driveId = " + rec.driveId;
+        checksql = "SELECT * FROM operationDayRecords WHERE volunteerId = " + rec.volunteerId + " AND driveId = " + rec.driveId + " AND operationDayDate = '" + rec.operationDayDate +"'";
 
         try {
             stmt = con.createStatement();
@@ -539,8 +568,8 @@ public class dbConnection {
 
 
                 checksql = "UPDATE operationDayRecords SET hoursContributed = " + rec.hoursContributed + //apply change
-                        " WHERE volunteerId = " + rec.volunteerId + " AND driveId = " + rec.driveId;
-                resultSet = stmt.executeQuery(checksql);
+                        " WHERE volunteerId = " + rec.volunteerId + " AND driveId = " + rec.driveId + " AND operationDayDate = '" + rec.operationDayDate +"'";
+                stmt.executeUpdate(checksql);
 
                 checksql = "SELECT hoursTotal FROM volunteer WHERE id = " + rec.volunteerId + "";//change total
                 resultSet = stmt.executeQuery(checksql);

@@ -21,6 +21,8 @@ import viewuser.userViewController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -94,7 +96,7 @@ public class volunteerDays   extends Application implements Initializable {
         Pane root = null;
         root = (Pane) loader.load(getClass().getResource("/volunteerdays/addVolunteers.fxml").openStream());
         addVolunteers ac = (addVolunteers) loader.getController();
-        ac.setDB(db, opDay, selectD);
+        ac.setAddVol(opDay, selectD);
         //ac.setDrive(selectD);
 
         Scene scene = new Scene(root);
@@ -104,13 +106,20 @@ public class volunteerDays   extends Application implements Initializable {
 
     }
 
-    public void setDB (dbConnection db, String op, drive sd){
+    public void setDriveDay (String op, drive sd){
+        db = new dbConnection();
         opDay = op;
         selectD = sd;
-        this.db = db;
         drivestart.setText("Volunteers for "  + opDay);
 
-        records = db.getVolunteersByDate(opDay);
+        try {
+            Connection connection = db.connect();
+            records = db.getVolunteersByDate(opDay);
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         volList.getItems().clear();
         for(int i = 0; i < records.size(); i++){
 
@@ -154,7 +163,14 @@ public class volunteerDays   extends Application implements Initializable {
 
     @FXML
     public void loadData(){
-        records = db.getVolunteersByDate(opDay);
+        try {
+            Connection connection = db.connect();
+            records = db.getVolunteersByDate(opDay);
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         volList.getItems().clear();
         for(int i = 0; i < records.size(); i++){
             volList.getItems().add(records.get(i).fname + " " + records.get(i).lname);

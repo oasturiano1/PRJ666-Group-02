@@ -4,6 +4,8 @@ import database.dbConnection;
 import database.userObject;
 import drives.drive;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +14,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import records.record;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -47,6 +52,9 @@ public class addDay extends Application {
     @FXML
     private javafx.scene.control.TextField volSearch;
 
+    @FXML
+    private Labeled error;
+
     userObject sel = new userObject();
 
     int did;
@@ -58,16 +66,31 @@ public class addDay extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("ADD DAY");
         primaryStage.show();
-
         volunteerList.setEditable(true);
+
+
+
+
     }
 
-    public void setDB(dbConnection db, drive select){
+    public void setDrive(drive select){
+        db = new dbConnection();
         selectD = select;
-        this.db = db;
-        vols = db.getVols();
+        try {
+            Connection connection = db.connect();
+            vols = db.getVols();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ObservableList<String> list = FXCollections.observableArrayList();
+        volunteerList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         range.setText("Create new day for drive between " + selectD.start + " and " + selectD.end);
+
+
+
+
 
         for(int i = 0; i < vols.size(); i++){
 
@@ -101,32 +124,40 @@ public class addDay extends Application {
     @FXML
     public void search(){
 
+
         volunteerList.getItems().clear();
         vols.clear();
 
-        if(volSearch.getText().compareTo("") == 0){
-            vols = db.getVols();
-            for(int i = 0; i < vols.size(); i++){
-                volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
+        try {
+            Connection connection = db.connect();
+
+
+
+            if(volSearch.getText().compareTo("") == 0){
+                vols = db.getVols();
+                for(int i = 0; i < vols.size(); i++){
+                    volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
+                }
+            }else{
+                String name = volSearch.getText();
+
+                String[] sp = new String[2];
+
+                sp = name.split(" ");
+
+                if(sp.length == 1) {
+                    vols = db.searchVols(sp[0], " ");
+                }else if(sp.length == 2){
+                    vols = db.searchVols(sp[0], sp[1]);
+                }
+
+                for(int i = 0; i < vols.size(); i++){
+                    volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
+                }
             }
-        }else{
-
-
-            String name = volSearch.getText();
-
-            String[] sp = new String[2];
-
-            sp = name.split(" ");
-
-            if(sp.length == 1) {
-                vols = db.searchVols(sp[0], " ");
-            }else if(sp.length == 2){
-                vols = db.searchVols(sp[0], sp[1]);
-            }
-
-            for(int i = 0; i < vols.size(); i++){
-                volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
-            }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -136,32 +167,44 @@ public class addDay extends Application {
 
         date = dayDate.getText();
 
-        if(date.compareTo("") != 0){
-            boolean smatch = true;
-            boolean ematch = true;
 
-            Matcher matcher = valDate.matcher(date);
+        try {
+            Connection connection = db.connect();
+            if(date.compareTo("") != 0){
+                boolean smatch = true;
+                boolean ematch = true;
 
-            if( matcher.matches()){// MAKE SURE DATES ARE WITHIN BOUNDS AND THERE ARE NO DUPLICATES
+                Matcher matcher = valDate.matcher(date);
 
-                record r = new record();
-                System.out.println("DATES ARE OKAY");
+                if( matcher.matches()){// MAKE SURE DATES ARE WITHIN BOUNDS AND THERE ARE NO DUPLICATES
+
+                    record r = new record();
+                    System.out.println("DATES ARE OKAY");
 
 
-                String dstartd = selectD.start;
-                String daydate = dayDate.getText().toString();
-                //sel;
-                r.driveStartDate = selectD.start;
-                r.operationDayDate = dayDate.getText().toString();
-                r.driveId = selectD.id;
-                r.volunteerId = sel.id;
-                r.hoursContributed = Integer.parseInt(hoursCont.getText().toString());
+                    String dstartd = selectD.start;
+                    String daydate = dayDate.getText().toString();
+                    //sel;
+                    r.driveStartDate = selectD.start;
+                    r.operationDayDate = dayDate.getText().toString();
+                    r.driveId = selectD.id;
+                    r.volunteerId = sel.id;
+                    r.hoursContributed = Integer.parseInt(hoursCont.getText().toString());
 
-                db.addRecord(r);
+                    boolean success = db.addRecord(r);
+                    if(success){
+                        error.setText("Drive Added!");
+                    }else {
+                        error.setText("Drive Could Not Be Added!");
+                    }
+                }
+
+                System.out.println(date);
+
             }
-
-            System.out.println(date);
-
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
