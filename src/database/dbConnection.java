@@ -187,7 +187,7 @@ public class dbConnection {
         try {
 
             stmt = con.createStatement();
-            stmt.executeQuery(checksql);
+            stmt.executeUpdate(checksql);
 
             System.out.println("SUCCESS");
             return true;

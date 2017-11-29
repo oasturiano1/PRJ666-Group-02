@@ -11,11 +11,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Labeled;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import user.userController;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class SignUp extends Application implements Initializable{
@@ -27,6 +33,9 @@ public class SignUp extends Application implements Initializable{
 
     @FXML
     private javafx.scene.control.TextField fname;
+
+    @FXML
+    private javafx.scene.control.TextField lname;
 
     @FXML
     private javafx.scene.control.TextField email;
@@ -46,6 +55,8 @@ public class SignUp extends Application implements Initializable{
     @FXML
     private javafx.scene.control.TextField emnumber;
 
+    @FXML
+    private Button signupbtn;
 
     public void start(Stage stage) throws Exception {
         Parent root = (Parent) FXMLLoader.load(getClass().getResource("signup.fxml"));
@@ -55,20 +66,17 @@ public class SignUp extends Application implements Initializable{
         stage.show();
     }
 
-    public void signUpMethod(){
+    public void signUpMethod() throws SQLException {
         userObject newUser = new userObject();
-        String[] name = fname.getText().split(" ");
-        if(!fname.getText().isEmpty()){
-            newUser.fname = name[0];
-            newUser.lname = name[1];
-        }
 
+        newUser.fname = fname.getText();
+        newUser.lname = lname.getText();
         newUser.email = email.getText();
         newUser.phone = number.getText();
         newUser.pass = pass.getText();
         newUser.ename = emname.getText();
         newUser.ephone = emnumber.getText();
-
+        Connection connection = db.connect();
         //need to add more constraints
         if(newUser.fname.isEmpty()||
                 newUser.lname.isEmpty()||
@@ -93,20 +101,44 @@ public class SignUp extends Application implements Initializable{
             }else{
                 System.out.println("email is valid");
                 //String[] name = fname.getText().split(" ");
-                System.out.println(name[0]+" "+name[1]);
-                db.newUser(newUser);
+                System.out.println(fname+" "+lname);
+
+                boolean success = db.newUser(newUser);
+
+
+                if(success){
+                    try {
+                        Stage userStage = new Stage();
+                        FXMLLoader loader = new FXMLLoader();
+                        Pane root = (Pane)loader.load(getClass().getResource("/user/userFXML.fxml").openStream());
+
+
+                        //attach usercontroller to user fxml
+                        userController uc =(userController)loader.getController();
+                        uc.setUser(newUser);//sets user object in next scene
+                        //uc.setDB(db);// IMPORTANT- NEED TO CLOSE
+
+                        Scene scene = new Scene(root);
+                        scene.getStylesheets().add("admin/adminStyle.css");
+                        userStage.setScene(scene);
+                        userStage.setTitle("User DashBoard");
+                        userStage.show();
+
+
+                        Stage stage = (Stage) signupbtn.getScene().getWindow();
+                        stage.close();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 //db.newUser(name[0],name[1],email.getText(),number.getText(),pass.getText(),emname.getText(),emnumber.getText());
                 this.error.setText("User created!");
 
             }
+            connection.close();
             //this.error.setText("");
         }
-    }
-
-
-
-    public SignUp(){
-        db = new dbConnection();
     }
 
     public static void main(String[] args){
@@ -116,6 +148,6 @@ public class SignUp extends Application implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        db.isDatabaseCon();
+        db = new dbConnection();
     }
 }

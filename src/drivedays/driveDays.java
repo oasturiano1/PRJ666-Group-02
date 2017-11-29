@@ -184,14 +184,15 @@ public class driveDays  extends Application implements Initializable {
     }*/
 
     @FXML
-    public void loadData(){
-
+    public void loadData() throws SQLException {
+        Connection connection = db.connect();
         records = db.getRecordsByDrive(selectD.start);
         daysList.getItems().clear();
         for(int i = 0; i < records.size(); i++){
             daysList.getItems().add(records.get(i).operationDayDate);
             System.out.println(records.get(i).operationDayDate);
         }
+        connection.close();
     }
 
     @Override
