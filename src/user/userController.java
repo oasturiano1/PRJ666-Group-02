@@ -28,7 +28,7 @@ public class userController extends Application implements Initializable{
     //dbConnection db;
 
     userObject user;
-
+    @FXML Labeled tfullname;
     @FXML Labeled temail;
     @FXML Labeled tnumber;
     @FXML Labeled ttotalhours;
@@ -84,6 +84,7 @@ public class userController extends Application implements Initializable{
     public void setUser(userObject userobj){
         user = userobj;
         System.out.print("User set!");
+        tfullname.setText(user.fname + " " + user.lname);
         temail.setText(user.email);
         tnumber.setText(user.phone);
         ttotalhours.setText(user.hourstotal);

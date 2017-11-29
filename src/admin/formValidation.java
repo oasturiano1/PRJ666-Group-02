@@ -17,6 +17,11 @@ public class formValidation {
             return false;
         }
     }
+
+    public static Boolean isPassCor(String name){//TODO DETERMINE PASSWORD RESTRICTIONS
+       return true;
+    }
+
     public static Boolean isDate(String d){
         //String regex = "\\d{2}-\\d{2}-\\d{4}";
         String regex = "\\d{4}-\\d{2}-\\d{2}";
