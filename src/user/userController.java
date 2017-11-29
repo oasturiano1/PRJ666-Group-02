@@ -13,20 +13,28 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import records.record;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class userController extends Application implements Initializable{
 
-    //dbConnection db;
-
+    dbConnection db;
+    @FXML
+    ListView<String> contributionsList;
     userObject user;
     @FXML Labeled tfullname;
     @FXML Labeled temail;
@@ -47,6 +55,8 @@ public class userController extends Application implements Initializable{
         primaryStage.setTitle("USER PROFILE");
         primaryStage.show();
 
+
+        contributionsList.setEditable(true);
         //stage = primaryStage;
     }
 
@@ -91,6 +101,25 @@ public class userController extends Application implements Initializable{
         ttotalsigned.setText(user.hourssigned);
         cname.setText(user.ename);
         cnumber.setText(user.ephone);
+
+        db = new dbConnection();
+        List<record> contributions = new ArrayList();
+        //db = new dbConnection();
+
+        try {
+            Connection connection = db.connect();
+            contributions = db.getVolunteerContributions(user.id);
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        for(int i = 0; i < contributions.size(); i++){
+            contributionsList.getItems().add(contributions.get(i).operationDayDate + " Contributed " + contributions.get(i).hoursContributed + " Hours");
+
+        }
+
     }
 
     //public void setDB (dbConnection db){
@@ -119,8 +148,6 @@ public class userController extends Application implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
-        //db = new dbConnection();
 
     }
 

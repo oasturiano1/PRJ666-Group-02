@@ -1,69 +1,150 @@
 package user;
 
-import com.sun.org.apache.xml.internal.security.Init;
+import admin.formValidation;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import database.dbConnection;
 import database.loginType;
 import database.userObject;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
 import javafx.scene.control.Labeled;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import user.userController;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import static javafx.scene.paint.Color.GREEN;
+import static javafx.scene.paint.Color.RED;
+
 public class UserEdit extends Application implements Initializable{
 
     dbConnection db;
 
+    @FXML
+    private Labeled error;
+
+    @FXML
+    private JFXTextField fname;
+
+    @FXML
+    private JFXTextField lname;
+
+    @FXML
+    private JFXTextField email;
+
+    @FXML
+    private JFXTextField number;
+
+    @FXML
+    private JFXPasswordField pass;
+
+    @FXML
+    private JFXPasswordField passconf;
+
+    @FXML
+    private JFXTextField emname;
+
+    @FXML
+    private JFXTextField emnumber;
+
+    @FXML
+    private Button signupbtn;
+
+    @FXML Button cancel;
+
     userObject user;
 
-    @FXML TextField temail;
-    @FXML TextField tnumber;
-    @FXML PasswordField pass;
-    @FXML PasswordField passconf;
-    @FXML TextField cname;
-    @FXML TextField cnumber;
+    private Boolean errCatch = true;
 
-
-    @FXML private javafx.scene.control.Button cncl;
-
-
-
-    /*public UserEdit(){
-        db = new dbConnection();
-
-    }*/
-
-    public void setDB (dbConnection db){
-        this.db = db;
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        db = new dbConnection();
-        //db.isDatabaseCon();
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = (Parent) FXMLLoader.load(getClass().getResource("userEdit.fxml"));
+    public void start(Stage stage) throws Exception {
+        Parent root = (Parent) FXMLLoader.load(getClass().getResource("signup.fxml"));
         Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("USER PROFILE EDIT");
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.setTitle("SIGN UP");
+        stage.show();
+    }
+
+    public void updateMethod() throws SQLException {
+
+        ErrTester(fname);
+        ErrTester(lname);
+        mailTester(email);
+        phoneTester(number);
+        passTester(pass,passconf);
+        passConfTester(pass,passconf);
+        ErrTester(emname);
+        phoneTester(emnumber);
+
+
+
+        userObject newUser = new userObject();
+        newUser.fname = fname.getText();
+        newUser.lname = lname.getText();
+        newUser.email = email.getText();
+        newUser.phone = number.getText();
+        newUser.pass = pass.getText();
+        newUser.ename = emname.getText();
+        newUser.ephone = emnumber.getText();
+        Connection connection = db.connect();
+
+        if(newUser.fname.isEmpty()||
+                newUser.lname.isEmpty()||
+                newUser.email.isEmpty()||
+                newUser.phone.isEmpty()||
+                newUser.phone.isEmpty()||
+                //newUser.pass.isEmpty()||
+                newUser.ename.isEmpty()||
+                newUser.ephone.isEmpty()){
+            errCatch = false;
+        }
+
+        //need to add more constraints
+
+        if(errCatch){
+
+            boolean success = db.editUser(newUser, user);
+            if(success){
+                try {
+                    Stage userStage = new Stage();
+                    FXMLLoader loader = new FXMLLoader();
+                    Pane root = (Pane)loader.load(getClass().getResource("/user/userFXML.fxml").openStream());
+
+
+                    //attach usercontroller to user fxml
+                    userController uc =(userController)loader.getController();
+                    uc.setUser(newUser);//sets user object in next scene
+                    //uc.setDB(db);// IMPORTANT- NEED TO CLOSE
+
+                    Scene scene = new Scene(root);
+                    scene.getStylesheets().add("admin/adminStyle.css");
+                    userStage.setScene(scene);
+                    userStage.setTitle("User DashBoard");
+                    userStage.show();
+
+
+                    Stage stage = (Stage) signupbtn.getScene().getWindow();
+                    stage.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        connection.close();
     }
 
     @FXML
@@ -79,53 +160,165 @@ public class UserEdit extends Application implements Initializable{
         userStage.setTitle("USER PROFILE");
 
         userStage.show();
-        Stage stage = (Stage) cncl.getScene().getWindow();
+        Stage stage = (Stage) cancel.getScene().getWindow();
         stage.close();
     }
 
-    @FXML
-    public void save() throws SQLException {
-
-        Connection connection = db.connect();
-
-        userObject editUser = new userObject();
-
-        editUser.email = temail.getText();
-        editUser.phone = tnumber.getText();
-        editUser.pass = pass.getText();
-        editUser.ename = cname.getText();
-        editUser.ephone = cnumber.getText();
-
-        Boolean val  = true;
-
-        if(pass.getText().compareTo(passconf.getText()) != 0){
-            val = false;
-        }
-
-        if(user.email.compareTo(editUser.email) != 0){//if email is changed
-            if(db.emailExists(editUser.email)){//if new email already exists do not change
-                val = false;
-            }
-        }
-        if(!user.checkContactPhone()){
-            val= false;
-        }
-
-
-        if(val) {//if all is valid, change user
-            db.editUser(editUser, user);
-            user = editUser;//set user to new user
-        }
-        connection.close();
+    public void reset(){
+        fname.setText(user.fname);
+        lname.setText(user.lname);
+        email.setText(user.email);
+        pass.setText("");
+        passconf.setText("");
+        number.setText(user.phone);
+        emname.setText(user.ename);
+        emnumber.setText(user.ephone);
     }
 
     public void setUser(userObject userobj){
         user = userobj;
         System.out.print("User set!");
-        temail.setText(user.email);
-        tnumber.setText(user.phone);
-        cname.setText(user.ename);
-        cnumber.setText(user.ephone);
+        reset();
     }
 
+    public void ErrTester(JFXTextField textField) { errCatch = formValidation.isNameCor(textField.getText());
+        if (errCatch == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Name");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Name");
+        }
+
+    }
+
+    public void dobTester(JFXTextField textField) {
+        errCatch = formValidation.isDate(textField.getText());
+        if (errCatch == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Date");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("YYYY-MM-DD");
+        }
+
+    }
+
+    public void phoneTester(JFXTextField textField) {
+        errCatch = formValidation.isPhone(textField.getText());
+        if (errCatch == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Phone Number");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("XXX-XXX-XXXX or XXXXXXXXXX");
+        }
+
+    }
+
+    public void postTester(JFXTextField textField) {
+        errCatch = formValidation.isPost(textField.getText());
+        if (errCatch == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("l6a34");
+        }
+
+    }
+
+    public void mailTester(JFXTextField textField) throws SQLException {
+        errCatch = formValidation.isMail(textField.getText());
+
+        if(user.email.compareTo(email.getText().toString()) != 0){
+            Connection connection = db.connect();
+            boolean emailExists = db.emailExists(email.getText());
+            connection.close();
+
+            if (emailExists) {
+                textField.setFocusColor(RED);
+                textField.setPromptText("Invalid - New Email Already Used");
+            } else if (errCatch == false) {
+                textField.setFocusColor(RED);
+                textField.setPromptText("Invalid Email Address");
+            }else {
+                textField.setFocusColor(GREEN);
+                textField.setPromptText("me@someMall.com");
+            }
+        }
+    }
+
+    public void passTester(JFXPasswordField textField, JFXPasswordField originConf) {
+        errCatch = formValidation.isPassCor(textField.getText());
+        String o1 = textField.getText().toString();
+        String o2 = originConf.getText().toString();
+
+        if(o1.compareTo(o2) != 0){
+            originConf.setFocusColor(RED);
+            originConf.setPromptText("Invalid - Password does not match!");
+        }
+        if (errCatch == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Password");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Password");
+        }
+
+    }
+
+    public void passConfTester(JFXPasswordField origin, JFXPasswordField textField) {
+        errCatch = formValidation.isPassCor(textField.getText());
+        String o1 = origin.getText().toString();
+        String o2 = textField.getText().toString();
+
+        //errCatch = formValidation.isPassCor(textField.getText());
+
+        if(o1.compareTo(o2) != 0){
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid - Password does not match!");
+        }else if (errCatch == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Password");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Password");
+        }
+
+    }
+
+    public static void main(String[] args){
+        launch(args);
+    }
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        db = new dbConnection();
+        fname.setLabelFloat(true);
+        lname.setLabelFloat(true);
+        email.setLabelFloat(true);
+        number.setLabelFloat(true);
+        pass.setLabelFloat(true);
+        passconf.setLabelFloat(true);
+        emname.setLabelFloat(true);
+        emnumber.setLabelFloat(true);
+
+        fname.textProperty().addListener(e -> ErrTester(fname));
+        lname.textProperty().addListener(e -> ErrTester(lname));
+        email.textProperty().addListener(e -> {//This contnains a db query to check if email already exists
+            try {
+                mailTester(email);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        });
+        number.textProperty().addListener(e -> phoneTester(number));
+        pass.textProperty().addListener(e -> passTester(pass,passconf));
+        //passconf.textProperty().addListener(e -> passTester(passconf));
+        passconf.textProperty().addListener(e -> passConfTester(pass,passconf));
+        emname.textProperty().addListener(e -> ErrTester(emname));
+        emnumber.textProperty().addListener(e -> phoneTester(emnumber));
+    }
 }

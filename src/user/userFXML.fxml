@@ -9,8 +9,8 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.userController">
     <children>
         <Button fx:id="sgnout" layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#close" text="Sign out" />
-        <Button layoutX="293.0" layoutY="46.0" mnemonicParsing="false" onAction="#editUser" text="Edit Profile" />
-        <Label fx:id="tfullname" layoutX="71.0" layoutY="43.0" prefHeight="17.0" prefWidth="103.0" text="Your Profile">
+        <Button layoutX="509.0" layoutY="10.0" mnemonicParsing="false" onAction="#editUser" text="Edit Profile" />
+        <Label fx:id="tfullname" layoutX="71.0" layoutY="43.0" prefHeight="30.0" prefWidth="219.0" text="Your Profile">
             <font>
                 <Font size="20.0" />
             </font>
@@ -22,13 +22,13 @@
         <Label fx:id="ttotalsigned" layoutX="536.0" layoutY="336.0" text="999" />
         <Label fx:id="ttotalhours" layoutX="536.0" layoutY="302.0" text="999" />
         <Label fx:id="tnumber" layoutX="71.0" layoutY="103.0" prefHeight="17.0" prefWidth="108.0" text="999 999 9999" />
-        <Label fx:id="temail" layoutX="71.0" layoutY="86.0" prefHeight="17.0" prefWidth="108.0" text="test@test.com" />
+        <Label fx:id="temail" layoutX="71.0" layoutY="86.0" prefHeight="17.0" prefWidth="190.0" text="test@test.com" />
         <Label layoutX="71.0" layoutY="167.0" text="Name:" />
         <Label layoutX="71.0" layoutY="193.0" text="Number:" />
-        <Label fx:id="cname" layoutX="136.0" layoutY="167.0" text="Label" />
-        <Label fx:id="cnumber" layoutX="136.0" layoutY="193.0" text="Label" />
-      <JFXListView layoutX="413.0" layoutY="70.0" prefHeight="217.0" prefWidth="148.0" />
-      <Label layoutX="413.0" layoutY="50.0" text="Contributions" />
+        <Label fx:id="cname" layoutX="136.0" layoutY="167.0" prefHeight="17.0" prefWidth="176.0" text="Label" />
+        <Label fx:id="cnumber" layoutX="136.0" layoutY="193.0" prefHeight="17.0" prefWidth="176.0" text="Label" />
+      <JFXListView fx:id="contributionsList" layoutX="323.0" layoutY="70.0" prefHeight="217.0" prefWidth="238.0" />
+      <Label layoutX="323.0" layoutY="50.0" text="Contributions" />
     </children>
 
 </AnchorPane>

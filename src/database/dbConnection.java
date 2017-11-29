@@ -146,6 +146,8 @@ public class dbConnection {
         checksql =
                 "UPDATE volunteer SET " +
                         "email = '" + user.email + "', " +
+                        "fname = '" + user.fname + "', " +
+                        "lname = '" + user.lname + "', " +
                         "phoneNumber = '" + user.phone + "', " +
                         "password = '" + user.pass + "', " +
                         "contactName = '" + user.ename + "', " +
@@ -156,6 +158,8 @@ public class dbConnection {
             checksql =
                     "UPDATE volunteer SET " +
                             "email = '" + user.email + "', "+
+                            "fname = '" + user.fname + "', " +
+                            "lname = '" + user.lname + "', " +
                             "phoneNumber = '" + user.phone + "', "+
                             "contactName = '" + user.ename + "', "+
                             "contactPhone = '" + user.ephone + "' " +
@@ -166,7 +170,7 @@ public class dbConnection {
         try {
 
             stmt = con.createStatement();
-            stmt.executeQuery(checksql);
+            stmt.executeUpdate(checksql);
 
             System.out.println("SUCCESS");
             return true;
@@ -208,7 +212,7 @@ public class dbConnection {
 
             stmt = con.createStatement();
             resultSet = stmt.executeQuery(checksql);
-
+            user.id = resultSet.getInt("id");
             user.fname = resultSet.getString("fname");
             user.lname = resultSet.getString("lname");
             user.email = resultSet.getString("email");
@@ -236,6 +240,39 @@ public class dbConnection {
         }
     }
 
+    public List<record> getVolunteerContributions(int id){
+        List<record> recs = new ArrayList();
+
+
+
+        String checksql;
+        Statement stmt = null;
+        ResultSet resultSet = null;
+
+        checksql = "SELECT * FROM operationDayRecords WHERE volunteerId = " + id;
+
+        try {
+            stmt = con.createStatement();
+            resultSet = stmt.executeQuery(checksql);
+
+            while (resultSet.next()){
+                record r = new record();
+                r.operationRecordId = resultSet.getInt("operationRecordId");
+                r.driveStartDate = resultSet.getString("driveStartDate");
+                r.driveId = resultSet.getInt("driveId");
+                r.volunteerId = resultSet.getInt("volunteerId");
+                r.operationDayDate = resultSet.getString("operationDayDate");
+                r.hoursContributed = resultSet.getInt("hoursContributed");
+                System.out.println("User Found");
+                recs.add(r);
+            }
+            return recs;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            return  recs;
+        }
+    }
 
     //get records by drive id and operationDayDate (all volunteers for that date, use volunteer ids)
     public List<userObject> getVolunteersByDate(String odate){
