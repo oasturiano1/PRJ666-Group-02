@@ -1,5 +1,12 @@
 package database;
 
+import admin.AlertBox;
+import admin.UserData;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,6 +18,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class DAO {
     private static  final String USERNAME = "root";
@@ -175,6 +183,121 @@ public class DAO {
             }
         }
         return ls;
+    }
+
+    @FXML
+    public boolean phpAddData(userObject user){
+        BufferedReader in;
+
+        String input = "http://rose-wood-food-drive.000webhostapp.com/updateData.php?fname=" + user.fname +"&lname="+ user.lname+"&email="+user.email+
+                "&phoneNumber="+user.phone+ "&password="+user.pass+
+                "&hoursTotal="+user.hourstotal+"&hoursSigned="+user.hourssigned+
+                "&contactName="+user.ename+"&contactPhone="+user.ephone;
+        StringBuilder sb = new StringBuilder();
+        String inputLine;
+
+            if(phpConnection()){
+                try {
+                    URL connectURL = new URL(input);
+                    in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                    while((inputLine = in.readLine()) != null){
+                        //System.out.println(inputLine);
+                        sb.append(inputLine+"\n");
+                    }
+                    System.out.println(sb);
+                    return true;
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    return false;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            } else {
+            AlertBox.display("INSERT", "Could not Insert" + "\nPlease Check Form Input");
+            return false;
+            }
+    }
+
+    @FXML
+    public boolean phpEmailExists(String email) {
+        String searchKey = email;
+        BufferedReader in;
+        List<String> ls = new ArrayList<>();
+        String inputLine;
+        StringBuilder sb = new StringBuilder();
+
+        if(phpConnection()){
+            URL connectURL = null;
+            try {
+                connectURL = new URL("http://rose-wood-food-drive.000webhostapp.com/emailExists.php?email="+searchKey);
+                in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                while((inputLine = in.readLine()) != null){
+                    sb.append(inputLine);
+                    ls.add(inputLine) ;
+                }
+                System.out.println("$*$ "+sb);
+                if(!ls.isEmpty())
+                    return true;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+        }
+        return false;
+    }
+
+    @FXML
+    public userObject phpGetUser(String email) {
+        String searchKey = email;
+        BufferedReader in;
+        List<String> ls = new ArrayList<>();
+        String inputLine;
+        StringBuilder sb = new StringBuilder();
+        String[] str;
+        userObject user = new userObject();
+
+        if(phpConnection()){
+            URL connectURL = null;
+            try {
+                connectURL = new URL("http://rose-wood-food-drive.000webhostapp.com/emailExists.php?email="+searchKey);
+                in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                while((inputLine = in.readLine()) != null){
+                    sb.append(inputLine);
+                    ls.add(inputLine) ;
+                }
+                System.out.println("$*$ "+sb);
+
+                for(String info:ls){
+                    str =  info.split(Pattern.quote(" "));
+                    user.fname = str[1];
+                    user.lname = str[2];
+                    user.email = str[3];
+                    user.phone = str[4];
+                    user.pass = str[5];
+                    user.hourstotal = str[6];
+                    user.hourssigned = str[7];
+                    user.ename = str[8];
+                    user.ephone = str[9];
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+        return user;
     }
 
      /*   PHP   */

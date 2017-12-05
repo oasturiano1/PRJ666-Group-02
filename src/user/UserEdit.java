@@ -3,6 +3,7 @@ package user;
 import admin.formValidation;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import database.DAO;
 import database.dbConnection;
 import database.loginType;
 import database.userObject;
@@ -31,6 +32,8 @@ import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.RED;
 
 public class UserEdit extends Application implements Initializable{
+
+    DAO dao;
 
     dbConnection db;
 
@@ -99,6 +102,8 @@ public class UserEdit extends Application implements Initializable{
         newUser.pass = pass.getText();
         newUser.ename = emname.getText();
         newUser.ephone = emnumber.getText();
+        newUser.hourstotal = user.hourstotal;
+        newUser.hourssigned = user.hourssigned;
         Connection connection = db.connect();
 
         if(newUser.fname.isEmpty()||
@@ -112,11 +117,18 @@ public class UserEdit extends Application implements Initializable{
             errCatch = false;
         }
 
+        if(user.email.compareTo(email.getText())!=0) {//if email has changed
+            if (dao.phpEmailExists(email.getText())) {
+                email.setFocusColor(RED);
+                email.setPromptText("Invalid - New Email Already Used");
+                errCatch = false;
+            }
+        }
         //need to add more constraints
 
         if(errCatch){
-
-            boolean success = db.editUser(newUser, user);
+            boolean success = dao.phpAddData(newUser);
+            //boolean success = db.editUser(newUser, user);
             if(success){
                 try {
                     Stage userStage = new Stage();
@@ -168,8 +180,8 @@ public class UserEdit extends Application implements Initializable{
         fname.setText(user.fname);
         lname.setText(user.lname);
         email.setText(user.email);
-        pass.setText("");
-        passconf.setText("");
+        pass.setText(user.pass);
+        passconf.setText(user.pass);
         number.setText(user.phone);
         emname.setText(user.ename);
         emnumber.setText(user.ephone);
@@ -232,14 +244,7 @@ public class UserEdit extends Application implements Initializable{
         errCatch = formValidation.isMail(textField.getText());
 
         if(user.email.compareTo(email.getText().toString()) != 0){
-            Connection connection = db.connect();
-            boolean emailExists = db.emailExists(email.getText());
-            connection.close();
-
-            if (emailExists) {
-                textField.setFocusColor(RED);
-                textField.setPromptText("Invalid - New Email Already Used");
-            } else if (errCatch == false) {
+            if (errCatch == false) {
                 textField.setFocusColor(RED);
                 textField.setPromptText("Invalid Email Address");
             }else {
@@ -295,6 +300,7 @@ public class UserEdit extends Application implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        dao = new DAO();
         db = new dbConnection();
         fname.setLabelFloat(true);
         lname.setLabelFloat(true);

@@ -65,7 +65,7 @@ public class Controller implements Initializable {
          else{
              this.status.setText("OffLine");
          }*/
-        db = new dbConnection();
+        //db = new dbConnection();
 
         if(dao.phpConnection() || db.isDatabaseCon()){
             this.status.setText("Online");
@@ -91,6 +91,8 @@ public class Controller implements Initializable {
              }
          });
     }
+
+
 
 
     public void closeLoginScene(ActionEvent event){
@@ -140,11 +142,14 @@ public class Controller implements Initializable {
             Pane root = (Pane)loader.load(getClass().getResource("/user/userFXML.fxml").openStream());
 
 
-            Connection connection = db.connect();
+            //Connection connection = db.connect();
 
             //attach usercontroller to user fxml
+
+
             userController uc =(userController)loader.getController();
-            uc.setUser(db.getUser(this.username.getText()));//sets user object in next scene
+            //uc.setUser(db.getUser(this.username.getText()));//sets user object in next scene
+            uc.setUser(dao.phpGetUser(this.username.getText()));//sets user object in next scene
             //uc.setDB(db);// IMPORTANT- NEED TO CLOSE
 
             Scene scene = new Scene(root);
@@ -152,10 +157,8 @@ public class Controller implements Initializable {
             userStage.setScene(scene);
             userStage.setTitle("User DashBoard");
             userStage.show();
-            connection.close();
+            //connection.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
             e.printStackTrace();
         }
 

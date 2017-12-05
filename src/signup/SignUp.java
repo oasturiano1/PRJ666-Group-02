@@ -3,6 +3,7 @@ package signup;
 import admin.formValidation;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import database.DAO;
 import database.dbConnection;
 import database.loginType;
 import database.userObject;
@@ -31,6 +32,8 @@ import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.RED;
 
 public class SignUp extends Application implements Initializable{
+
+    DAO dao;
 
     dbConnection db;
 
@@ -85,6 +88,8 @@ public class SignUp extends Application implements Initializable{
         newUser.email = email.getText();
         newUser.phone = number.getText();
         newUser.pass = pass.getText();
+        newUser.hourstotal = "0.0";
+        newUser.hourssigned = "0.0";
         newUser.ename = emname.getText();
         newUser.ephone = emnumber.getText();
         Connection connection = db.connect();
@@ -100,11 +105,19 @@ public class SignUp extends Application implements Initializable{
             errCatch = false;
         }
 
+
+        if (dao.phpEmailExists(email.getText())) {
+            email.setFocusColor(RED);
+            email.setPromptText("Invalid - Email Already Used");
+            errCatch = false;
+        }
+
         //need to add more constraints
 
         if(errCatch){
 
-            boolean success = db.newUser(newUser);
+            //boolean success = db.newUser(newUser);
+            boolean success = dao.phpAddData(newUser);
             if(success){
                 try {
                     Stage userStage = new Stage();
@@ -190,10 +203,7 @@ public class SignUp extends Application implements Initializable{
         boolean emailExists = db.emailExists(email.getText());
         connection.close();
 
-        if (emailExists) {
-            textField.setFocusColor(RED);
-            textField.setPromptText("Invalid - Email Already Used");
-        } else if (errCatch == false) {
+        if (errCatch == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid Email Address");
         }else {
@@ -249,6 +259,7 @@ public class SignUp extends Application implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        dao = new DAO();
         db = new dbConnection();
         fname.setLabelFloat(true);
         lname.setLabelFloat(true);
