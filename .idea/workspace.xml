@@ -1,67 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="foodDrive:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/poi_3_17.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/drives/addDrive.fxml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/drives/addDrive.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/admin/adminController$1.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/admin/adminController$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/admin/adminController$2.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/admin/adminController$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/admin/adminController.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/admin/adminController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/admin/formValidation.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/admin/formValidation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/database/dbConnection.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/database/dbConnection.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/drivedays/addDay$1.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/drivedays/addDay$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/drivedays/addDay.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/drivedays/addDay.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/drivedays/driveDays$1.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/drivedays/driveDays$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/drivedays/driveDays.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/drivedays/driveDays.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/drives/drivesController$1.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/drives/drivesController$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/drives/drivesController.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/drives/drivesController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/gui/Controller.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/gui/Controller.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/gui/LoginApp.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/gui/LoginApp.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/signup/SignUp.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/signup/SignUp.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/user/UserEdit.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/user/UserEdit.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/user/userController.class" afterPath="$PROJECT_DIR$/out/production/foodDrive/user/userController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/redlight.db" afterPath="$PROJECT_DIR$/redlight.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jfoenix.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jfoenix.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/foodDrive_jar.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/foodDrive.iml" afterPath="$PROJECT_DIR$/foodDrive.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/admin/adminStyle.css" afterPath="$PROJECT_DIR$/out/production/foodDrive/admin/adminStyle.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/admin/newAdmin.fxml" afterPath="$PROJECT_DIR$/out/production/foodDrive/admin/newAdmin.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/drivedays/addDay.fxml" afterPath="$PROJECT_DIR$/out/production/foodDrive/drivedays/addDay.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/drivedays/driveDays.fxml" afterPath="$PROJECT_DIR$/out/production/foodDrive/drivedays/driveDays.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/drives/drives.fxml" afterPath="$PROJECT_DIR$/out/production/foodDrive/drives/drives.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/gui/login.fxml" afterPath="$PROJECT_DIR$/out/production/foodDrive/gui/login.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/login.css" afterPath="$PROJECT_DIR$/out/production/foodDrive/login.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/user/userEdit.fxml" afterPath="$PROJECT_DIR$/out/production/foodDrive/user/userEdit.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foodDrive/user/userFXML.fxml" afterPath="$PROJECT_DIR$/out/production/foodDrive/user/userFXML.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/admin/AlertBox.java" afterPath="$PROJECT_DIR$/src/admin/AlertBox.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/admin/UserData.java" afterPath="$PROJECT_DIR$/src/admin/UserData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/admin/adminController.java" afterPath="$PROJECT_DIR$/src/admin/adminController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/admin/adminStyle.css" afterPath="$PROJECT_DIR$/src/admin/adminStyle.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/admin/formValidation.java" afterPath="$PROJECT_DIR$/src/admin/formValidation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/admin/newAdmin.fxml" afterPath="$PROJECT_DIR$/src/admin/newAdmin.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/database/dbConnection.java" afterPath="$PROJECT_DIR$/src/database/dbConnection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/database/loginType.java" afterPath="$PROJECT_DIR$/src/database/loginType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/database/userObject.java" afterPath="$PROJECT_DIR$/src/database/userObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/drivedays/addDay.fxml" afterPath="$PROJECT_DIR$/src/drivedays/addDay.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/drivedays/addDay.java" afterPath="$PROJECT_DIR$/src/drivedays/addDay.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/drivedays/driveDays.fxml" afterPath="$PROJECT_DIR$/src/drivedays/driveDays.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/drivedays/driveDays.java" afterPath="$PROJECT_DIR$/src/drivedays/driveDays.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/drives/drives.fxml" afterPath="$PROJECT_DIR$/src/drives/drives.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/drives/drivesController.java" afterPath="$PROJECT_DIR$/src/drives/drivesController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui/Controller.java" afterPath="$PROJECT_DIR$/src/gui/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui/LoginApp.java" afterPath="$PROJECT_DIR$/src/gui/LoginApp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui/Session.java" afterPath="$PROJECT_DIR$/src/gui/Session.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui/login.fxml" afterPath="$PROJECT_DIR$/src/gui/login.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/login.css" afterPath="$PROJECT_DIR$/src/login.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/records/record.java" afterPath="$PROJECT_DIR$/src/records/record.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/signup/SignUp.java" afterPath="$PROJECT_DIR$/src/signup/SignUp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/userController.java" afterPath="$PROJECT_DIR$/src/user/userController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/userEdit.fxml" afterPath="$PROJECT_DIR$/src/user/userEdit.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/user/userFXML.fxml" afterPath="$PROJECT_DIR$/src/user/userFXML.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/viewuser/userViewController.java" afterPath="$PROJECT_DIR$/src/viewuser/userViewController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/volunteerdays/addVolunteers.java" afterPath="$PROJECT_DIR$/src/volunteerdays/addVolunteers.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/volunteerdays/volunteerDays.java" afterPath="$PROJECT_DIR$/src/volunteerdays/volunteerDays.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -211,8 +159,8 @@
       <file leaf-file-name="signup.fxml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/signup/signup.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="36" lean-forward="true" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
+            <state relative-caret-position="272">
+              <caret line="16" column="68" lean-forward="true" selection-start-line="16" selection-start-column="68" selection-end-line="16" selection-end-column="68" />
               <folding />
             </state>
           </provider>
@@ -514,10 +462,10 @@
     <property name="dynamic.classpath" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/poi-ooxml-3.11.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/redlight.db" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/B85M-ECSM/Documents/SCHOOL WORK/Sem7/PRJ666/foodDrive/src/user/userController.java" />
   </component>
   <component name="RecentsManager">
@@ -703,7 +651,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1672" y="-8" width="1696" height="1066" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -718,7 +665,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16309524" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16309524" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1487,8 +1434,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/signup/signup.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="36" lean-forward="true" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
+        <state relative-caret-position="272">
+          <caret line="16" column="68" lean-forward="true" selection-start-line="16" selection-start-column="68" selection-end-line="16" selection-end-column="68" />
           <folding />
         </state>
       </provider>
@@ -1502,11 +1449,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>JavaFXApp</last-edited>
+          <last-edited>foodDrive:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>

@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="foodDrive:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/foodDrive_jar</output-path>
+    <root id="archive" name="foodDrive.jar">
+      <element id="module-output" name="foodDrive" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/sqlite-jdbc-3.20.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/poi-ooxml-3.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jfoenix.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/poi-3.17.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
