@@ -5,6 +5,7 @@ package admin;
         import com.jfoenix.controls.JFXTextField;
         import com.jfoenix.validation.RequiredFieldValidator;
         import com.sun.rowset.internal.Row;
+        import database.DAO;
         import database.dbConnection;
         import database.userObject;
         import drives.drivesController;
@@ -31,20 +32,21 @@ package admin;
         import javafx.scene.text.Text;
         import javafx.stage.FileChooser;
         import javafx.stage.Stage;
-        //import org.apache.poi.xssf.usermodel.XSSFRow;
-        //import org.apache.poi.xssf.usermodel.XSSFSheet;
-        //import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+        import org.apache.poi.xssf.usermodel.XSSFRow;
+        import org.apache.poi.xssf.usermodel.XSSFSheet;
+        import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-        import java.io.File;
-        import java.io.FileNotFoundException;
-        import java.io.FileOutputStream;
-        import java.io.IOException;
+        import java.io.*;
+        import java.net.MalformedURLException;
         import java.net.URL;
         import java.sql.Connection;
         import java.sql.PreparedStatement;
         import java.sql.ResultSet;
         import java.sql.SQLException;
+        import java.util.ArrayList;
+        import java.util.List;
         import java.util.ResourceBundle;
+        import java.util.regex.Pattern;
 
         import static javafx.scene.paint.Color.BLUE;
         import static javafx.scene.paint.Color.GREEN;
@@ -121,6 +123,7 @@ public class adminController implements Initializable {
 
     //-----------------------------------------------------------//
 
+    private DAO dao;
     private dbConnection db;
     private ObservableList<UserData> observableList; //A list that enables listeners to track changes when they occur
     private RequiredFieldValidator validator;
@@ -131,10 +134,12 @@ public class adminController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resources) {
 
+        dao = new DAO();
         db = new dbConnection();
         /*userTable.setEditable(true);//delete,update dont really work*/
         idCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        loadData();
+        //loadData();
+        loadphpData();
 
         /**************************validation**********************/
         fname.textProperty().addListener(e -> ErrTester(fname));
@@ -174,14 +179,16 @@ public class adminController implements Initializable {
         ;
 
        /* searchId.setOnAction(event -> loadSelectedData(event));*/
-        searchButton.setOnAction(event -> loadSelectedData(event));//this take cair of enter and button click
+       // searchButton.setOnAction(event -> loadSelectedData(event));//this take cair of enter and button click
+        searchButton.setOnAction(event -> phpLoadSelectedData(event));
 
 
 
         addRecords.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                addData();
+               // addData();
+                phpAddData();
             }
         });
 
@@ -328,14 +335,16 @@ public class adminController implements Initializable {
         this.email.setPromptText("me@someMall.com");
         this.phoneNum.setText("");
         this.phoneNum.setPromptText("XXX-XXX-XXXX");
-        //this.Male.setSelected(false);
-        //this.Female.setSelected(false);
+        this.passw.setText("");
+        this.totSigned.setText("");
         this.totHours.setText("");
         this.totHours.setPromptText("Signed Hours");
         this.totSigned.setText("0.0");
         this.totSigned.setPromptText("Signed Hours");
         this.contactName.setText("");
-        //this.contactName.setPromptText("l6a3a4");
+        this.contactName.setPromptText("l6a3a4");
+        this.contactNum.setText("");
+        this.contactNum.setPromptText("XXX-XXX-XXXX");
         this.searchId.setText("");
         this.searchId.setPromptText("first,last");
     }
@@ -387,7 +396,7 @@ public class adminController implements Initializable {
     }
 
     @FXML
-    private void loadSelectedData(ActionEvent event) {
+    private void loadSelectedData() {
         String searchKey = this.searchId.getText();
         String[] split = searchKey.split("\\s*,\\s*");
 
@@ -434,7 +443,8 @@ public class adminController implements Initializable {
 
 
     public void manualLoadData(ActionEvent event) {
-        loadData();
+        //loadData();
+        loadphpData();
     }
 
 
@@ -564,8 +574,6 @@ public class adminController implements Initializable {
 
     }
 
-
-
     @FXML
     public void drivesView() throws IOException, SQLException {
 
@@ -583,8 +591,9 @@ public class adminController implements Initializable {
         userStage.show();
     }
 
+    //this need the apache jar
     public void ExportToExcel(ActionEvent event) {
-    /*
+
         String sql = "SELECT * FROM volunteer";
 
         try {
@@ -600,33 +609,35 @@ public class adminController implements Initializable {
             header.createCell(1).setCellValue("First Name");
             header.createCell(2).setCellValue("Last Name");
             header.createCell(3).setCellValue("Email");
-            header.createCell(4).setCellValue("DOB");
-            header.createCell(5).setCellValue("Gender");
-            header.createCell(6).setCellValue("Phone");
-            header.createCell(7).setCellValue("Emergency");
-            header.createCell(8).setCellValue("Postal");
+            header.createCell(4).setCellValue("Phone");
+            header.createCell(5).setCellValue("Password");
+            header.createCell(6).setCellValue("hoursTotal");
+            header.createCell(7).setCellValue("hoursSigned");
+            header.createCell(8).setCellValue("contactName");
+            header.createCell(8).setCellValue("contactPhone");
 
             int index = 1;
 
             while(resultSet.next()){
                 XSSFRow row = sheet.createRow(index);
-                row.createCell(0).setCellValue(resultSet.getString("ID"));
-                row.createCell(0).setCellValue(resultSet.getString("First Name"));
-                row.createCell(0).setCellValue(resultSet.getString("Last Name"));
-                row.createCell(0).setCellValue(resultSet.getString("Email"));
-                row.createCell(0).setCellValue(resultSet.getString("DOB"));
-                row.createCell(0).setCellValue(resultSet.getString("Gender"));
-                row.createCell(0).setCellValue(resultSet.getString("Phone"));
-                row.createCell(0).setCellValue(resultSet.getString("Emergency"));
-                row.createCell(0).setCellValue(resultSet.getString("Postal"));
+                row.createCell(0).setCellValue(resultSet.getString("id"));
+                row.createCell(1).setCellValue(resultSet.getString("fname"));
+                row.createCell(2).setCellValue(resultSet.getString("lname"));
+                row.createCell(3).setCellValue(resultSet.getString("email"));
+                row.createCell(4).setCellValue(resultSet.getString("phoneNumber"));
+                row.createCell(5).setCellValue(resultSet.getString("password"));
+                row.createCell(6).setCellValue(resultSet.getString("hoursTotal"));
+                row.createCell(7).setCellValue(resultSet.getString("hoursSigned"));
+                row.createCell(8).setCellValue(resultSet.getString("contactName"));
+                row.createCell(8).setCellValue(resultSet.getString("contactPhone"));
                 index++;
             }
 
-            FileOutputStream fileOutputStream = new FileOutputStream("Details.xlsx");
+            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\dance\\Desktop\\Details.xlsx");
             workbook.write(fileOutputStream);
             fileOutputStream.close();
 
-            AlertBox.display("EXPORT", "All Good");
+            AlertBox.display("EXPORT", "Export Successful");
 
             resultSet.close();;
             stmt.close();
@@ -638,9 +649,211 @@ public class adminController implements Initializable {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
 
     }
+
+
+
+    /* PHP*/
+
+    @FXML
+    public void loadphpData(){
+        List<String> ls = new ArrayList<>();
+        this.observableList = FXCollections.observableArrayList();
+        String[] str;
+
+        ls = dao.getAll();
+        for(String info:ls){
+           str =  info.split(Pattern.quote(" "));
+            this.observableList.add(new UserData(str[0],  str[1],  str[2],  str[3],  str[4],  str[5],  str[6],  str[7],  str[8],str[9]));
+        }
+
+
+
+
+
+        this.fnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        this.lnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        this.emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        this.phoneNumCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        this.passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
+        this.totHoursCol.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
+        this.totSignedCol.setCellValueFactory(new PropertyValueFactory<>("totalSigned"));
+        this.conNameCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        this.conNumCol.setCellValueFactory(new PropertyValueFactory<>("contactNum"));
+        this.idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
+
+        this.userTable.setItems(null);
+        this.userTable.setItems(observableList);
+    }
+
+    @FXML
+    public void phpAddData(){
+        BufferedReader in;
+        String input = "http://rose-wood-food-drive.000webhostapp.com/insertAll.php?fname=" + this.fname.getText() +"&lname="+ this.lname.getText()+"&email="+this.email.getText()+
+                "&phoneNumber="+this.phoneNum.getText()+ "&password="+this.passw.getText()+
+                "&hoursTotal="+this.totHours.getText()+"&hoursSigned="+this.totSigned.getText()+
+                "&contactName="+this.contactName.getText()+"&contactPhone="+this.contactNum.getText();
+        StringBuilder sb = new StringBuilder();
+        String inputLine;
+
+        if (errCatch && !fname.getText().isEmpty() && !lname.getText().isEmpty()){
+
+            if(dao.phpConnection()){
+                try {
+                    URL connectURL = new URL(input);
+                    in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                    while((inputLine = in.readLine()) != null){
+                        //System.out.println(inputLine);
+                        sb.append(inputLine+"\n");
+                    }
+                    System.out.println(sb);
+
+                    loadphpData();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } else {
+            AlertBox.display("INSERT", "Could not Insert" + "\nPlease Check Form Input");
+        }
+    }
+
+    @FXML
+    public void phpDeleteFields(ActionEvent event){
+        String searchKey = this.searchId.getText();
+        String[] split = searchKey.split("\\s*,\\s*");
+        BufferedReader in;
+        StringBuilder sb = new StringBuilder();
+        String inputLine;
+
+        if (!split[0].equals("") && !split[1].equals("")) {
+
+            if(dao.phpConnection()){
+                try {
+                    URL connectURL = new URL("http://rose-wood-food-drive.000webhostapp.com/deleteFields.php?fname=" + split[0] +"&lname="+split[1]);
+                    in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                    while((inputLine = in.readLine()) != null){
+                        //System.out.println(inputLine);
+                        sb.append(inputLine+"\n");
+                    }
+                    System.out.println(sb);
+
+                    loadphpData();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } else {
+            AlertBox.display("DELETE", "Could not Remove");
+        }
+    }
+
+    @FXML
+    public void phpUpdateFields(ActionEvent event){
+        String input = "http://rose-wood-food-drive.000webhostapp.com/updateData.php?fname=" + this.fname.getText() +"&lname="+ this.lname.getText()+"&email="+this.email.getText()+
+                "&phoneNumber="+this.phoneNum.getText()+ "&password="+this.passw.getText()+
+                "&hoursTotal="+this.totHours.getText()+"&hoursSigned="+this.totSigned.getText()+
+                "&contactName="+this.contactName.getText()+"&contactPhone="+this.contactNum.getText();
+        String searchKey = this.searchId.getText();
+        String[] split = searchKey.split("\\s*,\\s*");
+
+        BufferedReader in;
+        StringBuilder sb = new StringBuilder();
+        String inputLine;
+       ;
+
+        if(errCatch && dao.phpConnection()) {
+
+            try {
+                URL connectURL = new URL(input);
+                in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                while((inputLine = in.readLine()) != null){
+                    //System.out.println(inputLine);
+                    sb.append(inputLine+"\n");
+                }
+                System.out.println(sb);
+
+                loadphpData();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            AlertBox.display("UPDATE", "Could not update" + "\nPlease Contact Developer");
+        }
+
+
+
+    }
+
+    @FXML
+    private void phpLoadSelectedData(ActionEvent event) {
+        String searchKey = this.searchId.getText();
+        BufferedReader in;
+        String inputLine;
+        String[] split = searchKey.split("\\s*,\\s*");
+        List<String> ls = new ArrayList<>();
+        String[] str;
+        this.observableList = FXCollections.observableArrayList();
+        StringBuilder sb = new StringBuilder();
+
+
+
+        if(dao.phpConnection()){
+            URL connectURL = null;
+            try {
+                connectURL = new URL("http://rose-wood-food-drive.000webhostapp.com/loadSelectedRow.php?fname="+split[0]+"&lname="+split[1]);
+                in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                while((inputLine = in.readLine()) != null){
+                    sb.append(inputLine);
+                    ls.add(inputLine) ;
+                }
+                System.out.println("$*$ "+sb);
+
+                for(String info:ls){
+                    str =  info.split(Pattern.quote(" "));
+                    this.observableList.add(new UserData(str[0],  str[1],  str[2],  str[3],  str[4],  str[5],  str[6],  str[7],  str[8],str[9]));
+                }
+
+                //---------
+                this.fnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+                this.lnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+                this.emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+                this.phoneNumCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+                this.passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
+                this.totHoursCol.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
+                this.totSignedCol.setCellValueFactory(new PropertyValueFactory<>("totalSigned"));
+                this.conNameCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+                this.conNumCol.setCellValueFactory(new PropertyValueFactory<>("contactNum"));
+                this.idCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
+
+                this.userTable.setItems(null);
+                this.userTable.setItems(observableList);
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+
 
 
 

@@ -133,69 +133,6 @@ public class SignUp extends Application implements Initializable{
             }
         }
         connection.close();
-
-        /*if(newUser.fname.isEmpty()||
-                newUser.lname.isEmpty()||
-                newUser.email.isEmpty()||
-                newUser.phone.isEmpty()||
-                newUser.phone.isEmpty()||
-                newUser.pass.isEmpty()||
-                newUser.ename.isEmpty()||
-                newUser.ephone.isEmpty()){
-            this.error.setText("All fields are required!");
-        }else if(!newUser.checkEmail()) {
-            this.error.setText("Email format is wrong!");
-        }else if(!newUser.checkPhone()) {
-            this.error.setText("Phone Number format is wrong!");
-        }else if(!(pass.getText().equals(passconf.getText()))){//validation
-            this.error.setText("Passwords do not match!");
-        }else if(!newUser.checkContactPhone()) {
-            this.error.setText("Contact Phone Number format is wrong!");
-        }else{//if all is valid
-            if(db.emailExists(email.getText())){
-                this.error.setText("email alraedy exists");
-            }else{
-                System.out.println("email is valid");
-                //String[] name = fname.getText().split(" ");
-                System.out.println(fname+" "+lname);
-
-                boolean success = db.newUser(newUser);
-
-
-                if(success){
-                    try {
-                        Stage userStage = new Stage();
-                        FXMLLoader loader = new FXMLLoader();
-                        Pane root = (Pane)loader.load(getClass().getResource("/user/userFXML.fxml").openStream());
-
-
-                        //attach usercontroller to user fxml
-                        userController uc =(userController)loader.getController();
-                        uc.setUser(newUser);//sets user object in next scene
-                        //uc.setDB(db);// IMPORTANT- NEED TO CLOSE
-
-                        Scene scene = new Scene(root);
-                        scene.getStylesheets().add("admin/adminStyle.css");
-                        userStage.setScene(scene);
-                        userStage.setTitle("User DashBoard");
-                        userStage.show();
-
-
-                        Stage stage = (Stage) signupbtn.getScene().getWindow();
-                        stage.close();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                //db.newUser(name[0],name[1],email.getText(),number.getText(),pass.getText(),emname.getText(),emnumber.getText());
-                this.error.setText("User created!");
-
-            }
-            connection.close();
-            //this.error.setText("");
-
-        }*/
     }
 
     public void ErrTester(JFXTextField textField) {

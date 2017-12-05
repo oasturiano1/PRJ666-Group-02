@@ -3,6 +3,7 @@ package user;
 import database.dbConnection;
 import database.userObject;
 import drives.drivesController;
+import gui.Controller;
 import gui.LoginApp;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -12,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
@@ -24,7 +26,9 @@ import java.net.URL;
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -46,6 +50,8 @@ public class userController extends Application implements Initializable{
 
     @FXML private javafx.scene.control.Button sgnout;
 
+
+
     //private Stage stage;
     @Override
     public void start(Stage primaryStage) throws Exception  {
@@ -54,6 +60,9 @@ public class userController extends Application implements Initializable{
         primaryStage.setScene(scene);
         primaryStage.setTitle("USER PROFILE");
         primaryStage.show();
+
+
+
 
 
         contributionsList.setEditable(true);
@@ -130,16 +139,16 @@ public class userController extends Application implements Initializable{
     public void close() throws IOException {
 
         //OPEN LOGIN HERE
-        /*
+
         Stage userStage = new Stage();
         FXMLLoader loader = new FXMLLoader();
         Pane root = (Pane) loader.load(getClass().getResource("/gui/login.fxml").openStream());
-        LoginApp ac =(LoginApp) loader.getController();
+        Controller ac =(Controller) loader.getController();
 
         Scene scene = new Scene(root);
         userStage.setScene(scene);
-        userStage.setTitle("EDIT PROFILE");
-        userStage.show();*/
+        //userStage.setTitle("EDIT PROFILE");
+        userStage.show();
 
         Stage stage = (Stage) sgnout.getScene().getWindow();
         stage.close();

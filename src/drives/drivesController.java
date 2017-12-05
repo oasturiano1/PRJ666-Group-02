@@ -1,5 +1,6 @@
 package drives;
 
+import com.jfoenix.controls.JFXDatePicker;
 import database.dbConnection;
 import database.userObject;
 import drivedays.driveDays;
@@ -10,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,13 +35,32 @@ public class drivesController extends Application implements Initializable {
     ListView<String> drivesList;
 
     @FXML
-    Labeled sDate;
+    Labeled eDateLabel;
 
     @FXML
-    Labeled eDate;
+    Labeled sDateLabel;
 
 
     public drive selectD = new drive();
+
+    @FXML
+    Labeled errmsg;
+
+    @FXML
+    JFXDatePicker sDatePicker;
+
+    @FXML
+    JFXDatePicker eDatePicker;
+
+    @FXML
+    Button viewDays;
+
+    private LocalDate sDate;
+    private LocalDate eDate;
+
+    boolean errCatch = true;
+
+
 
     dbConnection db;
     List<drive> drives = new ArrayList();
@@ -64,26 +86,10 @@ public class drivesController extends Application implements Initializable {
     }
 
     @FXML
-    public void addDrive()throws IOException{
-        Stage userStage = new Stage();
-        FXMLLoader loader = new FXMLLoader();
-        Pane root = null;
-        root = (Pane) loader.load(getClass().getResource("/drives/addDrive.fxml").openStream());
-        addDrive ac = (addDrive) loader.getController();
-        //ac.setDB(db);
-        //ac.setDrive(selectD);
-
-        Scene scene = new Scene(root);
-        userStage.setScene(scene);
-        userStage.setTitle("Add Drive");
-        userStage.show();
-    }
-
-    @FXML
     public void viewDriveDays() throws IOException {
         System.out.println("PRESSING!");
         if(selectD.id != 0) {
-            Stage userStage = new Stage();
+            Stage driveStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
             Pane root = null;
             root = (Pane) loader.load(getClass().getResource("/drivedays/driveDays.fxml").openStream());
@@ -92,9 +98,37 @@ public class drivesController extends Application implements Initializable {
             //ac.setDrive(selectD);
 
             Scene scene = new Scene(root);
-            userStage.setScene(scene);
-            userStage.setTitle("Drive Days");
-            userStage.show();
+            driveStage.setScene(scene);
+            driveStage.setTitle("Drive Days");
+            driveStage.show();
+
+            Stage stage = (Stage) viewDays.getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    @FXML
+    public void addDrive() throws SQLException {
+        dateCompare(errmsg);
+        if(errCatch){
+
+            String startDate = sDate.toString();
+            String endDate = eDate.toString();
+
+
+            Connection connection = db.connect();
+            System.out.println("DATES ARE OKAY");
+            boolean success = db.addDrive(startDate,endDate);
+            connection.close();
+            if(success){
+                errmsg.setText("Drive Added!");
+                loadData();
+            }else {
+                errmsg.setText("Drive Could Not Be Added!");
+            }
+
+
+            System.out.println(startDate + " " + endDate);
         }
     }
 
@@ -110,9 +144,50 @@ public class drivesController extends Application implements Initializable {
         connection.close();
     }
 
+    public void getDateStart(){
+        sDate = sDatePicker.getValue();
+    }
+
+    public void getDateEnd(){
+        eDate = eDatePicker.getValue();
+    }
+
+    public void dateCompare(Labeled sd) throws SQLException {
+        errCatch = false;
+
+        if(sDate == null || eDate == null){
+            sd.setText("Both dates are required!");
+        }else {
+            drive r = new drive();
+            r.start = sDate.toString();
+            r.end = eDate.toString();
+            Connection connection = db.connect();
+            boolean exists = db.driveExists(r);
+            connection.close();
+
+            if (sDate.equals(eDate)) {
+                sd.setText("Dates are identical!");
+                errCatch = false;
+            } else if (!sDate.isBefore(eDate)) {
+                sd.setText("Date order is wrong!");
+                errCatch = false;
+            } else if (exists) {
+                sd.setText("Drive already exists!");
+                errCatch = false;
+            } else {//check if dates already exists
+                sd.setText("");
+                errCatch = true;
+            }
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         db = new dbConnection();
+        sDatePicker.setValue(LocalDate.now());
+        eDatePicker.setValue(LocalDate.now());
+        sDate = sDatePicker.getValue();
+        eDate = eDatePicker.getValue();
 
         try {
             Connection connection = db.connect();
@@ -137,10 +212,10 @@ public class drivesController extends Application implements Initializable {
                     System.out.println("clicked on " + drivesList.getSelectionModel().getSelectedItem());
                     String start = drivesList.getSelectionModel().getSelectedItem();
                     selectD = new drive();
-                    selectD = db.getDrive(start);
+                    selectD = drives.get(drivesList.getSelectionModel().getSelectedIndex());
 
-                    sDate.setText(selectD.start);
-                    eDate.setText(selectD.end);
+                    sDateLabel.setText(selectD.start);
+                    eDateLabel.setText(selectD.end);
                     connection.close();
                 } catch (SQLException e) {
                     e.printStackTrace();

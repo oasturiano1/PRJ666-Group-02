@@ -1,8 +1,9 @@
 package drivedays;
 
 import database.dbConnection;
-import drives.addDrive;
+import database.userObject;
 import drives.drive;
+import drives.drivesController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +24,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -29,14 +33,45 @@ import java.util.ResourceBundle;
 public class driveDays  extends Application implements Initializable {
 
     @FXML
+    Labeled fullname;
+
+    @FXML
+    Labeled email;
+
+    @FXML
+    Labeled pnumber;
+
+    @FXML
+    Labeled hours;
+
+    @FXML
+    Labeled contactNa;
+
+    @FXML
+    Labeled contactNu;
+
+    @FXML
     Labeled drivestart;
+
+    @FXML
+    Labeled driveday;
 
     @FXML
     ListView<String> daysList;
 
-    drive selectD;
+    @FXML
+    ListView<String> volList;
+
+    @FXML
+    Button back;
 
     String opDay = "";
+
+    drive selectD;
+
+    userObject selUser;
+
+    LocalDate selDay;
 
     /*@FXML
     ListView<String> drivedateslist;
@@ -46,6 +81,7 @@ public class driveDays  extends Application implements Initializable {
 
     dbConnection db;
     List<record> records = new ArrayList();
+    List<userObject> volRecords = new ArrayList();
 
 
 
@@ -69,12 +105,13 @@ public class driveDays  extends Application implements Initializable {
 
     @FXML
     public void addDay()throws IOException{
+
         Stage userStage = new Stage();
         FXMLLoader loader = new FXMLLoader();
         Pane root = null;
         root = (Pane) loader.load(getClass().getResource("/drivedays/addDay.fxml").openStream());
         addDay ac = (addDay) loader.getController();
-        ac.setDrive(selectD);
+        ac.setDrive(selectD, selDay, selUser);
         //ac.setDrive(selectD);
 
         Scene scene = new Scene(root);
@@ -106,6 +143,7 @@ public class driveDays  extends Application implements Initializable {
 
     public void setDrive(drive sd){
         selectD = sd;
+        selUser = new userObject();
         drivestart.setText("Drive Days for "  +selectD.start + " drive");
         db = new dbConnection();
 
@@ -121,67 +159,81 @@ public class driveDays  extends Application implements Initializable {
 
         daysList.getItems().clear();
         for(int i = 0; i < records.size(); i++){
-
-            //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            //Date d = drives.get(i).start;
-            //System.out.println("Working?");
-            //System.out.println(dateFormat.format(d));
-
-            //drives.get(i);
-
             daysList.getItems().add(records.get(i).operationDayDate);
             System.out.println(records.get(i).operationDayDate);
-
-            //drivesList.get
-
         }
 
         daysList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
             @Override
             public void handle(MouseEvent event) {
+
+                fullname.setText("---");
+                email.setText("---");
+                pnumber.setText("---");
+                hours.setText("---");
+                contactNa.setText("---");
+                contactNu.setText("---");
+
                 System.out.println("clicked on " + daysList.getSelectionModel().getSelectedItem());
                 opDay = daysList.getSelectionModel().getSelectedItem();
+
+                driveday.setText("Volunteers for "  +opDay);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                selDay = LocalDate.parse(opDay, formatter);
+
+                try {
+                    Connection connection = db.connect();
+                    volRecords = db.getVolunteersByDate(opDay);
+                    connection.close();
+                    volList.getItems().clear();
+                    for(int i = 0; i < volRecords.size(); i++){
+                        volList.getItems().add(volRecords.get(i).fname + " " + volRecords.get(i).lname);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        volList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("clicked on " + volList.getSelectionModel().getSelectedItem());
+                System.out.println(volRecords.get(volList.getSelectionModel().getSelectedIndex()).fname);
+                selUser = new userObject();
+
+                selUser = volRecords.get(volList.getSelectionModel().getSelectedIndex());
+
+                fullname.setText("Full name:" + selUser.fname + " " + selUser.lname);
+                email.setText("Email:" + selUser.email);
+                pnumber.setText("Phone number:" + selUser.phone);
+                hours.setText("Hours Contributed:" + selUser.hoursCon);
+                contactNa.setText("Contact Name:" + selUser.ename);
+                contactNu.setText("Contact Number:" + selUser.ephone);
+
             }
         });
 
     }
 
-    /*public void setDB (dbConnection db, drive sd){
-        selectD = sd;
-        this.db = db;
-        drivestart.setText("Drive Days for "  +selectD.start + " drive");
+    @FXML
+    public void back() throws IOException {
 
-        records = db.getRecordsByDrive(selectD.start);
-        daysList.getItems().clear();
-        for(int i = 0; i < records.size(); i++){
+        System.out.print("PRESSED!");
+        Stage userStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = (Pane) loader.load(getClass().getResource("/drives/drives.fxml").openStream());
+        drivesController ac =(drivesController) loader.getController();
 
-            //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Scene scene = new Scene(root);
+        userStage.setScene(scene);
+        userStage.setTitle("Drives");
+        userStage.show();
 
-            //Date d = drives.get(i).start;
-            //System.out.println("Working?");
-            //System.out.println(dateFormat.format(d));
-
-            //drives.get(i);
-
-            daysList.getItems().add(records.get(i).operationDayDate);
-            System.out.println(records.get(i).operationDayDate);
-
-            //drivesList.get
-
-        }
-
-        daysList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("clicked on " + daysList.getSelectionModel().getSelectedItem());
-                opDay = daysList.getSelectionModel().getSelectedItem();
-            }
-        });
-
-    }*/
+        Stage stage = (Stage) back.getScene().getWindow();
+        stage.close();
+    }
 
     @FXML
     public void loadData() throws SQLException {

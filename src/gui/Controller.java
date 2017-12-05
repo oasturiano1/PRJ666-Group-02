@@ -1,8 +1,10 @@
 package gui;
 
 import admin.adminController;
+import database.DAO;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import database.dbConnection;
 import database.loginType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import signup.SignUp;
@@ -24,8 +27,8 @@ import java.util.ResourceBundle;
 
 //fx:controller="gui.Controller"
 public class Controller implements Initializable {
+    private DAO dao;
     private dbConnection db;
-
 
     @FXML
     private TextField username;;
@@ -42,10 +45,13 @@ public class Controller implements Initializable {
     @FXML
     private Labeled errorMsg;
 
+    @FXML
+    private Label signbtn;
+
     private Session session;
 
     public Controller(){
-       db = new dbConnection();
+        dao = new DAO();
        combo = new ComboBox();
     }
 
@@ -53,15 +59,37 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         session = new Session();
 
-         if(db.isDatabaseCon()){
+        /* if(db.isDatabaseCon()){
             this.status.setText("Online");
          }
          else{
              this.status.setText("OffLine");
-         }
+         }*/
+        db = new dbConnection();
+
+        if(dao.phpConnection() || db.isDatabaseCon()){
+            this.status.setText("Online");
+            dao.getAll();
+        }
+        else{
+            this.status.setText("OffLine");
+        }
 
          combo.getItems().addAll(loginType.values());
-         combo.setValue("Admin/User");
+         //combo.setValue("Admin/User");
+
+
+
+         signbtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+             @Override
+             public void handle(MouseEvent event) {
+                 try {
+                     signUpMethod();
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                 }
+             }
+         });
     }
 
 
@@ -76,9 +104,11 @@ public class Controller implements Initializable {
         String option = this.combo.getValue().toString();
 
 
+        /*db.isLogin(username,password,option);*/
+
 
         try {
-            if(db.isLogin(username,password,option)){
+            if(dao.phpIsLogin(username,password,option)){
                session.setPref(true,username,password);
 
 
@@ -95,7 +125,7 @@ public class Controller implements Initializable {
                         break;
                 }
             } else{
-                this.errorMsg.setText("wrong information");
+                this.errorMsg.setText("Error");
                 System.out.print(username+" "+password+" "+option);
             }
         } catch (Exception e) {

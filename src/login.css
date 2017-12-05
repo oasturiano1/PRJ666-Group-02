@@ -1,13 +1,49 @@
-#log{
-    -fx-font: 12px "Serif";
-}
 #logCombo{
- -fx-background-color: white;
+   /*-fx-background-color: transparent;*/
+    -fx-background-color: #384146;
+    -fx-font-family: arial;
+    -fx-text-fill: white
 }
+
 #logPane{
--fx-background-color: #4682B4;
+   -fx-background-image: url("LoginFull.png");
+   /* -fx-background-size: cover;*/
+    -fx-background-color: dd6765;
+   /* -fx-background-color: white;*/
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-marggin-top: 25px;
+
 }
-#logmail{
-  -fx-background-color:green;
+#member{
+    -fx-background-image: url("memeber.png");
+    -fx-background-repeat: no-repeat;
 }
+#emailIcon{
+    -fx-background-image: url("icon1.png");
+    -fx-background-repeat: no-repeat;
+}
+#passwordIcon{
+    -fx-background-image: url("lock.png");
+    -fx-background-repeat: no-repeat
+}
+#greenBtn{
+    -fx-background-image: url("button2.png");
+    -fx-background-repeat: no-repeat;
+}
+#btnStand{
+    -fx-background-image: url("buttonstand.png");
+    -fx-background-repeat: no-repeat;
+}
+#cancelBtn{
+    -fx-background-image: url("remove.png");
+    -fx-background-repeat: stretch;
+    -fx-background-color: #384146;
+}
+
+/*.combo-box .list-view .list-cell {
+    -fx-text-fill: red;
+    -fx-prompt-text-fill: orangered;
+}*/
+
 

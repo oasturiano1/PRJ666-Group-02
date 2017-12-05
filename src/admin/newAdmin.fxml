@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1328.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.adminController">
+<AnchorPane prefHeight="720.0" prefWidth="1328.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.adminController">
    <children>
       <MenuBar layoutX="-3.0" layoutY="-1.0" prefHeight="32.0" prefWidth="1376.0">
          <menus>
@@ -96,9 +96,9 @@
                                  </padding>
                               </GridPane>
                               <JFXButton id="bevel-grey" fx:id="addRecords" buttonType="RAISED" layoutX="94.0" layoutY="550.0" prefHeight="25.0" prefWidth="81.0" stylesheets="@adminStyle.css" text="Add Record" />
-                              <JFXButton id="bevel-grey" fx:id="updateRecords" buttonType="RAISED" layoutX="233.0" layoutY="550.0" onAction="#setUpdateRecords" prefHeight="25.0" prefWidth="81.0" stylesheets="@adminStyle.css" text="Update" />
+                              <JFXButton id="bevel-grey" fx:id="updateRecords" buttonType="RAISED" layoutX="233.0" layoutY="550.0" onAction="#phpUpdateFields" prefHeight="25.0" prefWidth="81.0" stylesheets="@adminStyle.css" text="Update" />
                               <JFXButton id="bevel-grey" fx:id="clearRecords" buttonType="RAISED" layoutX="233.0" layoutY="609.0" onAction="#clearFields" prefHeight="25.0" prefWidth="81.0" stylesheets="@adminStyle.css" text="Clear" />
-                              <JFXButton id="bevel-red" fx:id="deleteRecords" buttonType="RAISED" layoutX="94.0" layoutY="609.0" onAction="#deleteFields" prefHeight="25.0" prefWidth="81.0" stylesheets="@adminStyle.css" text="Delete" />
+                              <JFXButton id="bevel-red" fx:id="deleteRecords" buttonType="RAISED" layoutX="94.0" layoutY="609.0" onAction="#phpDeleteFields" prefHeight="25.0" prefWidth="81.0" stylesheets="@adminStyle.css" text="Delete" />
                               <Separator layoutX="23.0" layoutY="46.0" prefHeight="10.0" prefWidth="374.0" />
                               <VBox layoutX="27.0" layoutY="562.0" spacing="30.0" />
                               <Separator layoutX="23.0" layoutY="671.0" prefHeight="3.0" prefWidth="374.0" />
@@ -162,7 +162,7 @@
                                     <TableColumn fx:id="emailCol" prefWidth="102.0" text="Email" />
                                  </columns>
                               </TableView>
-                              <TextField id="search" fx:id="searchId" layoutX="538.0" layoutY="3.0" onAction="#loadSelectedData" prefHeight="41.0" prefWidth="182.0" promptText="first,last" stylesheets="@adminStyle.css" />
+                              <TextField id="search" fx:id="searchId" layoutX="538.0" layoutY="3.0" onAction="#phpLoadSelectedData" prefHeight="41.0" prefWidth="182.0" promptText="first,last" stylesheets="@adminStyle.css" />
                               <Button fx:id="searchButton" layoutX="497.0" layoutY="7.0" mnemonicParsing="false">
                                  <graphic>
                                     <ImageView fx:id="btnExport1" fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">

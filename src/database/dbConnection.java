@@ -22,8 +22,8 @@ public class dbConnection {
 
 
         try {
-           // Class.forName("com.mysql.jdbc.Driver");
-           Class.forName("org.sqlite.JDBC");
+            // Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.sqlite.JDBC");
             con =  DriverManager.getConnection(sqliteCon);
             return con;
         } catch (ClassNotFoundException e) {
@@ -58,9 +58,9 @@ public class dbConnection {
             checkStmt = con.prepareStatement(checksql);
 
             if(opt == "ADMIN"){
-            checkStmt.setString(1,name);
-            checkStmt.setString(2,pass);
-            checkStmt.setString(3,opt);
+                checkStmt.setString(1,name);
+                checkStmt.setString(2,pass);
+                checkStmt.setString(3,opt);
             }else{
                 checkStmt.setString(1,name);
                 checkStmt.setString(2,pass);
@@ -73,7 +73,7 @@ public class dbConnection {
             return false;
 
         } catch (SQLException e) {
-           return  false;
+            return  false;
         } finally {
             {
                 checkStmt.close();
@@ -454,6 +454,7 @@ public class dbConnection {
                 vol.id = resultSet.getInt("id");
                 vol.fname = resultSet.getString("fname");
                 vol.lname = resultSet.getString("lname");
+                vol.email = resultSet.getString("email");
                 //vol.hoursCon = resultSet.getString("hoursContributed");
 
                 System.out.println("User Found");
@@ -550,6 +551,28 @@ public class dbConnection {
         } catch (SQLException e) {
             System.out.println(e);
             return  recs;
+        }
+    }
+
+    public boolean driveExists(drive r){
+
+        String checksql;
+        Statement stmt = null;
+        ResultSet resultSet = null;
+        checksql = "SELECT * FROM drives WHERE startDate = '" + r.start + "' AND endDate = '" + r.end +"'";
+
+        try {
+            stmt = con.createStatement();
+            resultSet = stmt.executeQuery(checksql);
+
+            if(resultSet.next()){
+                return true;
+            }else {
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+            return  false;
         }
     }
 
