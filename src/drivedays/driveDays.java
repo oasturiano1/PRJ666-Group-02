@@ -1,5 +1,6 @@
 package drivedays;
 
+import database.DAO;
 import database.dbConnection;
 import database.userObject;
 import drives.drive;
@@ -79,6 +80,7 @@ public class driveDays  extends Application implements Initializable {
     @FXML
     ListView<String> studentcontributionlist;*/
 
+    DAO dao;
     dbConnection db;
     List<record> records = new ArrayList();
     List<userObject> volRecords = new ArrayList();
@@ -142,6 +144,7 @@ public class driveDays  extends Application implements Initializable {
     }
 
     public void setDrive(drive sd){
+        dao = new DAO();
         selectD = sd;
         selUser = new userObject();
         drivestart.setText("Drive Days for "  +selectD.start + " drive");
@@ -149,13 +152,13 @@ public class driveDays  extends Application implements Initializable {
 
 
 
-        try {
-            Connection connection = db.connect();
-            records = db.getRecordsByDrive(selectD.start);
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        //try {
+            //Connection connection = db.connect();
+            records = dao.phpgetAllDriveDays(selectD.start);
+            //connection.close();
+        //} catch (SQLException e) {
+        //    e.printStackTrace();
+        //}
 
         daysList.getItems().clear();
         for(int i = 0; i < records.size(); i++){
@@ -181,17 +184,17 @@ public class driveDays  extends Application implements Initializable {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 selDay = LocalDate.parse(opDay, formatter);
 
-                try {
-                    Connection connection = db.connect();
-                    volRecords = db.getVolunteersByDate(opDay);
-                    connection.close();
+                //try {
+                    //Connection connection = db.connect();
+                    volRecords = dao.phpgetAllDriveDayRecords(opDay);
+                    //connection.close();
                     volList.getItems().clear();
                     for(int i = 0; i < volRecords.size(); i++){
                         volList.getItems().add(volRecords.get(i).fname + " " + volRecords.get(i).lname);
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                //} catch (SQLException e) {
+                //    e.printStackTrace();
+                //}
             }
         });
 
@@ -236,15 +239,16 @@ public class driveDays  extends Application implements Initializable {
     }
 
     @FXML
-    public void loadData() throws SQLException {
-        Connection connection = db.connect();
-        records = db.getRecordsByDrive(selectD.start);
+    public void loadData() {
         daysList.getItems().clear();
+        //Connection connection = db.connect();
+        records = dao.phpgetAllDriveDays(selectD.start);
+        //daysList.getItems().clear();
         for(int i = 0; i < records.size(); i++){
             daysList.getItems().add(records.get(i).operationDayDate);
             System.out.println(records.get(i).operationDayDate);
         }
-        connection.close();
+        //connection.close();
     }
 
     @Override

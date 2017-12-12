@@ -1,6 +1,7 @@
 package drives;
 
 import com.jfoenix.controls.JFXDatePicker;
+import database.DAO;
 import database.dbConnection;
 import database.userObject;
 import drivedays.driveDays;
@@ -61,7 +62,7 @@ public class drivesController extends Application implements Initializable {
     boolean errCatch = true;
 
 
-
+    DAO dao;
     dbConnection db;
     List<drive> drives = new ArrayList();
 
@@ -88,7 +89,7 @@ public class drivesController extends Application implements Initializable {
     @FXML
     public void viewDriveDays() throws IOException {
         System.out.println("PRESSING!");
-        if(selectD.id != 0) {
+        if(selectD.start.compareTo("") != 0 || selectD.end.compareTo("") != 0) {
             Stage driveStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
             Pane root = null;
@@ -110,16 +111,21 @@ public class drivesController extends Application implements Initializable {
     @FXML
     public void addDrive() throws SQLException {
         dateCompare(errmsg);
+
+
+
         if(errCatch){
 
             String startDate = sDate.toString();
             String endDate = eDate.toString();
 
+            drive d = new drive();
+            d.setDrive(startDate,endDate);
 
-            Connection connection = db.connect();
+            //Connection connection = db.connect();
             System.out.println("DATES ARE OKAY");
-            boolean success = db.addDrive(startDate,endDate);
-            connection.close();
+            boolean success = dao.phpAddDrive(d);
+            //connection.close();
             if(success){
                 errmsg.setText("Drive Added!");
                 loadData();
@@ -134,14 +140,14 @@ public class drivesController extends Application implements Initializable {
 
     @FXML
     public void loadData() throws SQLException {
-        Connection connection = db.connect();
+        //Connection connection = db.connect();
         drivesList.getItems().clear();
-        drives = db.getDrives();
+        drives = dao.getAllDrives();
         for(int i = 0; i < drives.size(); i++){
             drivesList.getItems().add(drives.get(i).start);
             System.out.println(drives.get(i).start);
         }
-        connection.close();
+        //connection.close();
     }
 
     public void getDateStart(){
@@ -161,9 +167,9 @@ public class drivesController extends Application implements Initializable {
             drive r = new drive();
             r.start = sDate.toString();
             r.end = eDate.toString();
-            Connection connection = db.connect();
-            boolean exists = db.driveExists(r);
-            connection.close();
+            //Connection connection = db.connect();
+            boolean exists = dao.phpDriveExists(r);
+            //connection.close();
 
             if (sDate.equals(eDate)) {
                 sd.setText("Dates are identical!");
@@ -183,32 +189,34 @@ public class drivesController extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        dao = new DAO();
         db = new dbConnection();
         sDatePicker.setValue(LocalDate.now());
         eDatePicker.setValue(LocalDate.now());
         sDate = sDatePicker.getValue();
         eDate = eDatePicker.getValue();
 
-        try {
-            Connection connection = db.connect();
-            drives = db.getDrives();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        //try {
+            //Connection connection = db.connect();
+            drives = dao.getAllDrives();
+            //connection.close();
+        //} catch (SQLException e) {
+        //    e.printStackTrace();
+        //}
 
-        drivesList.getItems().clear();
-        for(int i = 0; i < drives.size(); i++){
-            drivesList.getItems().add(drives.get(i).start);
-            System.out.println(drives.get(i).start);
+        if(drives != null) {
+            drivesList.getItems().clear();
+            for (int i = 0; i < drives.size(); i++) {
+                drivesList.getItems().add(drives.get(i).start);
+                System.out.println(drives.get(i).start);
+            }
         }
-
         drivesList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent event) {
-                try {
-                    Connection connection = db.connect();
+                //try {
+                    //Connection connection = db.connect();
                     System.out.println("clicked on " + drivesList.getSelectionModel().getSelectedItem());
                     String start = drivesList.getSelectionModel().getSelectedItem();
                     selectD = new drive();
@@ -216,10 +224,10 @@ public class drivesController extends Application implements Initializable {
 
                     sDateLabel.setText(selectD.start);
                     eDateLabel.setText(selectD.end);
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                    //connection.close();
+                //} catch (SQLException e) {
+                //    e.printStackTrace();
+                //}
             }
         });
 

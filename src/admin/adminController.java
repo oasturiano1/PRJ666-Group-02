@@ -9,6 +9,7 @@ package admin;
         import database.dbConnection;
         import database.userObject;
         import drives.drivesController;
+        import gui.Controller;
         import javafx.beans.value.ChangeListener;
         import javafx.beans.value.ObservableValue;
         import javafx.collections.FXCollections;
@@ -653,6 +654,31 @@ public class adminController implements Initializable {
 
     }
 
+    @FXML
+    public void signout(Event event) throws IOException {
+
+        close();
+    }
+
+    @FXML
+    public void close() throws IOException {
+
+        //OPEN LOGIN HERE
+
+        Stage userStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = (Pane) loader.load(getClass().getResource("/gui/login.fxml").openStream());
+        Controller ac =(Controller) loader.getController();
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("login.css");
+        userStage.setScene(scene);
+        //userStage.setTitle("EDIT PROFILE");
+        userStage.show();
+
+        Stage stage = (Stage) searchButton.getScene().getWindow();
+        stage.close();
+    }
 
 
     /* PHP*/
@@ -691,7 +717,7 @@ public class adminController implements Initializable {
     @FXML
     public void phpAddData(){
         BufferedReader in;
-        String input = "http://rose-wood-food-drive.000webhostapp.com/insertAll.php?fname=" + this.fname.getText() +"&lname="+ this.lname.getText()+"&email="+this.email.getText()+
+        String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/insertAll.php?fname=" + this.fname.getText() +"&lname="+ this.lname.getText()+"&email="+this.email.getText()+
                 "&phoneNumber="+this.phoneNum.getText()+ "&password="+this.passw.getText()+
                 "&hoursTotal="+this.totHours.getText()+"&hoursSigned="+this.totSigned.getText()+
                 "&contactName="+this.contactName.getText()+"&contactPhone="+this.contactNum.getText();
@@ -736,7 +762,7 @@ public class adminController implements Initializable {
 
             if(dao.phpConnection()){
                 try {
-                    URL connectURL = new URL("http://rose-wood-food-drive.000webhostapp.com/deleteFields.php?fname=" + split[0] +"&lname="+split[1]);
+                    URL connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/deleteFields.php?fname=" + split[0] +"&lname="+split[1]);
                     in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
 
                     while((inputLine = in.readLine()) != null){
@@ -760,7 +786,7 @@ public class adminController implements Initializable {
 
     @FXML
     public void phpUpdateFields(ActionEvent event){
-        String input = "http://rose-wood-food-drive.000webhostapp.com/updateData.php?fname=" + this.fname.getText() +"&lname="+ this.lname.getText()+"&email="+this.email.getText()+
+        String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/updateData.php?fname=" + this.fname.getText() +"&lname="+ this.lname.getText()+"&email="+this.email.getText()+
                 "&phoneNumber="+this.phoneNum.getText()+ "&password="+this.passw.getText()+
                 "&hoursTotal="+this.totHours.getText()+"&hoursSigned="+this.totSigned.getText()+
                 "&contactName="+this.contactName.getText()+"&contactPhone="+this.contactNum.getText();
@@ -803,7 +829,8 @@ public class adminController implements Initializable {
         String searchKey = this.searchId.getText();
         BufferedReader in;
         String inputLine;
-        String[] split = searchKey.split("\\s*,\\s*");
+        String[] split = {"",""};
+        split = searchKey.split("\\s*,\\s*");
         List<String> ls = new ArrayList<>();
         String[] str;
         this.observableList = FXCollections.observableArrayList();
@@ -814,7 +841,13 @@ public class adminController implements Initializable {
         if(dao.phpConnection()){
             URL connectURL = null;
             try {
-                connectURL = new URL("http://rose-wood-food-drive.000webhostapp.com/loadSelectedRow.php?fname="+split[0]+"&lname="+split[1]);
+
+                if(split.length == 1){
+                    connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/loadSelectedRow.php?fname="+split[0]);
+                }else {
+                    connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/loadSelectedRow.php?fname=" + split[0] + "&lname=" + split[1]);
+                }
+
                 in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
 
                 while((inputLine = in.readLine()) != null){

@@ -1,5 +1,6 @@
 package drives;
 
+import database.DAO;
 import database.dbConnection;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -25,6 +26,8 @@ public class addDrive extends Application implements Initializable{
 
     dbConnection db;
 
+    DAO dao;
+
     @FXML
     private javafx.scene.control.TextField sDate;
 
@@ -49,6 +52,7 @@ public class addDrive extends Application implements Initializable{
 
     @FXML
     public void addDrive() throws SQLException {
+        dao = new DAO();
         String sdate = "";
         String edate = "";
         sdate = sDate.getText();

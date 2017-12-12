@@ -1,5 +1,6 @@
 package volunteerdays;
 
+import database.DAO;
 import database.dbConnection;
 import database.userObject;
 import drives.drive;
@@ -39,6 +40,8 @@ public class addVolunteers extends Application {
 
     dbConnection db;
 
+    DAO dao;
+
     @FXML
     private javafx.scene.control.TextField hoursCont;
 
@@ -69,17 +72,18 @@ public class addVolunteers extends Application {
     }
 
     public void setAddVol(String select, drive sd){
+        dao = new DAO();
         db = new dbConnection();
         opDay = select;
         selectD = sd;
         this.db = db;
-        try {
-            Connection connection = db.connect();
-            vols = db.getVols();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        //try {
+            //Connection connection = db.connect();
+            vols = dao.phpgetAllVolunteers();
+            //connection.close();
+        //} catch (SQLException e) {
+        //    e.printStackTrace();
+        //}
         range.setText("Add volunteers to operation day " + opDay);
 
         for(int i = 0; i < vols.size(); i++){
@@ -116,10 +120,10 @@ public class addVolunteers extends Application {
 
         volunteerList.getItems().clear();
         vols.clear();
-        try {
-            Connection connection = db.connect();
+        //try {
+            //Connection connection = db.connect();
             if(volSearch.getText().compareTo("") == 0){
-                vols = db.getVols();
+                vols = dao.phpgetAllVolunteers();
                 for(int i = 0; i < vols.size(); i++){
                     volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
                 }
@@ -141,10 +145,10 @@ public class addVolunteers extends Application {
                     volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
                 }
             }
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            //connection.close();
+        //} catch (SQLException e) {
+        //    e.printStackTrace();
+        //}
     }
 
     @FXML
@@ -177,18 +181,18 @@ public class addVolunteers extends Application {
                 //if(db.recordExists(r)) {
                    //record already exists
                 //}else{
-                try {
-                    Connection connection = db.connect();
-                    boolean success = db.addRecord(r);
+                //try {
+                    //Connection connection = db.connect();
+                    boolean success = dao.phpAddRecord(r);
                     if(success){
                         error.setText("Drive Added!");
                     }else {
                         error.setText("Drive Could Not Be Added!");
                     }
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                    //connection.close();
+                //} catch (SQLException e) {
+                //    e.printStackTrace();
+                //}
                 //}
             //}
 

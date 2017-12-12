@@ -5,7 +5,7 @@ import java.util.Date;
 public class drive {
 
     public int id;
-    public String start, end;
+    public String start, end, name;
 
     public drive(){
 

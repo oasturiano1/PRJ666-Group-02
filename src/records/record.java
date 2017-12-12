@@ -4,14 +4,15 @@ import java.util.Date;
 
 public class record {
 
-    public int operationRecordId, driveId, volunteerId, hoursContributed;
+    public int operationRecordId, driveId, volunteerId;
+    public double  hoursContributed;
     public String operationDayDate, driveStartDate;
 
     public record(){
 
     }
 
-    public record(int ori, String dsd, int di, int vi, int hours, String date){
+    public record(int ori, String dsd, int di, int vi, double hours, String date){
         operationRecordId = ori;
         driveStartDate = dsd;
         driveId = di;

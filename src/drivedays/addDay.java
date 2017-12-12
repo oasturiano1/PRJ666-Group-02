@@ -1,6 +1,7 @@
 package drivedays;
 
 import com.jfoenix.controls.JFXDatePicker;
+import database.DAO;
 import database.dbConnection;
 import database.userObject;
 import drives.drive;
@@ -46,6 +47,8 @@ public class addDay extends Application implements Initializable{
             Pattern.compile("[0-9]{4}[-]{1}[0-9]{2}[-]{1}[0-9]{2}");
 
     dbConnection db;
+
+    DAO dao;
 
     @FXML
     private javafx.scene.control.TextField hoursCont;
@@ -93,6 +96,7 @@ public class addDay extends Application implements Initializable{
 
     public void setDrive(drive selectDrive, LocalDate selectDay, userObject selectUser){
         int selectedVolIndex = 0;
+        dao = new DAO();
         db = new dbConnection();
         selectD = selectDrive;
 
@@ -108,13 +112,14 @@ public class addDay extends Application implements Initializable{
         sDate = LocalDate.parse(selectD.start, formatter);
         eDate = LocalDate.parse(selectD.end, formatter);
 
-        try {
-            Connection connection = db.connect();
-            vols = db.getVols();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        //try {
+            //Connection connection = db.connect();
+
+            vols = dao.phpgetAllVolunteers();
+            //connection.close();
+        //} catch (SQLException e) {
+        //    e.printStackTrace();
+        //}
         ObservableList<String> list = FXCollections.observableArrayList();
         volunteerList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -153,13 +158,13 @@ public class addDay extends Application implements Initializable{
         volunteerList.getItems().clear();
         vols.clear();
 
-        try {
-            Connection connection = db.connect();
+        //try {
+            //Connection connection = db.connect();
 
 
 
             if(volSearch.getText().compareTo("") == 0){
-                vols = db.getVols();
+                vols = dao.phpgetAllVolunteers();
                 for(int i = 0; i < vols.size(); i++){
                     volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
                 }
@@ -171,19 +176,19 @@ public class addDay extends Application implements Initializable{
                 sp = name.split(" ");
 
                 if(sp.length == 1) {
-                    vols = db.searchVols(sp[0], " ");
+                    vols = dao.phpgetVolunteer(sp[0], " ");
                 }else if(sp.length == 2){
-                    vols = db.searchVols(sp[0], sp[1]);
+                    vols = dao.phpgetVolunteer(sp[0], sp[1]);
                 }
 
                 for(int i = 0; i < vols.size(); i++){
                     volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
                 }
             }
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            //connection.close();
+        //} catch (SQLException e) {
+        //    e.printStackTrace();
+        //}
     }
 
     public void getDay(){
@@ -200,7 +205,7 @@ public class addDay extends Application implements Initializable{
         if(errCatch) {
             String date = "";
             date = day.toString();
-            Connection connection = db.connect();
+            //Connection connection = db.connect();
             if (date.compareTo("") != 0) {
                 boolean smatch = true;
                 boolean ematch = true;
@@ -214,36 +219,67 @@ public class addDay extends Application implements Initializable{
 
 
                     String dstartd = selectD.start;
-                    String daydate = dayDate.getText().toString();
+                    String daydate = dateDayPicker.getValue().toString();
                     //sel;
                     r.driveStartDate = selectD.start;
-                    r.operationDayDate = dayDate.getText().toString();
+                    r.operationDayDate = daydate;
                     r.driveId = selectD.id;
                     r.volunteerId = sel.id;
                     r.hoursContributed = Integer.parseInt(hoursCont.getText().toString());
 
-                    boolean success = db.addRecord(r);
-                    if (success) {
-                        error.setText("Drive Added!");
-                    } else {
-                        error.setText("Drive Could Not Be Added!");
+
+                    record recExists = dao.getRecord(r);
+                    if(recExists != null){
+//TODO THIS
+
+                        double prev = recExists.hoursContributed;
+                        double diff = r.hoursContributed - prev;
+
+                        userObject prevRec = new userObject();
+                        prevRec = dao.phpGetUserById(recExists.volunteerId);
+
+                        double ht = Double.parseDouble(prevRec.hourstotal) + diff;
+
+
+
+                        //u = dao.get
+
+                        //double newTotal = r.hoursContributed + diff;
+
+
+
+                        boolean success = dao.phpUpdateRecord(r);
+                        dao.phpUpdateHoursTotal(r.volunteerId,ht);
+                        if (success) {
+                            error.setText("Record Updated!");
+                        } else {
+                            error.setText("Record Could Not Be Updated!");
+                        }
+                    }else {
+                        boolean success = dao.phpAddRecord(r);
+                        if (success) {
+                            error.setText("Record Added!");
+                        } else {
+                            error.setText("Record Could Not Be Added!");
+                        }
                     }
+
                 }
 
                 System.out.println(date);
 
             }
-            connection.close();
+            //connection.close();
         }
 
 
     }
 
 
-    public void dateCompare(Labeled sd) throws SQLException {
+    public void dateCompare(Labeled sd) throws SQLException {//TODO check if works
         errCatch = false;
-        Connection connection = db.connect();
-        connection.close();
+        //Connection connection = db.connect();
+        //connection.close();
 
         if(day == null){
             sd.setText("Date is required!!");

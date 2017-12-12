@@ -1,5 +1,6 @@
 package user;
 
+import database.DAO;
 import database.dbConnection;
 import database.userObject;
 import drives.drivesController;
@@ -36,6 +37,7 @@ import java.util.logging.Logger;
 
 public class userController extends Application implements Initializable{
 
+    DAO dao;
     dbConnection db;
     @FXML
     ListView<String> contributionsList;
@@ -49,6 +51,8 @@ public class userController extends Application implements Initializable{
     @FXML Labeled cnumber;
 
     @FXML private javafx.scene.control.Button sgnout;
+
+   // @FXML private MenuItem sgnout;
 
 
 
@@ -101,6 +105,7 @@ public class userController extends Application implements Initializable{
 
 
     public void setUser(userObject userobj){
+        dao = new DAO();
         user = userobj;
         System.out.print("User set!");
         tfullname.setText(user.fname + " " + user.lname);
@@ -115,15 +120,16 @@ public class userController extends Application implements Initializable{
         List<record> contributions = new ArrayList();
         //db = new dbConnection();
 
-        try {
-            Connection connection = db.connect();
-            contributions = db.getVolunteerContributions(user.id);
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        //try {
+            //Connection connection = db.connect();
+            //contributions = db.getVolunteerContributions(user.id);
+            contributions = dao.getVolunteerContributions(user.id);
+            //connection.close();
+        //} catch (SQLException e) {
+        //    e.printStackTrace();
+        //}
 
-
+        if(contributions != null)
         for(int i = 0; i < contributions.size(); i++){
             contributionsList.getItems().add(contributions.get(i).operationDayDate + " Contributed " + contributions.get(i).hoursContributed + " Hours");
 
@@ -146,6 +152,7 @@ public class userController extends Application implements Initializable{
         Controller ac =(Controller) loader.getController();
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("login.css");
         userStage.setScene(scene);
         //userStage.setTitle("EDIT PROFILE");
         userStage.show();

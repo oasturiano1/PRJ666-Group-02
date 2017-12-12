@@ -7,6 +7,7 @@ import database.DAO;
 import database.dbConnection;
 import database.loginType;
 import database.userObject;
+import gui.Controller;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -66,6 +67,8 @@ public class SignUp extends Application implements Initializable{
 
     @FXML
     private Button signupbtn;
+
+    @FXML private javafx.scene.control.Button cancel;
 
     private Boolean errCatch = false;
 
@@ -196,12 +199,12 @@ public class SignUp extends Application implements Initializable{
 
     }
 
-    public void mailTester(JFXTextField textField) throws SQLException {
+    public void mailTester(JFXTextField textField){
         errCatch = formValidation.isMail(textField.getText());
 
-        Connection connection = db.connect();
-        boolean emailExists = db.emailExists(email.getText());
-        connection.close();
+        //Connection connection = db.connect();
+        //boolean emailExists = db.emailExists(email.getText());
+        //connection.close();
 
         if (errCatch == false) {
             textField.setFocusColor(RED);
@@ -272,18 +275,38 @@ public class SignUp extends Application implements Initializable{
 
         fname.textProperty().addListener(e -> ErrTester(fname));
         lname.textProperty().addListener(e -> ErrTester(lname));
-        email.textProperty().addListener(e -> {//This contnains a db query to check if email already exists
-            try {
-                mailTester(email);
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        });
+        //email.textProperty().addListener(e -> {//This contnains a db query to check if email already exists
+        //    try {
+        //        mailTester(email);
+         //   } catch (SQLException e1) {
+         //       e1.printStackTrace();
+         //   }
+        //});
         number.textProperty().addListener(e -> phoneTester(number));
         pass.textProperty().addListener(e -> passTester(pass,passconf));
         //passconf.textProperty().addListener(e -> passTester(passconf));
         passconf.textProperty().addListener(e -> passConfTester(pass,passconf));
         emname.textProperty().addListener(e -> ErrTester(emname));
         emnumber.textProperty().addListener(e -> phoneTester(emnumber));
+    }
+
+    @FXML
+    public void close() throws IOException {
+
+        //OPEN LOGIN HERE
+
+        Stage userStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = (Pane) loader.load(getClass().getResource("/gui/login.fxml").openStream());
+        Controller ac =(Controller) loader.getController();
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("login.css");
+        userStage.setScene(scene);
+        //userStage.setTitle("EDIT PROFILE");
+        userStage.show();
+
+        Stage stage = (Stage) cancel.getScene().getWindow();
+        stage.close();
     }
 }

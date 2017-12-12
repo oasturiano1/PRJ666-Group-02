@@ -198,7 +198,8 @@ public class Controller implements Initializable {
         //Stage stage = (Stage)this.si
 
         //.getScene().getWindow();
-        //stage.close();
+        Stage stage = (Stage)this.okbtn.getScene().getWindow();
+        stage.close();
 
     }
 

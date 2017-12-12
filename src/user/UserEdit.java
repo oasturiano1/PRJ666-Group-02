@@ -104,7 +104,7 @@ public class UserEdit extends Application implements Initializable{
         newUser.ephone = emnumber.getText();
         newUser.hourstotal = user.hourstotal;
         newUser.hourssigned = user.hourssigned;
-        Connection connection = db.connect();
+        //Connection connection = db.connect();
 
         if(newUser.fname.isEmpty()||
                 newUser.lname.isEmpty()||
@@ -127,7 +127,7 @@ public class UserEdit extends Application implements Initializable{
         //need to add more constraints
 
         if(errCatch){
-            boolean success = dao.phpAddData(newUser);
+            boolean success = dao.phpUpdateData(newUser);
             //boolean success = db.editUser(newUser, user);
             if(success){
                 try {
@@ -148,7 +148,7 @@ public class UserEdit extends Application implements Initializable{
                     userStage.show();
 
 
-                    Stage stage = (Stage) signupbtn.getScene().getWindow();
+                    Stage stage = (Stage) cancel.getScene().getWindow();
                     stage.close();
 
                 } catch (IOException e) {
@@ -156,7 +156,7 @@ public class UserEdit extends Application implements Initializable{
                 }
             }
         }
-        connection.close();
+        //connection.close();
     }
 
     @FXML
