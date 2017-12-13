@@ -19,7 +19,7 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-      <JFXCheckBox layoutX="500.0" layoutY="486.0" text="Remeber me" textFill="#cd9f15" />
+      <!--<JFXCheckBox layoutX="500.0" layoutY="486.0" text="Remember me" textFill="#cd9f15" />-->
       <Label id="member" layoutX="596.0" layoutY="217.0" prefHeight="25.0" prefWidth="142.0" styleClass="member" stylesheets="@../login.css" />
       <Label id="emailIcon" layoutX="532.0" layoutY="260.0" prefHeight="25.0" prefWidth="28.0" styleClass="emailIcon" stylesheets="@../login.css" />
       <Label id="passwordIcon" alignment="TOP_CENTER" layoutX="531.0" layoutY="291.0" styleClass="passwordIcon" stylesheets="@../login.css" />

@@ -11,6 +11,10 @@ public class formValidation {
     public static Boolean isNameCor(String name){
         String regex = "[a-zA-Z]+";
 
+        if(regex.length() > 25){
+            return false;
+        }
+
         if(name.matches(regex)){
             return true;
         }else if(name.isEmpty()){
