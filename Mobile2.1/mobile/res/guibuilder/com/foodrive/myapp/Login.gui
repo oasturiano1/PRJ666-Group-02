@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" styles="bgImage:;" title="" name="Login">
+  <component type="Label" text=" " name="Label">
+    <layoutConstraint insets="3.5279584mm 5.0mm auto 5.0mm" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="MEMBER LOGIN" icon="fontImage:e897" name="Label_1">
+    <layoutConstraint insets="2.2931728mm auto auto auto" referenceComponents="0 -1 -1 -1" referencePositions="1.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Container" layout="BoxLayout" boxLayoutAxis="Y"  name="Box_Layout_Y">
+    <layoutConstraint insets="38.796417% 3.527959mm 4.0571537mm -1.4111836mm" referenceComponents="-1 0 -1 0 " referencePositions="0.0 0.0 0.0 0.0" />
+    <component type="TextField" text="Email" name="Text_Field_1">
+    </component>
+    <component type="TextField" text="Password" name="Text_Field">
+    </component>
+    <component type="Button" text="Login" name="Button_1">
+    </component>
+    <component type="Button" text="Sign-up" name="Button_2">
+    </component>
+  </component>
+</component>
