@@ -1,0 +1,13 @@
+#signUpLogPane{
+    -fx-background-image: url("signupBack2.png");
+    /* -fx-background-size: cover;*/
+    -fx-background-color: black;
+    /* -fx-background-color: white;*/
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-marggin-top: 25px;
+
+}
+#signName{
+    -fx-background-image: url("signUpBack.png");
+}
