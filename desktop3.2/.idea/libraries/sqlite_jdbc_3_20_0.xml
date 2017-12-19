@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="sqlite-jdbc-3.20.0">
+    <CLASSES>
+      <root url="jar://E:/all files/sqlite-jdbc-3.20.0.jar!/" />
+      <root url="jar://E:/all files/jfoenix.jar!/" />
+      <root url="jar://E:/poi-3.17/poi-3.17.jar!/" />
+      <root url="jar://E:/poi-3.17/poi-ooxml-3.17.jar!/" />
+      <root url="jar://E:/poi-3.17/poi-ooxml-schemas-3.17.jar!/" />
+      <root url="jar://E:/poi-3.17/ooxml-lib/xmlbeans-2.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://E:/all files/mysql-connector-java-5.1.44.zip!/mysql-connector-java-5.1.44/src" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="logPane" fx:id="apane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="496.0" styleClass="logpane" stylesheets="@../login.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
+   <children>
+      <Label fx:id="status" layoutX="248.0" layoutY="37.0" text="Db status" textFill="WHITE" />
+      <Label fx:id="dbstatus" layoutX="539.0" layoutY="154.0" />
+      <TextField id="log" fx:id="username" alignment="TOP_CENTER" layoutX="107.0" layoutY="132.0" prefHeight="36.0" prefWidth="282.0" promptText="Email" stylesheets="@../login.css" />
+      <PasswordField id="log" fx:id="password" alignment="TOP_CENTER" layoutX="107.0" layoutY="185.0" prefHeight="36.0" prefWidth="282.0" promptText="Password" stylesheets="@../login.css" />
+      <Label fx:id="errorMsg" layoutX="610.0" layoutY="159.0" prefHeight="25.0" prefWidth="117.0" textAlignment="CENTER" textFill="#f24141">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <!--<JFXCheckBox layoutX="500.0" layoutY="486.0" text="Remember me" textFill="#cd9f15" />-->
+      <Label id="member" layoutX="177.0" layoutY="87.0" prefHeight="25.0" prefWidth="142.0" styleClass="member" stylesheets="@../login.css" />
+      <Label id="emailIcon" layoutX="107.0" layoutY="138.0" prefHeight="25.0" prefWidth="28.0" styleClass="emailIcon" stylesheets="@../login.css" />
+      <Label id="passwordIcon" alignment="TOP_CENTER" layoutX="531.0" layoutY="291.0" styleClass="passwordIcon" stylesheets="@../login.css" />
+      <Label id="passwordIcon" layoutX="531.0" layoutY="291.0" styleClass="passwordIcon" stylesheets="@../login.css" />
+      <Label id="passwordIcon" layoutX="107.0" layoutY="191.0" prefHeight="25.0" prefWidth="28.0" styleClass="passwordIcon" stylesheets="@../login.css" />
+      <JFXButton id="greenBtn" fx:id="okbtn" layoutX="97.0" layoutY="235.0" onAction="#loginMethod" prefHeight="75.0" prefWidth="302.0" styleClass="greenBtn" stylesheets="@../login.css" text="Login" AnchorPane.rightAnchor="97.0">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="signbtn" layoutX="238.0" layoutY="335.0" text="Signup" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

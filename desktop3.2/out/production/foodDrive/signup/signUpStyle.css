@@ -1,0 +1,24 @@
+#signUpLogPane{
+    /* -fx-background-image: url("signupBack2.png");
+     !* -fx-background-size: cover;*!
+     -fx-background-color: black;
+     !* -fx-background-color: white;*!
+     -fx-background-repeat: no-repeat;
+     -fx-background-position: center center;
+     -fx-marggin-top: 25px;*/
+   /* -fx-background-color: #f3f3f3;*/
+    /*-fx-background-image: url("/loginFull.png")*/
+    //-fx-background-color: gray;
+    -fx-background-image: url("signUpBack2.png");
+
+}
+#signName{
+    -fx-background-image: url("signUpBack.png");
+}
+
+.card{
+    -fx-background-color: rgb(255,255,255);
+    -fx-background-radius: 4.0;
+    -fx-effect: dropshadow(gaussian, rgb(0.0,0.0,0.0,0.15),6.0,0.7,0.0,1.5);
+    -fx-padding: 16 16 16 16;
+}
