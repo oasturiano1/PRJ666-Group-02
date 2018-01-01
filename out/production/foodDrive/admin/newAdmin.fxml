@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1328.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.adminController">
+<AnchorPane prefHeight="720.0" prefWidth="1328.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.adminController">
    <children>
       <MenuBar layoutX="-3.0" layoutY="-1.0" prefHeight="32.0" prefWidth="1376.0">
          <menus>
@@ -99,7 +99,7 @@
                               <Separator layoutX="23.0" layoutY="671.0" prefHeight="3.0" prefWidth="374.0" />
                               <Separator layoutX="23.0" layoutY="687.0" prefHeight="10.0" prefWidth="374.0" />
                               <Separator layoutY="492.0" prefHeight="10.0" prefWidth="374.0" />
-                              <JFXButton id="bevel-grey" buttonType="RAISED" layoutX="163.0" layoutY="511.0" onAction="#drivesView" prefHeight="25.0" prefWidth="81.0" stylesheets="@adminStyle.css" text="View Drives" />
+                              <JFXButton id="bevel-grey" fx:id="drivesView" buttonType="RAISED" layoutX="163.0" layoutY="511.0" onAction="#drivesView" prefHeight="25.0" prefWidth="81.0" stylesheets="@adminStyle.css" text="View Drives" />
                            </children>
                         </AnchorPane>
                         <AnchorPane minWidth="948.0" prefHeight="673.0" prefWidth="948.0">

@@ -427,6 +427,7 @@ public class adminController extends Application implements Initializable {
                 connection.close();
             } catch (SQLException e) {
                 System.err.println("Load Database err " + e);
+                System.err.println("Load Database err " + e);
             }
             loadData();
         } else {
@@ -857,7 +858,7 @@ public class adminController extends Application implements Initializable {
         StringBuilder sb = new StringBuilder();
         String inputLine;
 
-        if(AlertBox.checkForDelete("DELETE","Are You Sure")){
+        if(AlertBox.checkForDelete("DELETE","Are you sure you want to delete?")){
             if (!newDel.equals("")) {
 
                 if(dao.phpConnection()){
