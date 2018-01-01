@@ -207,10 +207,10 @@ public class Controller implements Initializable {
         userStage.setScene(scene);
        // userStage.setTitle(username.getText()+"[ "+ "Admin"+ " ]");
         userStage.setTitle("ADMIN");
-        userStage.setX(primaryScreenBounds.getMinX());
-        userStage.setY(primaryScreenBounds.getMinY());
-        userStage.setWidth(primaryScreenBounds.getWidth());
-        userStage.setHeight(primaryScreenBounds.getHeight()+50);
+        //userStage.setX(primaryScreenBounds.getMinX());
+        //userStage.setY(primaryScreenBounds.getMinY());
+        //userStage.setWidth(primaryScreenBounds.getWidth());
+        //userStage.setHeight(primaryScreenBounds.getHeight()+50);
         userStage.setResizable(false);
         userStage.show();
     }

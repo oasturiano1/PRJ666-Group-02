@@ -99,7 +99,7 @@
                               <Separator layoutX="23.0" layoutY="671.0" prefHeight="3.0" prefWidth="374.0" />
                               <Separator layoutX="23.0" layoutY="687.0" prefHeight="10.0" prefWidth="374.0" />
                               <Separator layoutY="492.0" prefHeight="10.0" prefWidth="374.0" />
-                              <JFXButton id="bevel-grey" fx:id="drivesView" buttonType="RAISED" layoutX="163.0" layoutY="511.0" onAction="#drivesView" prefHeight="25.0" prefWidth="81.0" stylesheets="@adminStyle.css" text="View Drives" />
+                              <JFXButton id="bevel-grey" fx:id="drivesView" buttonType="RAISED" layoutX="156.0" layoutY="511.0" onAction="#drivesView" prefHeight="25.0" prefWidth="92.0" stylesheets="@adminStyle.css" text="View Records" />
                            </children>
                         </AnchorPane>
                         <AnchorPane minWidth="948.0" prefHeight="673.0" prefWidth="948.0">

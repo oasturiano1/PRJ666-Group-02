@@ -968,7 +968,7 @@ public class adminController extends Application implements Initializable {
                 this.lnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
                 this.emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
                 this.phoneNumCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-                this.passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
+                //this.passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
                 this.totHoursCol.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
                 this.totSignedCol.setCellValueFactory(new PropertyValueFactory<>("totalSigned"));
                 this.conNameCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));

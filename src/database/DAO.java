@@ -399,7 +399,7 @@ public class DAO {
         if(phpConnection()){
             URL connectURL = null;
             try {
-                connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/emailExists.php?email="+searchKey);
+                connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/phpGetUser.php?email="+searchKey);
                 in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
 
                 while((inputLine = in.readLine()) != null){
