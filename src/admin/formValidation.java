@@ -65,6 +65,7 @@ public class formValidation {
     public static Boolean isMail(String post){
         String regex =   "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        /*String regex = "[a-zA-Z0-9][a-zA-Z0-9.]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+";*/
         if(post.matches(regex)){
             return true;
         }else if(post.isEmpty()){
@@ -73,6 +74,16 @@ public class formValidation {
         else{
             return false;
         }
+    }
+    public static Boolean isHoursSigned(String post){
+        String regex = "\\d{1}\\d{1}\\.[0,5]";
+        String regexNext = "\\d{1}\\.[0,5]";
+        if(post.matches(regex) || post.matches(regexNext))
+            return true;
+        else if(post.isEmpty())
+            return false;
+        else
+            return false;
     }
 
 }

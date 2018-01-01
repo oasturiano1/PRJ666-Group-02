@@ -10,6 +10,8 @@ package admin;
         import database.userObject;
         import drives.drivesController;
         import gui.Controller;
+        import gui.whoIsLoggedIn;
+        import javafx.application.Application;
         import javafx.beans.value.ChangeListener;
         import javafx.beans.value.ObservableValue;
         import javafx.collections.FXCollections;
@@ -20,11 +22,16 @@ package admin;
         import javafx.fxml.FXML;
         import javafx.fxml.FXMLLoader;
         import javafx.fxml.Initializable;
+        import javafx.scene.Parent;
         import javafx.scene.Scene;
         import javafx.scene.control.*;
         import javafx.scene.control.cell.PropertyValueFactory;
         import javafx.scene.control.cell.TextFieldTableCell;
         import javafx.scene.control.cell.TextFieldTreeTableCell;
+        import javafx.scene.effect.Blend;
+        import javafx.scene.effect.BoxBlur;
+        import javafx.scene.effect.DropShadow;
+        import javafx.scene.effect.MotionBlur;
         import javafx.scene.image.ImageView;
         import javafx.scene.input.KeyCode;
         import javafx.scene.input.KeyEvent;
@@ -49,12 +56,10 @@ package admin;
         import java.util.ResourceBundle;
         import java.util.regex.Pattern;
 
-        import static javafx.scene.paint.Color.BLUE;
-        import static javafx.scene.paint.Color.GREEN;
-        import static javafx.scene.paint.Color.RED;
+        import static javafx.scene.paint.Color.*;
 
 
-public class adminController implements Initializable {
+public class adminController extends Application implements Initializable {
     @FXML
     private JFXTextField fname;
     @FXML
@@ -91,6 +96,8 @@ public class adminController implements Initializable {
     @FXML
     private Button searchButton;
     @FXML
+    private Button drivesView;
+    @FXML
     private Button s;
     @FXML
     private RadioButton Female;
@@ -122,6 +129,9 @@ public class adminController implements Initializable {
     @FXML
     private TableColumn<UserData, String> idCol;
 
+    @FXML
+    private TreeView<JFXTextField> treeView;
+
     //-----------------------------------------------------------//
 
     private DAO dao;
@@ -129,7 +139,13 @@ public class adminController implements Initializable {
     private ObservableList<UserData> observableList; //A list that enables listeners to track changes when they occur
     private RequiredFieldValidator validator;
     private Boolean errCatch;
+    private whoIsLoggedIn whoIsLoggedIn;
+    private String newDel;
+    private String adminName;
 
+    public void setName(String name){
+        adminName = name;
+    }
 
     //interacting with fxml ids
     @Override
@@ -137,6 +153,8 @@ public class adminController implements Initializable {
 
         dao = new DAO();
         db = new dbConnection();
+        whoIsLoggedIn = new whoIsLoggedIn().getWhoIsLoggedIn();
+
         /*userTable.setEditable(true);//delete,update dont really work*/
         idCol.setCellFactory(TextFieldTableCell.forTableColumn());
         //loadData();
@@ -147,8 +165,8 @@ public class adminController implements Initializable {
         lname.textProperty().addListener(e -> ErrTester(lname));
         phoneNum.textProperty().addListener(E -> phoneTester(phoneNum));
         //totHours.textProperty().addListener(E -> phoneTester(totHours));
-        //totSigned.textProperty().addListener(E -> phoneTester(totSigned));
-        //contactName.textProperty().addListener(P -> postTester(contactName));
+        totSigned.textProperty().addListener(E -> hrTester(totSigned));
+        contactName.textProperty().addListener(P -> ErrTester(contactName));
         contactNum.textProperty().addListener(P -> phoneTester(contactNum));
         email.textProperty().addListener(M -> mailTester(email));
         /*fname.getValidators().add(validator);
@@ -211,9 +229,14 @@ public class adminController implements Initializable {
                 phoneNum.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
                 phoneNum.setPromptText("");
 
+
                 passw.setText(data.getPassword());
-                phoneNum.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
-                phoneNum.setPromptText("");
+                passw.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
+                passw.setPromptText("");
+                passw.setEffect(new MotionBlur());
+
+               /* phoneNum.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
+                phoneNum.setPromptText("");*/
 
                 /*if (data.getRadio1() == "Male") {
                     Male.setSelected(true);
@@ -241,10 +264,25 @@ public class adminController implements Initializable {
                 email.setPromptText("");
 
                 searchId.setText(fname.getText() + "," + lname.getText());
+                newDel = email.getText();
                 searchId.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
 
             }
         });
+
+      /*  TreeItem<JFXTextField> root = new TreeItem<>();
+        TreeItem<JFXTextField> nodeA = new TreeItem<>(passw);
+        root.getChildren().add(nodeA);
+        treeView.setRoot(root);*/
+      passw.setOnMouseClicked(new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+              passw.setEffect(new Blend());
+              passw.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
+          }
+      });
+
+
 
 
     }
@@ -527,6 +565,7 @@ public class adminController implements Initializable {
 
     }
 
+    @FXML
     public void dobTester(JFXTextField textField) {
         errCatch = formValidation.isDate(textField.getText());
         if (errCatch == false) {
@@ -539,8 +578,10 @@ public class adminController implements Initializable {
 
     }
 
+    @FXML
     public void phoneTester(JFXTextField textField) {
         errCatch = formValidation.isPhone(textField.getText());
+        int max = 12;
         if (errCatch == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid");
@@ -548,9 +589,17 @@ public class adminController implements Initializable {
             textField.setFocusColor(GREEN);
             textField.setPromptText("XXX-XXX-XXXX or XXXXXXXXXX");
         }
+        textField.setOnKeyTyped(event -> {
+            if(textField.getText().length() > max){
+                event.consume();
+                textField.setFocusColor(PURPLE);
+                textField.setPromptText("Invalid Length");
+            }
+        });
 
     }
 
+    @FXML
     public void postTester(JFXTextField textField) {
         errCatch = formValidation.isPost(textField.getText());
         if (errCatch == false) {
@@ -563,6 +612,7 @@ public class adminController implements Initializable {
 
     }
 
+    @FXML
     public void mailTester(JFXTextField textField) {
         errCatch = formValidation.isMail(textField.getText());
         if (errCatch == false) {
@@ -576,23 +626,48 @@ public class adminController implements Initializable {
     }
 
     @FXML
+    public void hrTester(JFXTextField textField) {
+        errCatch = formValidation.isHoursSigned(textField.getText());
+        int max = 4;
+
+        if (errCatch == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("");
+        }
+        textField.setOnKeyTyped(event -> {
+            if(textField.getText().length() > max){
+                event.consume();
+                textField.setFocusColor(PURPLE);
+                textField.setPromptText("Invalid Length");
+            }
+        });
+
+    }
+
+    @FXML
     public void drivesView() throws IOException, SQLException {
 
-        Connection connection = db.connect();
+        //Connection connection = db.connect();
 
         System.out.print("PRESSED!");
         Stage userStage = new Stage();
         FXMLLoader loader = new FXMLLoader();
         Pane root = (Pane) loader.load(getClass().getResource("/drives/drives.fxml").openStream());
         drivesController ac =(drivesController) loader.getController();
-
+        ac.setName(adminName);
         Scene scene = new Scene(root);
         userStage.setScene(scene);
         userStage.setTitle("Drives");
         userStage.show();
+
+        closeFull();
     }
 
     //this need the apache jar
+    @FXML
     public void ExportToExcel(ActionEvent event) {
 
         String sql = "SELECT * FROM volunteer";
@@ -680,6 +755,11 @@ public class adminController implements Initializable {
         stage.close();
     }
 
+    @FXML
+    public void closeFull() throws IOException {
+        Stage stage = (Stage) drivesView.getScene().getWindow();
+        stage.close();
+    }
 
     /* PHP*/
 
@@ -698,12 +778,12 @@ public class adminController implements Initializable {
 
 
 
-
+        //this.passw.setEffect(new BoxBlur());
         this.fnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         this.lnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         this.emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         this.phoneNumCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        this.passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
+        //this.passwordCol.setCellValueFactory(new PropertyValueFactory<>("password"));
         this.totHoursCol.setCellValueFactory(new PropertyValueFactory<>("totalHours"));
         this.totSignedCol.setCellValueFactory(new PropertyValueFactory<>("totalSigned"));
         this.conNameCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
@@ -716,6 +796,11 @@ public class adminController implements Initializable {
 
     @FXML
     public void phpAddData(){
+        List<String> ls = new ArrayList<>();
+        String[] str;
+        Boolean opt = false;
+
+
         BufferedReader in;
         String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/insertAll.php?fname=" + this.fname.getText() +"&lname="+ this.lname.getText()+"&email="+this.email.getText()+
                 "&phoneNumber="+this.phoneNum.getText()+ "&password="+this.passw.getText()+
@@ -724,74 +809,90 @@ public class adminController implements Initializable {
         StringBuilder sb = new StringBuilder();
         String inputLine;
 
-        if (errCatch && !fname.getText().isEmpty() && !lname.getText().isEmpty()){
-
-            if(dao.phpConnection()){
-                try {
-                    URL connectURL = new URL(input);
-                    in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
-
-                    while((inputLine = in.readLine()) != null){
-                        //System.out.println(inputLine);
-                        sb.append(inputLine+"\n");
-                    }
-                    System.out.println(sb);
-
-                    loadphpData();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        ls = dao.getAll();
+        for(String info:ls){
+            str =  info.split(Pattern.quote(" "));
+            System.out.println(str[3]+str[4]);
+            if(str[3].equals(email.getText()) || str[4].equals(phoneNum.getText())){
+                opt = true;
+                break;
             }
+        }
 
-        } else {
-            AlertBox.display("INSERT", "Could not Insert" + "\nPlease Check Form Input");
+        if(opt){
+            AlertBox.display("INSERT", "Duplicate Records");
+        } else{
+            if (errCatch && dao.phpConnection()){
+
+                if(dao.phpConnection()){
+                    try {
+                        URL connectURL = new URL(input);
+                        in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                        while((inputLine = in.readLine()) != null){
+                            //System.out.println(inputLine);
+                            sb.append(inputLine+"\n");
+                        }
+                        System.out.println(sb);
+
+                        loadphpData();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            } else {
+                AlertBox.display("INSERT", "Could not Insert" + "\nPlease Check Form Input");
+            }
         }
     }
 
     @FXML
     public void phpDeleteFields(ActionEvent event){
-        String searchKey = this.searchId.getText();
-        String[] split = searchKey.split("\\s*,\\s*");
+        /*String searchKey = this.searchId.getText();
+        String[] split = searchKey.split("\\s*,\\s*");*/
         BufferedReader in;
         StringBuilder sb = new StringBuilder();
         String inputLine;
 
-        if (!split[0].equals("") && !split[1].equals("")) {
+        if(AlertBox.checkForDelete("DELETE","Are You Sure")){
+            if (!newDel.equals("")) {
 
-            if(dao.phpConnection()){
-                try {
-                    URL connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/deleteFields.php?fname=" + split[0] +"&lname="+split[1]);
-                    in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+                if(dao.phpConnection()){
+                    try {
+                        URL connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/deleteFields.php?email=" +newDel);
+                        in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
 
-                    while((inputLine = in.readLine()) != null){
-                        //System.out.println(inputLine);
-                        sb.append(inputLine+"\n");
+                        while((inputLine = in.readLine()) != null){
+                            //System.out.println(inputLine);
+                            sb.append(inputLine+"\n");
+                        }
+                        System.out.println(sb);
+
+                        loadphpData();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    System.out.println(sb);
-
-                    loadphpData();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            }
 
-        } else {
-            AlertBox.display("DELETE", "Could not Remove");
+            } else {
+                AlertBox.display("DELETE", "Could not Remove");
+            }
         }
     }
 
     @FXML
     public void phpUpdateFields(ActionEvent event){
-        String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/updateData.php?fname=" + this.fname.getText() +"&lname="+ this.lname.getText()+"&email="+this.email.getText()+
+        String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/updateData.php?fname=" + this.fname.getText() +"&lname="+ this.lname.getText()+"&email="+newDel+
                 "&phoneNumber="+this.phoneNum.getText()+ "&password="+this.passw.getText()+
                 "&hoursTotal="+this.totHours.getText()+"&hoursSigned="+this.totSigned.getText()+
                 "&contactName="+this.contactName.getText()+"&contactPhone="+this.contactNum.getText();
-        String searchKey = this.searchId.getText();
-        String[] split = searchKey.split("\\s*,\\s*");
+        /*String searchKey = this.searchId.getText();
+        String[] split = searchKey.split("\\s*,\\s*");*/
 
         BufferedReader in;
         StringBuilder sb = new StringBuilder();
@@ -887,9 +988,85 @@ public class adminController implements Initializable {
     }
 
 
+   /* List<String> ls = new ArrayList<>();
+        this.observableList = FXCollections.observableArrayList();
+    String[] str;
+
+    ls = dao.getAll();
+        for(String info:ls){
+        str =  info.split(Pattern.quote(" "));
+        this.observableList.add(new UserData(str[0],  str[1],  str[2],  str[3],  str[4],  str[5],  str[6],  str[7],  str[8],str[9]));
+    }*/
+   public void phpExportToExcel(ActionEvent event) {
+       List<String> ls = new ArrayList<>();
+       this.observableList = FXCollections.observableArrayList();
+       String[] str;
+
+       ls = dao.getAll();
+     /*  for(String info:ls){
+           str =  info.split(Pattern.quote(" "));
+           this.observableList.add(new UserData(str[0],  str[1],  str[2],  str[3],  str[4],  str[5],  str[6],  str[7],  str[8],str[9]));
+       }
+       */
+     String createorName = new Controller().uName;
+           //microsft 2007-
+           XSSFWorkbook workbook = new XSSFWorkbook();//for eatlir version use HSSF
+           XSSFSheet sheet = workbook.createSheet(createorName);
+           XSSFRow header = sheet.createRow(0);//first rwo
+           header.createCell(0).setCellValue("ID");//first col
+           header.createCell(1).setCellValue("First Name");
+           header.createCell(2).setCellValue("Last Name");
+           header.createCell(3).setCellValue("Email");
+           header.createCell(4).setCellValue("Phone");
+          // header.createCell(5).setCellValue("Password");
+           header.createCell(6).setCellValue("hoursTotal");
+           header.createCell(7).setCellValue("hoursSigned");
+           header.createCell(8).setCellValue("contactName");
+           header.createCell(8).setCellValue("contactPhone");
+
+           int index = 1;
+
+           for(String info:ls){
+               str =  info.split(Pattern.quote(" "));
+               XSSFRow row = sheet.createRow(index);
+               row.createCell(0).setCellValue(str[0]);
+               row.createCell(1).setCellValue(str[1]);
+               row.createCell(2).setCellValue(str[2]);
+               row.createCell(3).setCellValue(str[3]);
+               row.createCell(4).setCellValue(str[4]);
+             //  row.createCell(5).setCellValue(str[5]);
+               row.createCell(6).setCellValue(str[6]);
+               row.createCell(7).setCellValue(str[7]);
+               row.createCell(8).setCellValue(str[8]);
+               row.createCell(8).setCellValue(str[9]);
+               index++;
+           }
+
+       FileOutputStream fileOutputStream = null;
+       try {
+           fileOutputStream = new FileOutputStream("C:\\Users\\dance\\Desktop\\Details.xlsx");
+           workbook.write(fileOutputStream);
+           fileOutputStream.close();
+
+       } catch (FileNotFoundException e) {
+           e.printStackTrace();
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+       AlertBox.display("EXPORT", "Export Successful");
 
 
+   }
 
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = (Parent) FXMLLoader.load(getClass().getResource("newAdmin.fxml"));
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        //primaryStage.setTitle("DRIVES");
+        primaryStage.show();
+    }
 }
 
 

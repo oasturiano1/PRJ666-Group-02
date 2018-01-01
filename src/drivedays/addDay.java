@@ -5,6 +5,7 @@ import database.DAO;
 import database.dbConnection;
 import database.userObject;
 import drives.drive;
+import drives.drivesController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,14 +15,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import records.record;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -72,6 +72,9 @@ public class addDay extends Application implements Initializable{
 
     private LocalDate eDate;
 
+    @FXML
+    private Button back;
+
     userObject sel = new userObject();
 
     private LocalDate day;
@@ -79,6 +82,8 @@ public class addDay extends Application implements Initializable{
     boolean errCatch = false;
 
     int did;
+
+    private String adminName;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -94,11 +99,15 @@ public class addDay extends Application implements Initializable{
 
     }
 
-    public void setDrive(drive selectDrive, LocalDate selectDay, userObject selectUser){
+    public void setDrive(drive selectDrive, LocalDate selectDay, userObject selectUser, String con, String adminName){
         int selectedVolIndex = 0;
         dao = new DAO();
         db = new dbConnection();
+        sel = selectUser;
         selectD = selectDrive;
+        this.adminName = adminName;
+
+        hoursCont.setText(con);
 
         if(selectDay != null)
             dateDayPicker.setValue(selectDay);
@@ -106,11 +115,10 @@ public class addDay extends Application implements Initializable{
             dateDayPicker.setValue(LocalDate.now());
         day = dateDayPicker.getValue();
 
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         //formatter = formatter.withLocale( Locale.CANADA );
         sDate = LocalDate.parse(selectD.start, formatter);
-        eDate = LocalDate.parse(selectD.end, formatter);
+        //eDate = LocalDate.parse(selectD.end, formatter);
 
         //try {
             //Connection connection = db.connect();
@@ -121,15 +129,21 @@ public class addDay extends Application implements Initializable{
         //    e.printStackTrace();
         //}
         ObservableList<String> list = FXCollections.observableArrayList();
-        volunteerList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        //volunteerList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        range.setText("Create new record for drive between " + selectD.start + " and " + selectD.end);
+        range.setText("Create new record for " + selectD.name + " " + selectD.start);
 
         for(int i = 0; i < vols.size(); i++){
 
-            if(vols.get(i).email.equals(selectUser.email)){
-                selectedVolIndex = i;
+            //Focus on selected user
+            if(selectUser != null){
+                if(vols.get(i).email.equals(selectUser.email)){
+                    selectedVolIndex = i;
+
+
+                }
             }
+
 
             volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
 
@@ -221,42 +235,55 @@ public class addDay extends Application implements Initializable{
                     String dstartd = selectD.start;
                     String daydate = dateDayPicker.getValue().toString();
                     //sel;
+                    //r.operationRecordId = selectD.
                     r.driveStartDate = selectD.start;
                     r.operationDayDate = daydate;
                     r.driveId = selectD.id;
                     r.volunteerId = sel.id;
-                    r.hoursContributed = Integer.parseInt(hoursCont.getText().toString());
+                    r.hoursContributed = Double.parseDouble(hoursCont.getText().toString());
 
 
                     record recExists = dao.getRecord(r);
+
+
+
+
                     if(recExists != null){
+
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Overwrite existing record?", ButtonType.YES, ButtonType.NO);
+                        alert.showAndWait();
+
+                        if (alert.getResult() == ButtonType.YES) {//if overwrite
+                            double prev = recExists.hoursContributed;
+                            double diff = r.hoursContributed - prev;
+
+                            userObject prevRec = new userObject();
+                            prevRec = dao.phpGetUserById(recExists.volunteerId);
+
+                            double ht = Double.parseDouble(prevRec.hourstotal) + diff;
+
+
+
+                            //u = dao.get
+
+                            //double newTotal = r.hoursContributed + diff;
+
+
+
+                            boolean success = dao.phpUpdateRecord(r,adminName);
+                            dao.phpUpdateHoursTotal(r.volunteerId,ht);
+                            if (success) {
+                                error.setText("Record Updated!");
+                            } else {
+                                error.setText("Record Could Not Be Updated!");
+                            }
+                        }
+
 //TODO THIS
 
-                        double prev = recExists.hoursContributed;
-                        double diff = r.hoursContributed - prev;
 
-                        userObject prevRec = new userObject();
-                        prevRec = dao.phpGetUserById(recExists.volunteerId);
-
-                        double ht = Double.parseDouble(prevRec.hourstotal) + diff;
-
-
-
-                        //u = dao.get
-
-                        //double newTotal = r.hoursContributed + diff;
-
-
-
-                        boolean success = dao.phpUpdateRecord(r);
-                        dao.phpUpdateHoursTotal(r.volunteerId,ht);
-                        if (success) {
-                            error.setText("Record Updated!");
-                        } else {
-                            error.setText("Record Could Not Be Updated!");
-                        }
                     }else {
-                        boolean success = dao.phpAddRecord(r);
+                        boolean success = dao.phpAddRecord(r,adminName);
                         if (success) {
                             error.setText("Record Added!");
                         } else {
@@ -283,7 +310,7 @@ public class addDay extends Application implements Initializable{
 
         if(day == null){
             sd.setText("Date is required!!");
-        }else if(day.isBefore(sDate) || day.isAfter(eDate)) {
+        }else if(day.isBefore(sDate)) {
             sd.setText("Date selected is out of drive scope!");
             errCatch = false;
         }else {//check if dates already exists
@@ -297,7 +324,7 @@ public class addDay extends Application implements Initializable{
         errCatch = false;
         if(hoursCont.getText().compareTo("") != 0){
             try{
-                Integer i = Integer.parseInt(hoursCont.getText());
+                Double i = Double.parseDouble(hoursCont.getText());
 
                 if(i > 24 || i < 0){
                     errCatch = false;
@@ -314,6 +341,28 @@ public class addDay extends Application implements Initializable{
             sd.setText("Hours is required!");
         }
     }
+
+    @FXML public void back() throws IOException {
+        System.out.print("PRESSED!");
+        Stage userStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = (Pane) loader.load(getClass().getResource("/drives/drives.fxml").openStream());
+        drivesController ac =(drivesController) loader.getController();
+
+        Scene scene = new Scene(root);
+        userStage.setScene(scene);
+        userStage.setTitle("Drives");
+        userStage.show();
+
+        close();
+    }
+
+    public void close(){
+
+        Stage stage = (Stage) back.getScene().getWindow();
+        stage.close();
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

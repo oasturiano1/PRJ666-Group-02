@@ -81,7 +81,10 @@ default-label{
     -fx-alignment: CENTER_LEFT;
 }
 
-#searchBtn{
--fx-background-image = url('C:\Users\dance\IdeaProjects\foodDrive\src\img\refresh.png');
 
-}
+
+/*
+#searchBtn{
+     -fx-background-image = url('C:\Users\dance\IdeaProjects\foodDrive\src\img\refresh.png');
+
+ }*/

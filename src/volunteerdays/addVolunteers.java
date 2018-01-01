@@ -183,12 +183,12 @@ public class addVolunteers extends Application {
                 //}else{
                 //try {
                     //Connection connection = db.connect();
-                    boolean success = dao.phpAddRecord(r);
-                    if(success){
-                        error.setText("Drive Added!");
-                    }else {
-                        error.setText("Drive Could Not Be Added!");
-                    }
+                    //boolean success = dao.phpAddRecord(r);
+                    //if(success){
+                    //    error.setText("Drive Added!");
+                    //}else {
+                    //    error.setText("Drive Could Not Be Added!");
+                    //}
                     //connection.close();
                 //} catch (SQLException e) {
                 //    e.printStackTrace();

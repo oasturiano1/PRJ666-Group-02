@@ -1,5 +1,6 @@
 package gui;
 
+import admin.AlertBox;
 import admin.adminController;
 import database.DAO;
 import javafx.application.Platform;
@@ -8,12 +9,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import database.dbConnection;
 import database.loginType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import signup.SignUp;
 import user.userController;
@@ -31,7 +34,7 @@ public class Controller implements Initializable {
     private dbConnection db;
 
     @FXML
-    private TextField username;;
+    public TextField username;;
     @FXML
     private PasswordField password;
     @FXML
@@ -48,12 +51,19 @@ public class Controller implements Initializable {
     @FXML
     private Label signbtn;
 
-    private Session session;
+    @FXML
+    private String adminname;
+
 
     public Controller(){
         dao = new DAO();
        combo = new ComboBox();
     }
+
+    private Session session;
+    public static String uName;
+    public static String pass;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -101,34 +111,47 @@ public class Controller implements Initializable {
 
     @FXML
     public void loginMethod(ActionEvent event){
-        String username = this.username.getText();
-        String password = this.password.getText();
-        String option = this.combo.getValue().toString();
+        uName = this.username.getText();
+        pass = this.password.getText();
 
 
+        //String option = this.combo.getValue().toString();
+        String[] datas = dao.phpIsLogin(uName,pass);
+        //System.out.println(datas[0]+" "+datas[1]+" "+datas[2]);
         /*db.isLogin(username,password,option);*/
+        //dao.phpIsLogin(username,password,option)
 
 
         try {
-            if(dao.phpIsLogin(username,password,option)){
-               session.setPref(true,username,password);
+            if(datas != null) {
+                if (datas[0].equals(uName) && datas[1].equals(pass)) {
+                    session.setPref(true, uName, pass);
 
 
-                Stage stage = (Stage)this.okbtn.getScene().getWindow();
-                stage.close();
+                    Stage stage = (Stage) this.okbtn.getScene().getWindow();
+                    stage.close();
 
 
-                switch (option){
-                    case "ADMIN":
-                        adminLogin();
-                        break;
-                    case "USER":
-                        userLogin();
-                        break;
+                    switch (datas[2]) {
+                        case "ADMIN":
+                            adminname = datas[0];
+                            adminLogin();
+
+
+                            break;
+                        case "USER":
+                            userLogin();
+                            break;
+                    }
+                } else {
+                    AlertBox.display("ERROR", "Username or password is incorrect!");
+                    //this.errorMsg.setText("Error");
+                    //System.out.print(username+" "+password+" "+option);
                 }
-            } else{
-                this.errorMsg.setText("Error");
-                System.out.print(username+" "+password+" "+option);
+            } else {
+                AlertBox.display("ERROR", "Username or password is incorrect!");
+                //this.errorMsg.setText("Error");
+                //System.out.print(username+" "+password+" "+option);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,16 +191,26 @@ public class Controller implements Initializable {
     public void adminLogin() throws IOException {
         Stage userStage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        Pane root = (Pane) loader.load(getClass().getClassLoader().getResource("admin/newAdmin.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("admin/newAdmin.fxml"));
+        Pane root = loader.load();
+        //Pane root = (Pane) loader.load(getClass().getClassLoader().getResource("admin/newAdmin.fxml"));
+        //Pane root = (Pane)loader.load(getClass().getResource("admin/newAdmin.fxml").openStream());
 
         //attach admincontroller to asmin fxml
-        adminController ac =(adminController)loader.getController();
+        adminController ac = loader.getController();
+        ac.setName(adminname);
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/admin/adminStyle.css");
         userStage.setScene(scene);
        // userStage.setTitle(username.getText()+"[ "+ "Admin"+ " ]");
         userStage.setTitle("ADMIN");
+        userStage.setX(primaryScreenBounds.getMinX());
+        userStage.setY(primaryScreenBounds.getMinY());
+        userStage.setWidth(primaryScreenBounds.getWidth());
+        userStage.setHeight(primaryScreenBounds.getHeight()+50);
         userStage.setResizable(false);
         userStage.show();
     }
@@ -191,9 +224,11 @@ public class Controller implements Initializable {
 
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/signup/signUpStyle.css");
         userStage.setScene(scene);
         userStage.setTitle("Sign up");
         userStage.show();
+        userStage.setResizable(false);
 
         //Stage stage = (Stage)this.si
 

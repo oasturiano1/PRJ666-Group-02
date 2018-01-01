@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="commons-collections4-4.1">
+    <CLASSES>
+      <root url="jar://E:/commons-collections4-4.1/commons-collections4-4.1.jar!/" />
+      <root url="file://E:/commons-collections4-4.1" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://E:/commons-collections4-4.1/apidocs" />
+    </JAVADOC>
+    <SOURCES />
+    <jarDirectory url="file://E:/commons-collections4-4.1" recursive="false" />
+  </library>
+</component>

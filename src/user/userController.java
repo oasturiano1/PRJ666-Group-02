@@ -52,7 +52,7 @@ public class userController extends Application implements Initializable{
 
     @FXML private javafx.scene.control.Button sgnout;
 
-   // @FXML private MenuItem sgnout;
+    // @FXML private MenuItem sgnout;
 
 
 
@@ -121,19 +121,19 @@ public class userController extends Application implements Initializable{
         //db = new dbConnection();
 
         //try {
-            //Connection connection = db.connect();
-            //contributions = db.getVolunteerContributions(user.id);
-            contributions = dao.getVolunteerContributions(user.id);
-            //connection.close();
+        //Connection connection = db.connect();
+        //contributions = db.getVolunteerContributions(user.id);
+        contributions = dao.getVolunteerContributions(user.id);
+        //connection.close();
         //} catch (SQLException e) {
         //    e.printStackTrace();
         //}
 
         if(contributions != null)
-        for(int i = 0; i < contributions.size(); i++){
-            contributionsList.getItems().add(contributions.get(i).operationDayDate + " Contributed " + contributions.get(i).hoursContributed + " Hours");
+            for(int i = 0; i < contributions.size(); i++){
+                contributionsList.getItems().add(contributions.get(i).operationDayDate + " Contributed " + contributions.get(i).hoursContributed + " Hours");
 
-        }
+            }
 
     }
 

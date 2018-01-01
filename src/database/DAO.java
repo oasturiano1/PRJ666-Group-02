@@ -25,7 +25,7 @@ public class DAO {
     private static  final String PASS = "";
     private static  final String URLLocal = "jdbc:mysql://localhost/school";
     private static final String liveUrl = "jdbc:mysql://mysql12.000webhost.com/id3775275_redlight";
-
+    private static final String link = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/";
 
     //mysql xampp//
 
@@ -86,7 +86,7 @@ public class DAO {
         return num == 200;
     }
 
-    public boolean phpIsLogin(String email,String pass,String opt){
+    public String[] phpIsLogin(String email,String pass){
         BufferedReader in;
         String inputLine;
         StringBuilder sb = new StringBuilder();
@@ -95,16 +95,19 @@ public class DAO {
 
         if(phpConnection()){
             try {
-                URL connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/loginType.php?email=" + email + "&password="+ pass+"&division="+opt);
+                URL connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/loginType.php?email=" + email + "&password="+ pass);
                 in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
                 while((inputLine = in.readLine()) != null){
                     //System.out.println(inputLine);
                     sb.append(inputLine+"\n");
                 }
 
-                System.out.println("***"+ " "+sb);
-                if(sb.toString().equals("")) {
-                    return false;
+                //System.out.println("*%*"+ " "+sb);
+                String[] data = sb.toString().split(" ");
+               // System.out.println(data[0]+" "+data[1]+" "+data[2]);
+
+                if(!sb.toString().equals("")) {
+                    return data;
                 }
 
 
@@ -114,7 +117,7 @@ public class DAO {
             }
         }
 
-        return true;
+        return null;
     }
 
     public List<String> getAll(){
@@ -491,7 +494,7 @@ public class DAO {
 
         if(phpConnection()){
             try {
-                URL connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/desktopGetAllDrives.php");
+                URL connectURL = new URL(link + "desktopGetAllDrives.php");
                 in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
 
                 while((inputLine = in.readLine()) != null){
@@ -504,7 +507,9 @@ public class DAO {
                     for (String info : ls) {
                         str = info.split(Pattern.quote(" "));
                         drive d = new drive();
-                        d.setDrive(str[1], str[2]);
+                        //d.setDrive(str[1], str[2]);
+                        d.start = str[1];
+                        d.name = str[2];
                         d.id = Integer.parseInt(str[0]);
                         drives.add(d);
                     }
@@ -673,8 +678,80 @@ public class DAO {
     }
 
 
+    public void phpDeleteDrive(int did){
+        BufferedReader in;
 
-    public List<record> phpgetAllDriveDays(String date){
+        String input = link + "deleteDrive.php?id="+did;
+        StringBuilder sb = new StringBuilder();
+        String inputLine;
+
+        if(phpConnection()){
+            try {
+                URL connectURL = new URL(input);
+                in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                while((inputLine = in.readLine()) != null){
+                    System.out.println(inputLine);
+                    sb.append(inputLine+"\n");
+                }
+                System.out.println(sb);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            //AlertBox.display("INSERT", "Could not delete" + "\nPlease Check Form Input");
+        }
+    }
+
+    public List<userObject> phpgetAllDriveRecords(int id){
+        BufferedReader in;
+        String inputLine;
+        StringBuilder sb = new StringBuilder();
+        int i =0;
+        String[] str;
+        List<String> ls = new ArrayList<>();
+        List<userObject> recs = new ArrayList();
+
+
+        if(phpConnection()){
+            try {
+                URL connectURL = new URL(link + "desktopGetAllDriveRecords.php?driveid="+ id);
+                in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                while((inputLine = in.readLine()) != null){
+                    System.out.println(inputLine);
+                    sb.append(inputLine+"\n");
+                    ls.add(inputLine) ;
+                }
+
+                if(ls.size() != 0) {
+                    for (String info : ls) {
+                        str = info.split(Pattern.quote(" "));
+                        userObject r = new userObject();
+                        r.hoursCon = str[0];
+                        r.fname = str[1];
+                        r.lname = str[2];
+                        r.email = str[3];
+                        r.phone = str[4];
+                        r.ename = str[5];
+                        r.ephone = str[6];
+                        r.date = str[7];
+                        recs.add(r);
+                    }
+                }
+
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return recs;
+    }
+
+    public List<record> phpgetAllDriveDays(drive d){
         BufferedReader in;
         String inputLine;
         StringBuilder sb = new StringBuilder();
@@ -686,7 +763,7 @@ public class DAO {
 
         if(phpConnection()){
             try {
-                URL connectURL = new URL("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/desktopGetAllDriveDays.php?ddate="+date);
+                URL connectURL = new URL(link + "desktopGetAllDriveDays.php?id="+ d.id);
                 in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
 
                 while((inputLine = in.readLine()) != null){
@@ -700,8 +777,55 @@ public class DAO {
                         str = info.split(Pattern.quote(" "));
                         record r = new record();
                         r.operationDayDate = (str[0]);
-                        r.driveStartDate = date;
+                        r.driveStartDate = d.start;
                         recs.add(r);
+                    }
+                }
+
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return recs;
+    }
+
+
+    public List<userObject> phpDriveReport(int id){
+        BufferedReader in;
+        String inputLine;
+        StringBuilder sb = new StringBuilder();
+        int i =0;
+        String[] str;
+        List<String> ls = new ArrayList<>();
+        List<userObject> recs = new ArrayList();
+
+
+        if(phpConnection()){
+            try {
+                URL connectURL = new URL(link + "desktopGetReport.php?id="+ id);
+                in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                while((inputLine = in.readLine()) != null){
+                    System.out.println(inputLine);
+                    sb.append(inputLine+"\n");
+                    ls.add(inputLine) ;
+                }
+
+                if(ls.size() != 0) {
+                    for (String info : ls) {
+                        str = info.split(Pattern.quote(" "));
+                        userObject r = new userObject();
+
+                        if(str[0].compareTo("") != 0) {
+                            r.fname = str[0];
+                            r.lname = str[1];
+                            r.email = str[2];
+                            r.phone = str[3];
+                            r.hoursCon = str[4];
+                            recs.add(r);
+                        }
                     }
                 }
 
@@ -795,11 +919,37 @@ public class DAO {
     }
 
 
-
-    public boolean phpAddRecord(record rec) {
+    public void phpDeleteRecord(userObject user){
         BufferedReader in;
 
-        String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/insertRecord.php?driveid="+rec.driveId+"&volid="+rec.volunteerId+"&hourscon="+rec.hoursContributed+"&opdate="+rec.operationDayDate+"&dsdate="+rec.driveStartDate;
+        String input = link + "deleteRecord.php?id="+user.recId+"&userid="+user.id;
+        StringBuilder sb = new StringBuilder();
+        String inputLine;
+
+        if(phpConnection()){
+            try {
+                URL connectURL = new URL(input);
+                in = new BufferedReader(new InputStreamReader(connectURL.openStream()));
+
+                while((inputLine = in.readLine()) != null){
+                    System.out.println(inputLine);
+                    sb.append(inputLine+"\n");
+                }
+                System.out.println(sb);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            //AlertBox.display("INSERT", "Could not Insert" + "\nPlease Check Form Input");
+        }
+    }
+
+    public boolean phpAddRecord(record rec, String name) {
+        BufferedReader in;
+
+        String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/insertRecord.php?driveid="+rec.driveId+"&volid="+rec.volunteerId+"&hourscon="+rec.hoursContributed+"&opdate="+rec.operationDayDate+"&dsdate="+rec.driveStartDate+"&super="+name;
         StringBuilder sb = new StringBuilder();
         String inputLine;
 
@@ -827,10 +977,10 @@ public class DAO {
         }
     }
 
-    public boolean phpUpdateRecord(record rec) {
+    public boolean phpUpdateRecord(record rec, String name) {
         BufferedReader in;
 
-        String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/updateRecord.php?driveid="+rec.driveId+"&volid="+rec.volunteerId+"&hourscon="+rec.hoursContributed+"&opdate="+rec.operationDayDate+"&dsdate="+rec.driveStartDate;
+        String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/updateRecord.php?driveid="+rec.driveId+"&volid="+rec.volunteerId+"&hourscon="+rec.hoursContributed+"&opdate="+rec.operationDayDate+"&dsdate="+rec.driveStartDate+"&super="+name;
         StringBuilder sb = new StringBuilder();
         String inputLine;
 

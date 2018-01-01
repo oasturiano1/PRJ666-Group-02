@@ -15,6 +15,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.MotionBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,7 +24,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1328.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.adminController">
+<AnchorPane prefHeight="720.0" prefWidth="1328.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.adminController">
    <children>
       <MenuBar layoutX="-3.0" layoutY="-1.0" prefHeight="32.0" prefWidth="1376.0">
          <menus>
@@ -64,22 +65,25 @@
                                     <Label text="First name:" />
                                     <Label layoutX="20.0" layoutY="52.0" text="Last name:" GridPane.rowIndex="1" />
                                     <Label text="Phone Number:" GridPane.rowIndex="2" />
-                                    <Label text="Password:" GridPane.rowIndex="3" />
+                                    <Label text="Email:" GridPane.rowIndex="3" />
                                     <Label prefHeight="17.0" prefWidth="78.0" text="Total Hours:" GridPane.rowIndex="4" />
                                     <Label prefHeight="17.0" prefWidth="88.0" text="Hours Signed:" GridPane.rowIndex="5" />
                                     <Label text="Contact Name:" GridPane.rowIndex="6" />
                                     <Label text="Contact Number:" GridPane.rowIndex="7" />
-                                    <Label text="Email:" GridPane.rowIndex="8" />
+                                    <Label text="Password:" GridPane.rowIndex="8" />
 
 
-                                    <JFXTextField fx:id="passw" labelFloat="true" promptText="Password" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <JFXTextField fx:id="email" labelFloat="true" promptText="Email" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <JFXTextField fx:id="email" labelFloat="true" promptText="Email" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <JFXTextField id="blur" fx:id="passw" labelFloat="true" promptText="Password" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                       <effect>
+                                          <MotionBlur />
+                                       </effect></JFXTextField>
                                     <JFXTextField fx:id="contactName" labelFloat="true" promptText="Name" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                     <JFXTextField fx:id="contactNum" labelFloat="true" promptText="Number" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                     <JFXTextField fx:id="fname" labelFloat="true" promptText="First Name" stylesheets="@adminStyle.css" GridPane.columnIndex="1" />
                                     <JFXTextField fx:id="lname" labelFloat="true" promptText="Last name" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <JFXTextField fx:id="phoneNum" labelFloat="true" promptText="Phone Number XXX-XXX-XXXX" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <JFXTextField fx:id="totHours" labelFloat="true" promptText="Total Hours" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <JFXTextField fx:id="totHours" editable="false" labelFloat="true" promptText="Total Hours" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <JFXTextField fx:id="totSigned" labelFloat="true" promptText="Total Hours Signed" stylesheets="@adminStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                  </children>
                                  <padding>
@@ -128,7 +132,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="excelButton" layoutX="45.0" layoutY="10.0" mnemonicParsing="false" onAction="#ExportToExcel">
+                                    <Button fx:id="excelButton" layoutX="45.0" layoutY="10.0" mnemonicParsing="false" onAction="#phpExportToExcel">
                                        <graphic>
                                           <ImageView fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -144,13 +148,12 @@
                                     <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
                                     <TableColumn fx:id="fnameCol" prefWidth="75.0" text="First Name" />
                                     <TableColumn fx:id="lnameCol" prefWidth="75.0" text="Last Name" />
-                                    <TableColumn fx:id="phoneNumCol" prefWidth="75.0" text="Phone Number" />
-                                    <TableColumn fx:id="passwordCol" prefWidth="75.0" text="Password" />
-                                    <TableColumn fx:id="totHoursCol" prefWidth="75.0" text="Total Hours" />
-                                    <TableColumn fx:id="totSignedCol" prefWidth="82.0" text="Hours Signed" />
-                                    <TableColumn fx:id="conNameCol" minWidth="0.0" prefWidth="102.0" text="Contact Name" />
-                                    <TableColumn fx:id="conNumCol" minWidth="0.0" prefWidth="102.0" text="Contact Number" />
-                                    <TableColumn fx:id="emailCol" prefWidth="102.0" text="Email" />
+                                    <TableColumn fx:id="phoneNumCol" prefWidth="106.0" text="Phone Number" />
+                                    <TableColumn fx:id="totHoursCol" prefWidth="83.0" text="Total Hours" />
+                                    <TableColumn fx:id="totSignedCol" prefWidth="98.0" text="Hours Signed" />
+                                    <TableColumn fx:id="conNameCol" minWidth="0.0" prefWidth="101.0" text="Contact Name" />
+                                    <TableColumn fx:id="conNumCol" minWidth="0.0" prefWidth="129.0" text="Contact Number" />
+                                    <TableColumn fx:id="emailCol" prefWidth="116.0" text="Email" />
                                  </columns>
                               </TableView>
                               <TextField id="search" fx:id="searchId" layoutX="538.0" layoutY="3.0" onAction="#phpLoadSelectedData" prefHeight="41.0" prefWidth="182.0" promptText="first,last" stylesheets="@adminStyle.css" />

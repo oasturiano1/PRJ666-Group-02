@@ -8,6 +8,7 @@
 #logPane{
    -fx-background-image: url("LoginFull.png");
    /* -fx-background-size: cover;*/
+  /*-fx-background-color: dd6765;*/
     -fx-background-color: dd6765;
    /* -fx-background-color: white;*/
     -fx-background-repeat: no-repeat;

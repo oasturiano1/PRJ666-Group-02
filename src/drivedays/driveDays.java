@@ -104,7 +104,7 @@ public class driveDays  extends Application implements Initializable {
 
 
     }
-
+/*
     @FXML
     public void addDay()throws IOException{
 
@@ -113,7 +113,7 @@ public class driveDays  extends Application implements Initializable {
         Pane root = null;
         root = (Pane) loader.load(getClass().getResource("/drivedays/addDay.fxml").openStream());
         addDay ac = (addDay) loader.getController();
-        ac.setDrive(selectD, selDay, selUser);
+        ac.setDrive(selectD, selDay, selUser,"");
         //ac.setDrive(selectD);
 
         Scene scene = new Scene(root);
@@ -122,6 +122,23 @@ public class driveDays  extends Application implements Initializable {
         userStage.show();
     }
 
+    @FXML
+    public void editDay()throws IOException{
+
+        Stage userStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = null;
+        root = (Pane) loader.load(getClass().getResource("/drivedays/addDay.fxml").openStream());
+        addDay ac = (addDay) loader.getController();
+        ac.setDrive(selectD, selDay, selUser,"");
+        //ac.setDrive(selectD);
+
+        Scene scene = new Scene(root);
+        userStage.setScene(scene);
+        userStage.setTitle("Add Drive");
+        userStage.show();
+    }
+*/
     @FXML
     public void viewDriveDays() throws IOException {
         System.out.println("PRESSING!");
@@ -154,7 +171,7 @@ public class driveDays  extends Application implements Initializable {
 
         //try {
             //Connection connection = db.connect();
-            records = dao.phpgetAllDriveDays(selectD.start);
+            records = dao.phpgetAllDriveDays(selectD);
             //connection.close();
         //} catch (SQLException e) {
         //    e.printStackTrace();
@@ -242,7 +259,8 @@ public class driveDays  extends Application implements Initializable {
     public void loadData() {
         daysList.getItems().clear();
         //Connection connection = db.connect();
-        records = dao.phpgetAllDriveDays(selectD.start);
+        records = dao.phpgetAllDriveDays(selectD);
+        records = dao.phpgetAllDriveDays(selectD);
         //daysList.getItems().clear();
         for(int i = 0; i < records.size(); i++){
             daysList.getItems().add(records.get(i).operationDayDate);
