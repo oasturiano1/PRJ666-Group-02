@@ -348,7 +348,7 @@ public class addDay extends Application implements Initializable{
         FXMLLoader loader = new FXMLLoader();
         Pane root = (Pane) loader.load(getClass().getResource("/drives/drives.fxml").openStream());
         drivesController ac =(drivesController) loader.getController();
-
+        ac.setName(adminName);
         Scene scene = new Scene(root);
         userStage.setScene(scene);
         userStage.setTitle("Drives");

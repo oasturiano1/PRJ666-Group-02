@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class userObject {
-    public String fname, lname, email, phone, pass, hourstotal, hourssigned, ename, ephone ="", hoursCon, date;
+    public String fname, lname, email, phone, pass, hourstotal, hourssigned, ename, ephone ="", hoursCon, date, supervisor;
     public int id, recId;
 
     public static final Pattern valEmail =

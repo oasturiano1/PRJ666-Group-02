@@ -57,6 +57,9 @@ public class drivesController extends Application implements Initializable {
     Labeled contactNu;
 
     @FXML
+    Labeled supervisor;
+
+    @FXML
     Labeled drivestart;
 
     @FXML
@@ -350,7 +353,7 @@ public class drivesController extends Application implements Initializable {
                 hours.setText("---");
                 contactNa.setText("---");
                 contactNu.setText("---");
-
+                supervisor.setText("---");
 
 
                 records = dao.phpgetAllDriveDays(selectD);
@@ -389,6 +392,7 @@ public class drivesController extends Application implements Initializable {
                     hours.setText("---");
                     contactNa.setText("---");
                     contactNu.setText("---");
+                    supervisor.setText("---");
 
                     System.out.println("clicked on " + daysList.getSelectionModel().getSelectedItem());
                     opDay = daysList.getSelectionModel().getSelectedItem();
@@ -428,6 +432,7 @@ public class drivesController extends Application implements Initializable {
                     hours.setText("Hours Contributed:" + selUser.hoursCon);
                     contactNa.setText("Contact Name:" + selUser.ename);
                     contactNu.setText("Contact Number:" + selUser.ephone);
+                    supervisor.setText("Supervisor:" + selUser.supervisor);
 
                     contribution = selUser.hoursCon;
                 }

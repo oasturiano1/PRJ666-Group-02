@@ -870,6 +870,9 @@ public class DAO {
                         r.phone = str[4];
                         r.ename = str[5];
                         r.ephone = str[6];
+                        r.id= Integer.parseInt(str[7]);
+                        r.recId= Integer.parseInt(str[8]);
+                        r.supervisor = str[9];
                         recs.add(r);
                     }
                 }
