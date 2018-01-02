@@ -10,7 +10,6 @@
 
 <AnchorPane id="signUpLogPane" fx:id="signupPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="488.0" stylesheets="@signUpStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="signup.SignUp">
     <children>
-        <Label fx:id="error" layoutX="915.0" layoutY="254.0" prefHeight="58.0" prefWidth="89.0" />
       <AnchorPane layoutX="27.0" layoutY="33.0" prefHeight="541.0" prefWidth="435.0" styleClass="card">
          <children>
               <JFXTextField id="fullname" fx:id="fname" layoutX="21.0" layoutY="108.0" promptText="First Name" stylesheets="@signUpStyle.css" />
@@ -21,8 +20,9 @@
               <JFXPasswordField id="confpassw" fx:id="passconf" layoutX="266.0" layoutY="163.0" promptText="Confirm Password" stylesheets="@/admin/adminStyle.css" />
               <JFXTextField id="contactname" fx:id="emname" layoutX="21.0" layoutY="322.0" promptText="Contact Name" stylesheets="@/admin/adminStyle.css" />
               <JFXTextField id="contactnumber" fx:id="emnumber" layoutX="21.0" layoutY="376.0" promptText="Contact Phone Number" stylesheets="@/admin/adminStyle.css" />
-            <JFXButton fx:id="signupbtn" buttonType="RAISED" layoutX="172.0" layoutY="501.0" onAction="#phpignUpMethod" ripplerFill="#b8d859" text="SignUp" />
+            <JFXButton fx:id="signupbtn" buttonType="RAISED" layoutX="172.0" layoutY="501.0" onAction="#signUpMethod" ripplerFill="#b8d859" text="SignUp" />
             <JFXButton fx:id="cancel" buttonType="RAISED" layoutX="256.0" layoutY="501.0" onAction="#close" ripplerFill="#b8d859" text="Cancel" />
+              <Label fx:id="error" layoutX="14.0" layoutY="419.0" prefHeight="58.0" prefWidth="368.0" />
          </children>
       </AnchorPane>
       <Pane layoutX="52.0" layoutY="6.0" prefHeight="98.0" prefWidth="385.0" style="-fx-background-color: b8d859;" styleClass="card">

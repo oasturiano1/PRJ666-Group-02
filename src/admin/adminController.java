@@ -684,6 +684,19 @@ public class adminController extends Application implements Initializable {
             //microsft 2007-
             XSSFWorkbook workbook = new XSSFWorkbook();//for eatlir version use HSSF
             XSSFSheet sheet = workbook.createSheet("Information");
+
+
+            sheet.setColumnWidth(0, 2560);
+            sheet.setColumnWidth(1, 6560);
+            sheet.setColumnWidth(2, 6560);
+            sheet.setColumnWidth(3, 6560);
+            sheet.setColumnWidth(4, 6560);
+            sheet.setColumnWidth(5, 6560);
+            sheet.setColumnWidth(6, 6560);
+            sheet.setColumnWidth(7, 6560);
+            sheet.setColumnWidth(8, 6560);
+            sheet.setColumnWidth(9, 6560);
+
             XSSFRow header = sheet.createRow(0);//first rwo
             header.createCell(0).setCellValue("ID");//first col
             header.createCell(1).setCellValue("First Name");
@@ -694,7 +707,7 @@ public class adminController extends Application implements Initializable {
             header.createCell(6).setCellValue("hoursTotal");
             header.createCell(7).setCellValue("hoursSigned");
             header.createCell(8).setCellValue("contactName");
-            header.createCell(8).setCellValue("contactPhone");
+            header.createCell(9).setCellValue("contactPhone");
 
             int index = 1;
 
@@ -709,26 +722,38 @@ public class adminController extends Application implements Initializable {
                 row.createCell(6).setCellValue(resultSet.getString("hoursTotal"));
                 row.createCell(7).setCellValue(resultSet.getString("hoursSigned"));
                 row.createCell(8).setCellValue(resultSet.getString("contactName"));
-                row.createCell(8).setCellValue(resultSet.getString("contactPhone"));
+                row.createCell(9).setCellValue(resultSet.getString("contactPhone"));
                 index++;
             }
 
-            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\dance\\Desktop\\Details.xlsx");
-            workbook.write(fileOutputStream);
-            fileOutputStream.close();
+            //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\dance\\Desktop\\Details.xlsx");
+            FileOutputStream fileOutputStream = null;
+            try {
+                Stage stage = (Stage) searchButton.getScene().getWindow();
+                DirectoryChooser dChooser = new DirectoryChooser();
+                dChooser.setTitle("Save Food Drive Report");
+                File selectedDirectory = dChooser.showDialog(stage);
 
+                if (selectedDirectory != null) {
+                    fileOutputStream = new FileOutputStream(new File(selectedDirectory.getAbsolutePath() + "\\Volunteer Report.xlsx"));
+                    workbook.write(fileOutputStream);
+                    fileOutputStream.close();
+                } else {
+                    AlertBox.display("EXPORT", "No folder Selected!");
+                }
+
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             AlertBox.display("EXPORT", "Export Successful");
-
-            resultSet.close();;
-            stmt.close();
 
             connection.close();
         } catch (SQLException e) {
             System.err.println("Load Database err " + e);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
@@ -1050,7 +1075,7 @@ public class adminController extends Application implements Initializable {
        try {
            Stage stage = (Stage) searchButton.getScene().getWindow();
            DirectoryChooser dChooser = new DirectoryChooser();
-           dChooser.setTitle("Food Drive Volunteers Report");
+           dChooser.setTitle("Select Volunteers Report Location");
            File selectedDirectory = dChooser.showDialog(stage);
 
 

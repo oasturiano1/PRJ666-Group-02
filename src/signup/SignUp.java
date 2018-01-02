@@ -1,5 +1,6 @@
 package signup;
 
+import admin.AlertBox;
 import admin.formValidation;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -111,11 +112,14 @@ public class SignUp extends Application implements Initializable{
                 newUser.ename.isEmpty()||
                 newUser.ephone.isEmpty()){
             errCatch = false;
+            AlertBox.display("ERROR", "All fields are required!");
         }
 
 
         if (dao.phpEmailExists(email.getText())) {
             email.setFocusColor(RED);
+            String t = email.getText().toString();
+            if(email.getText().toString().compareTo("")!=0)
             email.setPromptText("Invalid - Email Already Used");
             errCatch = false;
         }
@@ -418,7 +422,8 @@ public class SignUp extends Application implements Initializable{
 
         if (dao.phpEmailExists(email.getText())) {
             email.setFocusColor(RED);
-            email.setPromptText("Invalid - Email Already Used");
+            if(email.getText().toString().compareTo("")!=0)
+                email.setPromptText("Invalid - Email Already Used");
             errCatch = false;
         }
 

@@ -630,7 +630,7 @@ public class DAO {
                         rec.driveId = Integer.parseInt(str[2]);
                         rec.volunteerId = Integer.parseInt(str[3]);
                         rec.operationDayDate = str[4];
-                        rec.hoursContributed = Integer.parseInt(str[5]);
+                        rec.hoursContributed = Double.parseDouble(str[5]);
                     }
                 }else{
                     return  null;
