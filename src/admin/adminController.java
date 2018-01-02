@@ -38,6 +38,7 @@ package admin;
         import javafx.scene.input.MouseEvent;
         import javafx.scene.layout.Pane;
         import javafx.scene.text.Text;
+        import javafx.stage.DirectoryChooser;
         import javafx.stage.FileChooser;
         import javafx.stage.Stage;
         import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -52,6 +53,7 @@ package admin;
         import java.sql.ResultSet;
         import java.sql.SQLException;
         import java.util.ArrayList;
+        import java.util.Date;
         import java.util.List;
         import java.util.ResourceBundle;
         import java.util.regex.Pattern;
@@ -164,6 +166,7 @@ public class adminController extends Application implements Initializable {
         fname.textProperty().addListener(e -> ErrTester(fname));
         lname.textProperty().addListener(e -> ErrTester(lname));
         phoneNum.textProperty().addListener(E -> phoneTester(phoneNum));
+        totHours.setDisable(true);
         //totHours.textProperty().addListener(E -> phoneTester(totHours));
         totSigned.textProperty().addListener(E -> hrTester(totSigned));
         contactName.textProperty().addListener(P -> ErrTester(contactName));
@@ -1009,45 +1012,56 @@ public class adminController extends Application implements Initializable {
            this.observableList.add(new UserData(str[0],  str[1],  str[2],  str[3],  str[4],  str[5],  str[6],  str[7],  str[8],str[9]));
        }
        */
-     String createorName = new Controller().uName;
-           //microsft 2007-
-           XSSFWorkbook workbook = new XSSFWorkbook();//for eatlir version use HSSF
-           XSSFSheet sheet = workbook.createSheet(createorName);
-           XSSFRow header = sheet.createRow(0);//first rwo
-           header.createCell(0).setCellValue("ID");//first col
-           header.createCell(1).setCellValue("First Name");
-           header.createCell(2).setCellValue("Last Name");
-           header.createCell(3).setCellValue("Email");
-           header.createCell(4).setCellValue("Phone");
-          // header.createCell(5).setCellValue("Password");
-           header.createCell(6).setCellValue("hoursTotal");
-           header.createCell(7).setCellValue("hoursSigned");
-           header.createCell(8).setCellValue("contactName");
-           header.createCell(8).setCellValue("contactPhone");
+       String createorName = new Controller().uName;
+       //microsft 2007-
+       XSSFWorkbook workbook = new XSSFWorkbook();//for eatlir version use HSSF
+       XSSFSheet sheet = workbook.createSheet(createorName);
+       XSSFRow header = sheet.createRow(0);//first rwo
+       header.createCell(0).setCellValue("ID");//first col
+       header.createCell(1).setCellValue("First Name");
+       header.createCell(2).setCellValue("Last Name");
+       header.createCell(3).setCellValue("Email");
+       header.createCell(4).setCellValue("Phone");
+       header.createCell(5).setCellValue("Password");
+       header.createCell(6).setCellValue("hoursTotal");
+       header.createCell(7).setCellValue("hoursSigned");
+       header.createCell(8).setCellValue("contactName");
+       header.createCell(8).setCellValue("contactPhone");
 
-           int index = 1;
+       int index = 1;
 
-           for(String info:ls){
-               str =  info.split(Pattern.quote(" "));
-               XSSFRow row = sheet.createRow(index);
-               row.createCell(0).setCellValue(str[0]);
-               row.createCell(1).setCellValue(str[1]);
-               row.createCell(2).setCellValue(str[2]);
-               row.createCell(3).setCellValue(str[3]);
-               row.createCell(4).setCellValue(str[4]);
-             //  row.createCell(5).setCellValue(str[5]);
-               row.createCell(6).setCellValue(str[6]);
-               row.createCell(7).setCellValue(str[7]);
-               row.createCell(8).setCellValue(str[8]);
-               row.createCell(8).setCellValue(str[9]);
-               index++;
-           }
+       for(String info:ls){
+           str =  info.split(Pattern.quote(" "));
+           XSSFRow row = sheet.createRow(index);
+           row.createCell(0).setCellValue(str[0]);
+           row.createCell(1).setCellValue(str[1]);
+           row.createCell(2).setCellValue(str[2]);
+           row.createCell(3).setCellValue(str[3]);
+           row.createCell(4).setCellValue(str[4]);
+           row.createCell(5).setCellValue(str[5]);
+           row.createCell(6).setCellValue(str[6]);
+           row.createCell(7).setCellValue(str[7]);
+           row.createCell(8).setCellValue(str[8]);
+           row.createCell(8).setCellValue(str[9]);
+           index++;
+       }
 
        FileOutputStream fileOutputStream = null;
        try {
-           fileOutputStream = new FileOutputStream("C:\\Users\\dance\\Desktop\\Details.xlsx");
-           workbook.write(fileOutputStream);
-           fileOutputStream.close();
+           Stage stage = (Stage) searchButton.getScene().getWindow();
+           DirectoryChooser dChooser = new DirectoryChooser();
+           dChooser.setTitle("Food Drive Volunteers Report");
+           File selectedDirectory = dChooser.showDialog(stage);
+
+
+           if(selectedDirectory != null) {
+               fileOutputStream = new FileOutputStream(selectedDirectory.getAbsolutePath() + "\\Volunteer Report.xlsx");
+               workbook.write(fileOutputStream);
+           }else {
+               AlertBox.display("EXPORT", "No folder Selected!");
+           }
+               fileOutputStream.close();
+
 
        } catch (FileNotFoundException e) {
            e.printStackTrace();

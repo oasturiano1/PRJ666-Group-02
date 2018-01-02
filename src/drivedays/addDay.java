@@ -100,7 +100,7 @@ public class addDay extends Application implements Initializable{
     }
 
     public void setDrive(drive selectDrive, LocalDate selectDay, userObject selectUser, String con, String adminName){
-        int selectedVolIndex = 0;
+        int selectedVolIndex = -1;
         dao = new DAO();
         db = new dbConnection();
         sel = selectUser;
@@ -148,7 +148,7 @@ public class addDay extends Application implements Initializable{
             volunteerList.getItems().add(vols.get(i).fname + " " + vols.get(i).lname);
 
         }
-        if(selectedVolIndex != 0){
+        if(selectedVolIndex != -1){
             volunteerList.getSelectionModel().select(selectedVolIndex);
             volunteerList.scrollTo(selectedVolIndex);
         }

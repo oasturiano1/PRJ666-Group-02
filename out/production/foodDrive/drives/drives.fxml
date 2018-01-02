@@ -18,7 +18,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="378.0" prefWidth="453.0">
                <children>
-                  <GridPane layoutX="4.0" prefHeight="145.0" prefWidth="244.0" AnchorPane.bottomAnchor="233.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
+                  <GridPane layoutX="4.0" prefHeight="173.0" prefWidth="234.0" AnchorPane.bottomAnchor="205.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="0.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="10.0" prefWidth="87.0" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="157.0" />
@@ -27,6 +27,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
@@ -38,6 +39,7 @@
                         <Button mnemonicParsing="false" onAction="#addDrive" prefHeight="25.0" prefWidth="75.0" text="Add Drive" GridPane.rowIndex="3" />
                         <Label fx:id="errmsg" prefHeight="17.0" prefWidth="156.0" textFill="RED" GridPane.columnIndex="1" />
                         <Button fx:id="deleteDrive" mnemonicParsing="false" onAction="#deleteDrive" prefHeight="25.0" prefWidth="86.0" text="Delete Drive" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Button mnemonicParsing="false" onAction="#phpExportToExcel" prefHeight="25.0" prefWidth="75.0" text="Get Report" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                </children>

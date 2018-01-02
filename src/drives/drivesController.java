@@ -10,7 +10,10 @@ import database.dbConnection;
 import database.userObject;
 import drivedays.addDay;
 import drivedays.driveDays;
+import gui.Controller;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +23,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import records.record;
 import viewuser.userViewController;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -295,6 +305,7 @@ public class drivesController extends Application implements Initializable {
         sDate = sDatePicker.getValue();
         //eDate = eDatePicker.getValue();
         driveName.textProperty().addListener(e -> ErrTester(driveName));
+        selUser = new userObject();
         //try {
             //Connection connection = db.connect();
             //drives = dao.getAllDrives();
@@ -347,6 +358,7 @@ public class drivesController extends Application implements Initializable {
                 selectD = new drive();
                 selectD = drives.get(drivesList.getSelectionModel().getSelectedIndex());
 
+
                 fullname.setText("---");
                 email.setText("---");
                 pnumber.setText("---");
@@ -354,7 +366,7 @@ public class drivesController extends Application implements Initializable {
                 contactNa.setText("---");
                 contactNu.setText("---");
                 supervisor.setText("---");
-
+                selUser.id = 0;
 
                 records = dao.phpgetAllDriveDays(selectD);
                 //connection.close();
@@ -393,6 +405,7 @@ public class drivesController extends Application implements Initializable {
                     contactNa.setText("---");
                     contactNu.setText("---");
                     supervisor.setText("---");
+                    selUser.id = 0;
 
                     System.out.println("clicked on " + daysList.getSelectionModel().getSelectedItem());
                     opDay = daysList.getSelectionModel().getSelectedItem();
@@ -500,6 +513,86 @@ public class drivesController extends Application implements Initializable {
             //Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a drive to add records!", ButtonType.OK);
             //alert.showAndWait();
         }
+    }
+
+    public void phpExportToExcel(ActionEvent event) {
+
+        if(selectD.id != 0) {
+            List<userObject> ls = new ArrayList<>();
+            //this.observableList = FXCollections.observableArrayList();
+            //String[] str;
+
+            ls = dao.phpDriveReport(selectD.id);
+     /*  for(String info:ls){
+           str =  info.split(Pattern.quote(" "));
+           this.observableList.add(new UserData(str[0],  str[1],  str[2],  str[3],  str[4],  str[5],  str[6],  str[7],  str[8],str[9]));
+       }
+       */
+            String createorName = new Controller().uName;
+            //microsft 2007-
+            XSSFWorkbook workbook = new XSSFWorkbook();//for eatlir version use HSSF
+            XSSFSheet sheet = workbook.createSheet(createorName);
+            sheet.setColumnWidth(0, 6560);
+            sheet.setColumnWidth(1, 6560);
+            sheet.setColumnWidth(2, 6560);
+            sheet.setColumnWidth(3, 6560);
+            sheet.setColumnWidth(4, 6560);
+
+            XSSFRow header = sheet.createRow(0);//first rwo
+            header.createCell(0).setCellValue("First Name");//first col
+            header.createCell(1).setCellValue("Last Name");
+            header.createCell(2).setCellValue("Email");
+            header.createCell(3).setCellValue("Phone Number");
+            header.createCell(4).setCellValue("Hours Contributed");
+            // header.createCell(5).setCellValue("Password");
+            //header.createCell(6).setCellValue("hoursTotal");
+            // header.createCell(7).setCellValue("hoursSigned");
+            //header.createCell(8).setCellValue("contactName");
+            //header.createCell(8).setCellValue("contactPhone");
+
+            int index = 1;
+
+            for (userObject info : ls) {
+                //str =  info.split(Pattern.quote(" "));
+                XSSFRow row = sheet.createRow(index);
+                row.createCell(0).setCellValue(info.fname);
+                row.createCell(1).setCellValue(info.lname);
+                row.createCell(2).setCellValue(info.email);
+                row.createCell(3).setCellValue(info.phone);
+                row.createCell(4).setCellValue(info.hoursCon);
+                //  row.createCell(5).setCellValue(str[5]);
+                //row.createCell(6).setCellValue(str[6]);
+                //row.createCell(7).setCellValue(str[7]);
+                //row.createCell(8).setCellValue(str[8]);
+                //row.createCell(8).setCellValue(str[9]);
+                index++;
+            }
+
+            FileOutputStream fileOutputStream = null;
+            try {
+                Stage stage = (Stage) back.getScene().getWindow();
+                DirectoryChooser dChooser = new DirectoryChooser();
+                dChooser.setTitle("Save Food Drive Report");
+                File selectedDirectory = dChooser.showDialog(stage);
+
+                if (selectedDirectory != null) {
+                    fileOutputStream = new FileOutputStream(new File(selectedDirectory.getAbsolutePath() + "\\"+ selectD.name + " "+ selectD.start +" Report.xlsx"));
+                    workbook.write(fileOutputStream);
+                    fileOutputStream.close();
+                } else {
+                    AlertBox.display("EXPORT", "No folder Selected!");
+                }
+
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            AlertBox.display("EXPORT", "Export Successful");
+
+        }else {AlertBox.display("ERROR", "Please select a drive to report!");}
     }
 
     public static void main(String[] args){
