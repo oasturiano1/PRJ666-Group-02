@@ -178,6 +178,11 @@ public class drivesController extends Application implements Initializable {
     public void addDrive() throws SQLException {
         driveExists(errmsg);
 
+        if(driveName.getText().toString().compareTo("")==0){
+            errCatch = false;
+            errmsg.setText("Please enter a name!");
+        }
+
         if(errCatch){
 
             String startDate = sDate.toString();
@@ -579,6 +584,7 @@ public class drivesController extends Application implements Initializable {
                     fileOutputStream = new FileOutputStream(new File(selectedDirectory.getAbsolutePath() + "\\"+ selectD.name + " "+ selectD.start +" Report.xlsx"));
                     workbook.write(fileOutputStream);
                     fileOutputStream.close();
+                    AlertBox.display("EXPORT", "Export Successful");
                 } else {
                     AlertBox.display("EXPORT", "No folder Selected!");
                 }
@@ -590,7 +596,7 @@ public class drivesController extends Application implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            AlertBox.display("EXPORT", "Export Successful");
+
 
         }else {AlertBox.display("ERROR", "Please select a drive to report!");}
     }

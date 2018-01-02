@@ -76,7 +76,7 @@ public class SignUp extends Application implements Initializable{
     @FXML
     private Button cancel;
 
-    private Boolean errCatch = false;
+    private Boolean errCatch = false, errCatch1 = false, errCatch2 = true, errCatch3 = false, errCatch4 = true, errCatch5 = false, errCatch6 = false, errCatch7 = false;
 
     public void start(Stage stage) throws Exception {
         Parent root = (Parent) FXMLLoader.load(getClass().getResource("signup.fxml"));
@@ -87,7 +87,7 @@ public class SignUp extends Application implements Initializable{
     }
 
     public void signUpMethod() throws SQLException {
-
+        errCatch = true;
 
 
 
@@ -116,7 +116,7 @@ public class SignUp extends Application implements Initializable{
         }
 
 
-        if (dao.phpEmailExists(email.getText())) {
+        if (errCatch&&dao.phpEmailExists(email.getText())) {
             email.setFocusColor(RED);
             String t = email.getText().toString();
             if(email.getText().toString().compareTo("")!=0)
@@ -126,7 +126,7 @@ public class SignUp extends Application implements Initializable{
 
         //need to add more constraints
 
-        if(errCatch){
+        if(errCatch&&errCatch1&&errCatch2&&errCatch3&&errCatch4&&errCatch5&&errCatch6&&errCatch7){
 
             //boolean success = db.newUser(newUser);
             boolean success = dao.phpAddData(newUser);
@@ -161,8 +161,8 @@ public class SignUp extends Application implements Initializable{
     }
 
     public void ErrTester(JFXTextField textField) {
-        errCatch = formValidation.isNameCor(textField.getText());
-        if(errCatch == false){
+        errCatch1 = formValidation.isNameCor(textField.getText());
+        if(errCatch1 == false){
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid Name");
         } else{
@@ -185,8 +185,8 @@ public class SignUp extends Application implements Initializable{
     }
 
     public void dobTester(JFXTextField textField) {
-        errCatch = formValidation.isDate(textField.getText());
-        if (errCatch == false) {
+        errCatch2 = formValidation.isDate(textField.getText());
+        if (errCatch2 == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid Date");
         } else {
@@ -197,8 +197,8 @@ public class SignUp extends Application implements Initializable{
     }
 
     public void phoneTester(JFXTextField textField) {
-        errCatch = formValidation.isPhone(textField.getText());
-        if (errCatch == false) {
+        errCatch3 = formValidation.isPhone(textField.getText());
+        if (errCatch3 == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid Phone Number");
         } else {
@@ -209,8 +209,8 @@ public class SignUp extends Application implements Initializable{
     }
 
     public void postTester(JFXTextField textField) {
-        errCatch = formValidation.isPost(textField.getText());
-        if (errCatch == false) {
+        errCatch4 = formValidation.isPost(textField.getText());
+        if (errCatch4 == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid");
         } else {
@@ -221,13 +221,13 @@ public class SignUp extends Application implements Initializable{
     }
 
     public void mailTester(JFXTextField textField){
-        errCatch = formValidation.isMail(textField.getText());
+        errCatch5 = formValidation.isMail(textField.getText());
 
         //Connection connection = db.connect();
         //boolean emailExists = db.emailExists(email.getText());
         //connection.close();
 
-        if (errCatch == false) {
+        if (errCatch5 == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid Email Address");
         }else {
@@ -238,26 +238,30 @@ public class SignUp extends Application implements Initializable{
     }
 
     public void passTester(JFXPasswordField textField, JFXPasswordField originConf) {
-        errCatch = formValidation.isPassCor(textField.getText());
+        errCatch6 = formValidation.isPassCor(textField.getText());
         String o1 = textField.getText().toString();
         String o2 = originConf.getText().toString();
 
         if(o1.compareTo(o2) != 0){
             originConf.setFocusColor(RED);
             originConf.setPromptText("Invalid - Password does not match!");
+            errCatch6 = false;
         }
-        if (errCatch == false) {
+        if (errCatch6 == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid Password");
+            errCatch6 = false;
+
         } else {
             textField.setFocusColor(GREEN);
             textField.setPromptText("Password");
+
         }
 
     }
 
     public void passConfTester(JFXPasswordField origin, JFXPasswordField textField) {
-        errCatch = formValidation.isPassCor(textField.getText());
+        errCatch7 = formValidation.isPassCor(textField.getText());
         String o1 = origin.getText().toString();
         String o2 = textField.getText().toString();
 
@@ -266,7 +270,8 @@ public class SignUp extends Application implements Initializable{
         if(o1.compareTo(o2) != 0){
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid - Password does not match!");
-        }else if (errCatch == false) {
+            errCatch7 = false;
+        }else if (errCatch7 == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid Password");
         } else {

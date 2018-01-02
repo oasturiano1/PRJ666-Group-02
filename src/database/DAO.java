@@ -649,7 +649,7 @@ public class DAO {
     public boolean phpAddDrive(drive d){
         BufferedReader in;
 
-        String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/insertDrives.php?sdate=" + d.start +"&edate="+ d.end;
+        String input = "http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/insertDrives.php?sdate=" + d.start +"&name="+ d.name;
         StringBuilder sb = new StringBuilder();
         String inputLine;
 

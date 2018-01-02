@@ -674,12 +674,18 @@ public class adminController extends Application implements Initializable {
     @FXML
     public void ExportToExcel(ActionEvent event) {
 
-        String sql = "SELECT * FROM volunteer";
+        List<String> ls = new ArrayList<>();
+        this.observableList = FXCollections.observableArrayList();
+        String[] str;
+
+        ls = dao.getAll();
 
         try {
-            Connection connection = db.connect();
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet resultSet = stmt.executeQuery();
+
+
+            //Connection connection = db.connect();
+            //PreparedStatement stmt = connection.prepareStatement(sql);
+            //ResultSet resultSet = stmt.executeQuery();
 
             //microsft 2007-
             XSSFWorkbook workbook = new XSSFWorkbook();//for eatlir version use HSSF
@@ -711,24 +717,25 @@ public class adminController extends Application implements Initializable {
 
             int index = 1;
 
-            while(resultSet.next()){
+            for(String info:ls){
+                str =  info.split(Pattern.quote(" "));
                 XSSFRow row = sheet.createRow(index);
-                row.createCell(0).setCellValue(resultSet.getString("id"));
-                row.createCell(1).setCellValue(resultSet.getString("fname"));
-                row.createCell(2).setCellValue(resultSet.getString("lname"));
-                row.createCell(3).setCellValue(resultSet.getString("email"));
-                row.createCell(4).setCellValue(resultSet.getString("phoneNumber"));
-                row.createCell(5).setCellValue(resultSet.getString("password"));
-                row.createCell(6).setCellValue(resultSet.getString("hoursTotal"));
-                row.createCell(7).setCellValue(resultSet.getString("hoursSigned"));
-                row.createCell(8).setCellValue(resultSet.getString("contactName"));
-                row.createCell(9).setCellValue(resultSet.getString("contactPhone"));
+                row.createCell(0).setCellValue(str[0]);
+                row.createCell(1).setCellValue(str[1]);
+                row.createCell(2).setCellValue(str[2]);
+                row.createCell(3).setCellValue(str[3]);
+                row.createCell(4).setCellValue(str[4]);
+                row.createCell(5).setCellValue(str[5]);
+                row.createCell(6).setCellValue(str[6]);
+                row.createCell(7).setCellValue(str[7]);
+                row.createCell(8).setCellValue(str[8]);
+                row.createCell(8).setCellValue(str[9]);
                 index++;
             }
 
             //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\dance\\Desktop\\Details.xlsx");
             FileOutputStream fileOutputStream = null;
-            try {
+
                 Stage stage = (Stage) searchButton.getScene().getWindow();
                 DirectoryChooser dChooser = new DirectoryChooser();
                 dChooser.setTitle("Save Food Drive Report");
@@ -738,6 +745,7 @@ public class adminController extends Application implements Initializable {
                     fileOutputStream = new FileOutputStream(new File(selectedDirectory.getAbsolutePath() + "\\Volunteer Report.xlsx"));
                     workbook.write(fileOutputStream);
                     fileOutputStream.close();
+                    AlertBox.display("EXPORT", "Export Successful");
                 } else {
                     AlertBox.display("EXPORT", "No folder Selected!");
                 }
@@ -749,12 +757,10 @@ public class adminController extends Application implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            AlertBox.display("EXPORT", "Export Successful");
 
-            connection.close();
-        } catch (SQLException e) {
-            System.err.println("Load Database err " + e);
-        }
+
+            //connection.close();
+
 
     }
 
