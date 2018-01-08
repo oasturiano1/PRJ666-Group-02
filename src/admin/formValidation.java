@@ -9,7 +9,8 @@ public class formValidation {
     }
 
     public static Boolean isNameCor(String name){
-        String regex = "[a-zA-Z]+";
+        //String regex = "[a-zA-Z]+";
+        String regex = "[a-zA-Z]+(?:(?:\\. |[' ])[a-zA-Z]+)*";
 
         if(regex.length() > 25){
             return false;
@@ -76,9 +77,10 @@ public class formValidation {
         }
     }
     public static Boolean isHoursSigned(String post){
-        String regex = "\\d{1}\\d{1}\\.[0,5]";
-        String regexNext = "\\d{1}\\.[0,5]";
-        if(post.matches(regex) || post.matches(regexNext))
+        String regex = "\\d{1}\\.[0,5]";
+        String regexNext = "\\d{1}\\d{1}\\.[0,5]";
+        String regexNextNext2 = "^[0-9]*$";
+        if(post.matches(regex) || post.matches(regexNext)|| post.matches(regexNextNext2))
             return true;
         else if(post.isEmpty())
             return false;

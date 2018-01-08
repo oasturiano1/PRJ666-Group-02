@@ -76,7 +76,7 @@ public class SignUp extends Application implements Initializable{
     @FXML
     private Button cancel;
 
-    private Boolean errCatch = false, errCatch1 = false, errCatch2 = true, errCatch3 = false, errCatch4 = true, errCatch5 = false, errCatch6 = false, errCatch7 = false;
+    private Boolean errCatch = false,errCatch0 = false, errCatch1 = false, errCatch2 = false, errCatch3 = false, errCatch4 = false, errCatch5 = false, errCatch6 = false, errCatch7 = false;
 
     public void start(Stage stage) throws Exception {
         Parent root = (Parent) FXMLLoader.load(getClass().getResource("signup.fxml"));
@@ -126,7 +126,7 @@ public class SignUp extends Application implements Initializable{
 
         //need to add more constraints
 
-        if(errCatch&&errCatch1&&errCatch2&&errCatch3&&errCatch4&&errCatch5&&errCatch6&&errCatch7){
+        if(errCatch&&errCatch0&&errCatch1&&errCatch2&&errCatch3&&errCatch4&&errCatch5&&errCatch6&&errCatch7){
 
             //boolean success = db.newUser(newUser);
             boolean success = dao.phpAddData(newUser);
@@ -160,6 +160,7 @@ public class SignUp extends Application implements Initializable{
         connection.close();
     }
 
+    /*
     public void ErrTester(JFXTextField textField) {
         errCatch1 = formValidation.isNameCor(textField.getText());
         if(errCatch1 == false){
@@ -169,29 +170,43 @@ public class SignUp extends Application implements Initializable{
             textField.setFocusColor(GREEN);
             textField.setPromptText("Name");
         }
+    }*/
 
-        /*textField.setOnKeyTyped(event -> {
-            int max = 15;
-            if ((fname.getText().length() >= max)) {
-                textField.setFocusColor(RED);
-                textField.setPromptText("Invalid Name");
-                 event.consume();
-
-            } else {
-                textField.setFocusColor(GREEN);
-                textField.setPromptText("Name");
-            }
-        });*/
+    public void fNameTester(JFXTextField textField) {
+        errCatch0 = formValidation.isNameCor(textField.getText());
+        if(errCatch0 == false){
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Name");
+        } else{
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Name");
+        }
     }
 
-    public void dobTester(JFXTextField textField) {
-        errCatch2 = formValidation.isDate(textField.getText());
+    public void lNameTester(JFXTextField textField) {
+        errCatch1 = formValidation.isNameCor(textField.getText());
+        if(errCatch1 == false){
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Name");
+        } else{
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Name");
+        }
+    }
+
+    public void mailTester(JFXTextField textField){
+        errCatch2 = formValidation.isMail(textField.getText());
+
+        //Connection connection = db.connect();
+        //boolean emailExists = db.emailExists(email.getText());
+        //connection.close();
+
         if (errCatch2 == false) {
             textField.setFocusColor(RED);
-            textField.setPromptText("Invalid Date");
-        } else {
+            textField.setPromptText("Invalid Email Address");
+        }else {
             textField.setFocusColor(GREEN);
-            textField.setPromptText("YYYY-MM-DD");
+            textField.setPromptText("me@someMall.com");
         }
 
     }
@@ -208,49 +223,15 @@ public class SignUp extends Application implements Initializable{
 
     }
 
-    public void postTester(JFXTextField textField) {
-        errCatch4 = formValidation.isPost(textField.getText());
-        if (errCatch4 == false) {
-            textField.setFocusColor(RED);
-            textField.setPromptText("Invalid");
-        } else {
-            textField.setFocusColor(GREEN);
-            textField.setPromptText("l6a34");
-        }
-
-    }
-
-    public void mailTester(JFXTextField textField){
-        errCatch5 = formValidation.isMail(textField.getText());
-
-        //Connection connection = db.connect();
-        //boolean emailExists = db.emailExists(email.getText());
-        //connection.close();
-
-        if (errCatch5 == false) {
-            textField.setFocusColor(RED);
-            textField.setPromptText("Invalid Email Address");
-        }else {
-            textField.setFocusColor(GREEN);
-            textField.setPromptText("me@someMall.com");
-        }
-
-    }
-
     public void passTester(JFXPasswordField textField, JFXPasswordField originConf) {
-        errCatch6 = formValidation.isPassCor(textField.getText());
+        errCatch4 = formValidation.isPassCor(textField.getText());
         String o1 = textField.getText().toString();
         String o2 = originConf.getText().toString();
 
-        if(o1.compareTo(o2) != 0){
-            originConf.setFocusColor(RED);
-            originConf.setPromptText("Invalid - Password does not match!");
-            errCatch6 = false;
-        }
-        if (errCatch6 == false) {
+        if (errCatch4 == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid Password");
-            errCatch6 = false;
+            //errCatch4 = false;
 
         } else {
             textField.setFocusColor(GREEN);
@@ -258,10 +239,21 @@ public class SignUp extends Application implements Initializable{
 
         }
 
+        if(o1.compareTo(o2) != 0){
+            originConf.setFocusColor(RED);
+            originConf.setPromptText("Invalid - Password does not match!");
+            errCatch4 = false;
+        }else {
+            originConf.setFocusColor(GREEN);
+            originConf.setPromptText("Password");
+            errCatch5 = true;
+        }
+
+
     }
 
     public void passConfTester(JFXPasswordField origin, JFXPasswordField textField) {
-        errCatch7 = formValidation.isPassCor(textField.getText());
+        errCatch5 = formValidation.isPassCor(textField.getText());
         String o1 = origin.getText().toString();
         String o2 = textField.getText().toString();
 
@@ -270,13 +262,38 @@ public class SignUp extends Application implements Initializable{
         if(o1.compareTo(o2) != 0){
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid - Password does not match!");
-            errCatch7 = false;
-        }else if (errCatch7 == false) {
+            errCatch5 = false;
+        }else if (errCatch5 == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid Password");
         } else {
             textField.setFocusColor(GREEN);
             textField.setPromptText("Password");
+            errCatch4 = true;
+            //passTester(origin,textField);
+        }
+
+    }
+
+    public void eNameTester(JFXTextField textField) {
+        errCatch6 = formValidation.isNameCor(textField.getText());
+        if(errCatch6 == false){
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Name");
+        } else{
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Name");
+        }
+    }
+
+    public void ePhoneTester(JFXTextField textField) {
+        errCatch7 = formValidation.isPhone(textField.getText());
+        if (errCatch7 == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Phone Number");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("XXX-XXX-XXXX or XXXXXXXXXX");
         }
 
     }
@@ -299,7 +316,7 @@ public class SignUp extends Application implements Initializable{
         emname.setLabelFloat(true);
         emnumber.setLabelFloat(true);
 
-        fname.textProperty().addListener(e -> ErrTester(fname));
+        fname.textProperty().addListener(e -> fNameTester(fname));
 
        fname.setOnKeyTyped(event -> {
             int maxChar = 20;
@@ -309,7 +326,7 @@ public class SignUp extends Application implements Initializable{
                 fname.setPromptText("Wroung Value Length");
             }
         });
-        lname.textProperty().addListener(e -> ErrTester(lname));
+        lname.textProperty().addListener(e -> lNameTester(lname));
         lname.setOnKeyTyped(event -> {
             int maxChar = 20;
             if(lname.getText().length() >= maxChar){
@@ -327,6 +344,8 @@ public class SignUp extends Application implements Initializable{
                 email.setPromptText("Wroung Value Length");
             }
         });
+
+        number.textProperty().addListener(e -> phoneTester(number));
         number.setOnKeyTyped(event -> {
             int max = 14;
             if(number.getText().length() >= max){
@@ -335,6 +354,8 @@ public class SignUp extends Application implements Initializable{
                 number.setPromptText("Wroung Value Length");
             }
         });
+
+        pass.textProperty().addListener(e -> passTester(pass,passconf));
         pass.setOnKeyTyped(event -> {
             int max = 20;
             if(pass.getText().length() >= max){
@@ -343,6 +364,8 @@ public class SignUp extends Application implements Initializable{
                 pass.setPromptText("Wroung Value Length");
             }
         });
+
+        passconf.textProperty().addListener(e -> passConfTester(pass,passconf));
         passconf.setOnKeyTyped(event -> {
             int max = 20;
             if(passconf.getText().length() >= max){
@@ -351,6 +374,8 @@ public class SignUp extends Application implements Initializable{
                 passconf.setPromptText("Wroung Value Length");
             }
         });
+
+        emname.textProperty().addListener(e -> eNameTester(emname));
         emname.setOnKeyTyped(event -> {
             int max = 20;
             if(emname.getText().length() >= max){
@@ -359,6 +384,8 @@ public class SignUp extends Application implements Initializable{
                 emname.setPromptText("Wroung Value Length");
             }
         });
+
+        emnumber.textProperty().addListener(e -> ePhoneTester(emnumber));
         emnumber.setOnKeyTyped(event -> {
             int max = 14;
             if(emnumber.getText().length() >= max){
@@ -389,12 +416,12 @@ public class SignUp extends Application implements Initializable{
          //       e1.printStackTrace();
          //   }
         //});
-        number.textProperty().addListener(e -> phoneTester(number));
-        pass.textProperty().addListener(e -> passTester(pass,passconf));
+
+
         //passconf.textProperty().addListener(e -> passTester(passconf));
-        passconf.textProperty().addListener(e -> passConfTester(pass,passconf));
-        emname.textProperty().addListener(e -> ErrTester(emname));
-        emnumber.textProperty().addListener(e -> phoneTester(emnumber));
+
+        //emname.textProperty().addListener(e -> ErrTester(emname));
+
     }
 
     public void phpignUpMethod(){

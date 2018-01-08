@@ -2,6 +2,7 @@ package admin;
 
         import com.jfoenix.controls.JFXDialog;
         import com.jfoenix.controls.JFXDialogLayout;
+        import com.jfoenix.controls.JFXPasswordField;
         import com.jfoenix.controls.JFXTextField;
         import com.jfoenix.validation.RequiredFieldValidator;
         import com.sun.rowset.internal.Row;
@@ -140,6 +141,7 @@ public class adminController extends Application implements Initializable {
     private dbConnection db;
     private ObservableList<UserData> observableList; //A list that enables listeners to track changes when they occur
     private RequiredFieldValidator validator;
+    private Boolean errCatch0 = false,errCatch1 = false,errCatch2 = false,errCatch3 = false,errCatch4 = false,errCatch5 = false,errCatch6 = false,errCatch7 = false;
     private Boolean errCatch;
     private whoIsLoggedIn whoIsLoggedIn;
     private String newDel;
@@ -163,14 +165,15 @@ public class adminController extends Application implements Initializable {
         loadphpData();
 
         /**************************validation**********************/
-        fname.textProperty().addListener(e -> ErrTester(fname));
-        lname.textProperty().addListener(e -> ErrTester(lname));
+        fname.textProperty().addListener(e -> fNameTester(fname));
+        lname.textProperty().addListener(e -> lNameTester(lname));
         phoneNum.textProperty().addListener(E -> phoneTester(phoneNum));
         totHours.setDisable(true);
+        passw.textProperty().addListener(E -> passTester(passw));
         //totHours.textProperty().addListener(E -> phoneTester(totHours));
         totSigned.textProperty().addListener(E -> hrTester(totSigned));
-        contactName.textProperty().addListener(P -> ErrTester(contactName));
-        contactNum.textProperty().addListener(P -> phoneTester(contactNum));
+        contactName.textProperty().addListener(P -> eNameTester(contactName));
+        contactNum.textProperty().addListener(P -> ePhoneTester(contactNum));
         email.textProperty().addListener(M -> mailTester(email));
         /*fname.getValidators().add(validator);
         fname.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -237,6 +240,7 @@ public class adminController extends Application implements Initializable {
                 passw.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
                 passw.setPromptText("");
                 passw.setEffect(new MotionBlur());
+
 
                /* phoneNum.setStyle("-fx-text-fill: green; -fx-font-size: 12;");
                 phoneNum.setPromptText("");*/
@@ -330,8 +334,19 @@ public class adminController extends Application implements Initializable {
 
     @FXML
     public void addData() {
+        errCatch = true;
+        if(fname.getText().isEmpty() ||
+                lname.getText().isEmpty()||
+                phoneNum.getText().isEmpty()||
+                email.getText().isEmpty()||
+                totSigned.getText().isEmpty()||
+                contactName.getText().isEmpty()||
+                contactNum.getText().isEmpty()||
+                passw.getText().isEmpty()){
+            errCatch = false;
+        }
 
-        if (errCatch && !fname.getText().isEmpty() && !lname.getText().isEmpty()) {
+        if (errCatch&&errCatch0&&errCatch1&&errCatch2&&errCatch3&&errCatch4&&errCatch5&&errCatch6&&errCatch7) {
 
             String insertsql = "INSERT INTO volunteer(fname, lname, email, phoneNumber, password, contactName, contactPhone, hoursTotal, hoursSigned) VALUES (?,?,?,?,?,?,?,?,?)";
             /*String gender = "";
@@ -582,11 +597,87 @@ public class adminController extends Application implements Initializable {
 
     }
 
+
+
+    @FXML
+    public void postTester(JFXTextField textField) {
+        errCatch = formValidation.isPost(textField.getText());
+        if (errCatch == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("l6a34");
+        }
+
+    }
+
+
+
+
+    public void fNameTester(JFXTextField textField) {
+        errCatch0 = formValidation.isNameCor(textField.getText());
+        if(errCatch0 == false){
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Name");
+        } else{
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Name");
+        }
+    }
+
+    public void lNameTester(JFXTextField textField) {
+        errCatch1 = formValidation.isNameCor(textField.getText());
+        if(errCatch1 == false){
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Name");
+        } else{
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Name");
+        }
+    }
+
+    @FXML
+    public void mailTester(JFXTextField textField) {
+        errCatch2 = formValidation.isMail(textField.getText());
+        if (errCatch2 == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("me@someMall.com");
+        }
+
+    }
+
+    @FXML
+    public void hrTester(JFXTextField textField) {
+        errCatch3 = formValidation.isHoursSigned(textField.getText());
+        int max = 4;
+
+        if (errCatch3 == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("");
+        }
+        textField.setOnKeyTyped(event -> {
+            if(textField.getText().length() > max){
+                event.consume();
+                textField.setFocusColor(PURPLE);
+                textField.setPromptText("Invalid Length");
+            }
+        });
+
+    }
+
+
     @FXML
     public void phoneTester(JFXTextField textField) {
-        errCatch = formValidation.isPhone(textField.getText());
+        errCatch4 = formValidation.isPhone(textField.getText());
         int max = 12;
-        if (errCatch == false) {
+        if (errCatch4 == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid");
         } else {
@@ -603,51 +694,41 @@ public class adminController extends Application implements Initializable {
 
     }
 
-    @FXML
-    public void postTester(JFXTextField textField) {
-        errCatch = formValidation.isPost(textField.getText());
-        if (errCatch == false) {
+    public void passTester(JFXTextField textField) {
+        errCatch5 = formValidation.isPassCor(textField.getText());
+        String o1 = textField.getText().toString();
+
+        if (errCatch5 == false) {
             textField.setFocusColor(RED);
-            textField.setPromptText("Invalid");
+            textField.setPromptText("Invalid Password");
+            errCatch5 = false;
+
         } else {
             textField.setFocusColor(GREEN);
-            textField.setPromptText("l6a34");
+            textField.setPromptText("Password");
         }
-
     }
 
-    @FXML
-    public void mailTester(JFXTextField textField) {
-        errCatch = formValidation.isMail(textField.getText());
-        if (errCatch == false) {
+    public void eNameTester(JFXTextField textField) {
+        errCatch6 = formValidation.isNameCor(textField.getText());
+        if(errCatch6 == false){
             textField.setFocusColor(RED);
-            textField.setPromptText("Invalid");
-        } else {
+            textField.setPromptText("Invalid Name");
+        } else{
             textField.setFocusColor(GREEN);
-            textField.setPromptText("me@someMall.com");
+            textField.setPromptText("Name");
         }
-
     }
 
-    @FXML
-    public void hrTester(JFXTextField textField) {
-        errCatch = formValidation.isHoursSigned(textField.getText());
-        int max = 4;
-
-        if (errCatch == false) {
+    public void ePhoneTester(JFXTextField textField) {
+        errCatch7 = formValidation.isPhone(textField.getText());
+        if (errCatch7 == false) {
             textField.setFocusColor(RED);
-            textField.setPromptText("Invalid");
+            textField.setPromptText("Invalid Phone Number");
         } else {
             textField.setFocusColor(GREEN);
-            textField.setPromptText("");
+            textField.setPromptText("XXX-XXX-XXXX or XXXXXXXXXX");
         }
-        textField.setOnKeyTyped(event -> {
-            if(textField.getText().length() > max){
-                event.consume();
-                textField.setFocusColor(PURPLE);
-                textField.setPromptText("Invalid Length");
-            }
-        });
 
     }
 
@@ -848,7 +929,7 @@ public class adminController extends Application implements Initializable {
         for(String info:ls){
             str =  info.split(Pattern.quote(" "));
             System.out.println(str[3]+str[4]);
-            if(str[3].equals(email.getText()) || str[4].equals(phoneNum.getText())){
+            if(str[3].equals(email.getText()) /*&& str[4].equals(phoneNum.getText())*/){
                 opt = true;
                 break;
             }
@@ -857,7 +938,20 @@ public class adminController extends Application implements Initializable {
         if(opt){
             AlertBox.display("INSERT", "Duplicate Records");
         } else{
-            if (errCatch && dao.phpConnection()){
+
+            errCatch = true;
+            if(fname.getText().isEmpty() ||
+                    lname.getText().isEmpty()||
+                    phoneNum.getText().isEmpty()||
+                    email.getText().isEmpty()||
+                    totSigned.getText().isEmpty()||
+                    contactName.getText().isEmpty()||
+                    contactNum.getText().isEmpty()||
+                    passw.getText().isEmpty()){
+                errCatch = false;
+                AlertBox.display("ERROR", "All fields are required!");
+            }else
+            if (errCatch && dao.phpConnection()&&errCatch0&&errCatch1&&errCatch2&&errCatch3&&errCatch4&&errCatch5&&errCatch6&&errCatch7){
 
                 if(dao.phpConnection()){
                     try {
@@ -932,9 +1026,19 @@ public class adminController extends Application implements Initializable {
         BufferedReader in;
         StringBuilder sb = new StringBuilder();
         String inputLine;
-       ;
 
-        if(errCatch && dao.phpConnection()) {
+
+        errCatch = true;
+        if(fname.getText().isEmpty() ||
+                lname.getText().isEmpty()||
+                phoneNum.getText().isEmpty()||
+                email.getText().isEmpty()||
+                totSigned.getText().isEmpty()||
+                contactName.getText().isEmpty()||
+                contactNum.getText().isEmpty()||
+                passw.getText().isEmpty()){
+            errCatch = false;AlertBox.display("ERROR", "All fields are required!");
+        }else if(errCatch&&dao.phpConnection()&&errCatch0&&errCatch1&&errCatch2&&errCatch3&&errCatch4&&errCatch5&&errCatch6&&errCatch7) {
 
             try {
                 URL connectURL = new URL(input);
@@ -953,7 +1057,7 @@ public class adminController extends Application implements Initializable {
                 e.printStackTrace();
             }
         }else {
-            AlertBox.display("UPDATE", "Could not update" + "\nPlease Contact Developer");
+            AlertBox.display("UPDATE", "Could not update" + "\nPlease Check Form Input");
         }
 
 
