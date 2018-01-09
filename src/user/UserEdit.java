@@ -1,5 +1,6 @@
 package user;
 
+import admin.AlertBox;
 import admin.formValidation;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -71,7 +72,7 @@ public class UserEdit extends Application implements Initializable{
 
     userObject user;
 
-    private Boolean errCatch = true;
+    private Boolean errCatch = true,errCatch0 = false, errCatch1 = false, errCatch2 = false, errCatch3 = false, errCatch4 = false, errCatch5 = false, errCatch6 = false, errCatch7 = false;
 
     public void start(Stage stage) throws Exception {
         Parent root = (Parent) FXMLLoader.load(getClass().getResource("signup.fxml"));
@@ -95,6 +96,7 @@ public class UserEdit extends Application implements Initializable{
 
 
         userObject newUser = new userObject();
+        newUser.id = user.id;
         newUser.fname = fname.getText();
         newUser.lname = lname.getText();
         newUser.email = email.getText();
@@ -111,22 +113,30 @@ public class UserEdit extends Application implements Initializable{
                 newUser.email.isEmpty()||
                 newUser.phone.isEmpty()||
                 newUser.phone.isEmpty()||
-                //newUser.pass.isEmpty()||
+                newUser.pass.isEmpty()||
                 newUser.ename.isEmpty()||
                 newUser.ephone.isEmpty()){
             errCatch = false;
+            AlertBox.display("ERROR", "All fields are required!");
         }
 
         if(user.email.compareTo(email.getText())!=0) {//if email has changed
-            if (dao.phpEmailExists(email.getText())) {
+            /*if (dao.phpEmailExists(email.getText())) {
                 email.setFocusColor(RED);
                 email.setPromptText("Invalid - New Email Already Used");
+                errCatch = false;
+            }*/
+            if (errCatch&&dao.phpEmailExists(email.getText())) {
+                email.setFocusColor(RED);
+                String t = email.getText().toString();
+                if(email.getText().toString().compareTo("")!=0)
+                    email.setPromptText("Invalid - Email Already Used");
                 errCatch = false;
             }
         }
         //need to add more constraints
 
-        if(errCatch){
+        if(errCatch&&errCatch0&&errCatch1&&errCatch2&&errCatch3&&errCatch4&&errCatch5&&errCatch6&&errCatch7){
             boolean success = dao.phpUpdateData(newUser);
             //boolean success = db.editUser(newUser, user);
             if(success){
@@ -216,9 +226,121 @@ public class UserEdit extends Application implements Initializable{
 
     }
 
+    public void fNameTester(JFXTextField textField) {
+        errCatch0 = formValidation.isNameCor(textField.getText());
+        if(errCatch0 == false){
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Name");
+        } else{
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Name");
+        }
+    }
+
+    public void lNameTester(JFXTextField textField) {
+        errCatch1 = formValidation.isNameCor(textField.getText());
+        if(errCatch1 == false){
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Name");
+        } else{
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Name");
+        }
+    }
+
+
+    public void mailTester(JFXTextField textField) throws SQLException {
+        errCatch2 = formValidation.isMail(textField.getText());
+
+        if(user.email.compareTo(email.getText().toString()) != 0){
+            if (errCatch == false) {
+                textField.setFocusColor(RED);
+                textField.setPromptText("Invalid Email Address");
+            }else {
+                textField.setFocusColor(GREEN);
+                textField.setPromptText("me@someMall.com");
+            }
+        }
+    }
+
     public void phoneTester(JFXTextField textField) {
-        errCatch = formValidation.isPhone(textField.getText());
-        if (errCatch == false) {
+        errCatch3 = formValidation.isPhone(textField.getText());
+        if (errCatch3 == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Phone Number");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("XXX-XXX-XXXX or XXXXXXXXXX");
+        }
+
+    }
+    public void passTester(JFXPasswordField textField, JFXPasswordField originConf) {
+        errCatch4 = formValidation.isPassCor(textField.getText());
+        String o1 = textField.getText().toString();
+        String o2 = originConf.getText().toString();
+
+        if (errCatch4 == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Password");
+            //errCatch4 = false;
+
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Password");
+
+        }
+
+        if(o1.compareTo(o2) != 0){
+            originConf.setFocusColor(RED);
+            originConf.setPromptText("Invalid - Password does not match!");
+            errCatch4 = false;
+        }else {
+            originConf.setFocusColor(GREEN);
+            originConf.setPromptText("Password");
+            errCatch5 = true;
+        }
+
+
+    }
+
+    public void passConfTester(JFXPasswordField origin, JFXPasswordField textField) {
+        errCatch5 = formValidation.isPassCor(textField.getText());
+        String o1 = origin.getText().toString();
+        String o2 = textField.getText().toString();
+
+        //errCatch = formValidation.isPassCor(textField.getText());
+
+        if(o1.compareTo(o2) != 0){
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid - Password does not match!");
+            errCatch5 = false;
+        }else if (errCatch5 == false) {
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Password");
+        } else {
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Password");
+            errCatch4 = true;
+            //passTester(origin,textField);
+        }
+
+    }
+
+
+    public void eNameTester(JFXTextField textField) {
+        errCatch6 = formValidation.isNameCor(textField.getText());
+        if(errCatch6 == false){
+            textField.setFocusColor(RED);
+            textField.setPromptText("Invalid Name");
+        } else{
+            textField.setFocusColor(GREEN);
+            textField.setPromptText("Name");
+        }
+    }
+
+    public void ePhoneTester(JFXTextField textField) {
+        errCatch7 = formValidation.isPhone(textField.getText());
+        if (errCatch7 == false) {
             textField.setFocusColor(RED);
             textField.setPromptText("Invalid Phone Number");
         } else {
@@ -240,58 +362,7 @@ public class UserEdit extends Application implements Initializable{
 
     }
 
-    public void mailTester(JFXTextField textField) throws SQLException {
-        errCatch = formValidation.isMail(textField.getText());
 
-        if(user.email.compareTo(email.getText().toString()) != 0){
-            if (errCatch == false) {
-                textField.setFocusColor(RED);
-                textField.setPromptText("Invalid Email Address");
-            }else {
-                textField.setFocusColor(GREEN);
-                textField.setPromptText("me@someMall.com");
-            }
-        }
-    }
-
-    public void passTester(JFXPasswordField textField, JFXPasswordField originConf) {
-        errCatch = formValidation.isPassCor(textField.getText());
-        String o1 = textField.getText().toString();
-        String o2 = originConf.getText().toString();
-
-        if(o1.compareTo(o2) != 0){
-            originConf.setFocusColor(RED);
-            originConf.setPromptText("Invalid - Password does not match!");
-        }
-        if (errCatch == false) {
-            textField.setFocusColor(RED);
-            textField.setPromptText("Invalid Password");
-        } else {
-            textField.setFocusColor(GREEN);
-            textField.setPromptText("Password");
-        }
-
-    }
-
-    public void passConfTester(JFXPasswordField origin, JFXPasswordField textField) {
-        errCatch = formValidation.isPassCor(textField.getText());
-        String o1 = origin.getText().toString();
-        String o2 = textField.getText().toString();
-
-        //errCatch = formValidation.isPassCor(textField.getText());
-
-        if(o1.compareTo(o2) != 0){
-            textField.setFocusColor(RED);
-            textField.setPromptText("Invalid - Password does not match!");
-        }else if (errCatch == false) {
-            textField.setFocusColor(RED);
-            textField.setPromptText("Invalid Password");
-        } else {
-            textField.setFocusColor(GREEN);
-            textField.setPromptText("Password");
-        }
-
-    }
 
     public static void main(String[] args){
         launch(args);
@@ -311,8 +382,8 @@ public class UserEdit extends Application implements Initializable{
         emname.setLabelFloat(true);
         emnumber.setLabelFloat(true);
 
-        fname.textProperty().addListener(e -> ErrTester(fname));
-        lname.textProperty().addListener(e -> ErrTester(lname));
+        fname.textProperty().addListener(e -> fNameTester(fname));
+        lname.textProperty().addListener(e -> lNameTester(lname));
         email.textProperty().addListener(e -> {//This contnains a db query to check if email already exists
             try {
                 mailTester(email);
@@ -324,7 +395,7 @@ public class UserEdit extends Application implements Initializable{
         pass.textProperty().addListener(e -> passTester(pass,passconf));
         //passconf.textProperty().addListener(e -> passTester(passconf));
         passconf.textProperty().addListener(e -> passConfTester(pass,passconf));
-        emname.textProperty().addListener(e -> ErrTester(emname));
-        emnumber.textProperty().addListener(e -> phoneTester(emnumber));
+        emname.textProperty().addListener(e -> eNameTester(emname));
+        emnumber.textProperty().addListener(e -> ePhoneTester(emnumber));
     }
 }

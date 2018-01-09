@@ -323,7 +323,7 @@ public class SignUp extends Application implements Initializable{
             if(fname.getText().length() >= maxChar){
                 event.consume();
                 fname.setFocusColor(RED);
-                fname.setPromptText("Wroung Value Length");
+                fname.setPromptText("Wrong Value Length");
             }
         });
         lname.textProperty().addListener(e -> lNameTester(lname));
@@ -332,7 +332,7 @@ public class SignUp extends Application implements Initializable{
             if(lname.getText().length() >= maxChar){
                 event.consume();
                 lname.setFocusColor(RED);
-                lname.setPromptText("Wroung Value Length");
+                lname.setPromptText("Wrong Value Length");
             }
         });
         email.textProperty().addListener(M -> mailTester(email));
@@ -341,7 +341,7 @@ public class SignUp extends Application implements Initializable{
             if(email.getText().length() >= max){
                 event.consume();;
                 email.setFocusColor(RED);
-                email.setPromptText("Wroung Value Length");
+                email.setPromptText("Wrong Value Length");
             }
         });
 
@@ -351,7 +351,7 @@ public class SignUp extends Application implements Initializable{
             if(number.getText().length() >= max){
                 event.consume();;
                 number.setFocusColor(RED);
-                number.setPromptText("Wroung Value Length");
+                number.setPromptText("Wrong Value Length");
             }
         });
 
@@ -361,7 +361,7 @@ public class SignUp extends Application implements Initializable{
             if(pass.getText().length() >= max){
                 event.consume();;
                 pass.setFocusColor(RED);
-                pass.setPromptText("Wroung Value Length");
+                pass.setPromptText("Wrong Value Length");
             }
         });
 
@@ -371,7 +371,7 @@ public class SignUp extends Application implements Initializable{
             if(passconf.getText().length() >= max){
                 event.consume();;
                 passconf.setFocusColor(RED);
-                passconf.setPromptText("Wroung Value Length");
+                passconf.setPromptText("Wrong Value Length");
             }
         });
 
@@ -381,7 +381,7 @@ public class SignUp extends Application implements Initializable{
             if(emname.getText().length() >= max){
                 event.consume();;
                 emname.setFocusColor(RED);
-                emname.setPromptText("Wroung Value Length");
+                emname.setPromptText("Wrong Value Length");
             }
         });
 
@@ -391,7 +391,7 @@ public class SignUp extends Application implements Initializable{
             if(emnumber.getText().length() >= max){
                 event.consume();;
                 emnumber.setFocusColor(RED);
-                emnumber.setPromptText("Wroung Value Length");
+                emnumber.setPromptText("Wrong Value Length");
             }
         });
 

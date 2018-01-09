@@ -12,7 +12,7 @@ public class formValidation {
         //String regex = "[a-zA-Z]+";
         String regex = "[a-zA-Z]+(?:(?:\\. |[' ])[a-zA-Z]+)*";
 
-        if(regex.length() > 25){
+        if(name.length() > 25){
             return false;
         }
 
