@@ -203,7 +203,7 @@ public class DAO {
                     //    new adminLanded(LoginRes).show();
                    // else if(log.getDivision().equals("USER"))
 
-                        new userLanded(LoginRes).show();//TODO GET VOLUNTEER INFO
+                        //new userLanded(LoginRes).show();//TODO GET VOLUNTEER INFO
                             /*com.codename1.ui.util.Resources LoginRes = UIManager.initFirstTheme("/theme");*/
                             new ViewProfile(LoginRes,user.fname,user.lname,user.email,user.hourstotal,
                                     user.hourssigned,user.phone,user.ename,user.ephone,

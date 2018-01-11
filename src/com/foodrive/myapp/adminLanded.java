@@ -58,45 +58,6 @@ public class adminLanded extends Form {
 
     }
 
-    public void showAdmin(){
-        Container north = BoxLayout.encloseY(
-                // welcome,
-                //profilePicLabel,,
-                BorderLayout.centerAbsolute(new Label(" ")),
-                BorderLayout.centerAbsolute(new Label(" ")),
-                BorderLayout.centerAbsolute(new Label(" ")),
-                BorderLayout.centerAbsolute(new Label(" "))
-        );
-        add(BorderLayout.NORTH,north);
-
-        Button field1 = new Button("View Volunteers");
-        field1.setUIID("adminUpLable");
-        //field1.addActionListener(new ActionListener() {
-        //    @Override
-        //    public void actionPerformed(ActionEvent evt) {
-        //        new DAO().getAll();
-        //    }
-        //});
-        Button field3 = new Button("Records");
-        field3.setUIID("adminUpLable");
-        field3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                //new DAO().getAllDrives();//TODO FIX THIS
-                //new DAO().getAll();
-            }
-        });
-        Container center = BoxLayout.encloseY(
-                // welcome,
-                //profilePicLabel,,
-                BorderLayout.centerAbsolute(field1),
-                //BorderLayout.centerAbsolute(field2),
-                BorderLayout.centerAbsolute(field3)
-        );
-        center.setScrollableY(true);
-        add(BorderLayout.CENTER, center);
-    }
-
     public void showAdminWithName(String adminName){
         Container north = BoxLayout.encloseY(
                 // welcome,
@@ -116,6 +77,15 @@ public class adminLanded extends Form {
                 new DAO().getAll(adminName);
             }
         });
+
+        Button field2 = new Button("Add Volunteers");
+        field2.setUIID("adminUpLable");
+        field2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) { new AddVolunteerForm(res,adminName).show();
+            }
+        });
+
         Button field3 = new Button("Records");
         field3.setUIID("adminUpLable");
         field3.addActionListener(new ActionListener() {
@@ -129,7 +99,7 @@ public class adminLanded extends Form {
                 // welcome,
                 //profilePicLabel,,
                 BorderLayout.centerAbsolute(field1),
-                //BorderLayout.centerAbsolute(field2),
+                BorderLayout.centerAbsolute(field2),
                 BorderLayout.centerAbsolute(field3)
         );
         center.setScrollableY(true);
