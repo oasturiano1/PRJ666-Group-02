@@ -1,6 +1,11 @@
 package com.foodrive.myapp;
 
+import com.codename1.components.MultiButton;
 import com.codename1.components.ToastBar;
+import com.codename1.io.ConnectionRequest;
+import com.codename1.io.JSONParser;
+import com.codename1.io.Log;
+import com.codename1.io.NetworkManager;
 import com.codename1.ui.*;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
@@ -10,12 +15,22 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
+import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
 import database.DAO;
+import database.people;
 import database.userObject;
 
-import static javafx.scene.paint.Color.GREEN;
-import static javafx.scene.paint.Color.RED;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class AdminUpdateForm extends Form {
     final Resources res;
@@ -249,8 +264,52 @@ public class AdminUpdateForm extends Form {
                     user.ephone = contactNum;
                     user.hourssigned = hoursSign;
 
-                    new DAO().updateVolunteer(fn,ln,em,ph,passWord,contactNames,contactNum, user.hourstotal, hoursSign);
-                    //new DAO().addLogin(em,passWord,"USER");
+                    //THIS IS TO CHECK IF EMAIL ALREADY EXISTS
+                    ArrayList<String> reco = new ArrayList<String>();
+                    boolean exists = false;
+                    ConnectionRequest connectionRequest = new ConnectionRequest() {
+
+
+                        protected void readResponse(InputStream in) throws IOException {
+                            JSONParser json = new JSONParser();
+
+                            Reader reader = new InputStreamReader(in, "UTF-8");
+
+                            Map<String, Object> data = json.parseJSON(reader);
+                            java.util.List<Map<String, Object>> content = (List<Map<String, Object>>) data.get("root");
+                            reco.clear();
+
+
+                            for (Map<String, Object> obj : content) {
+                                String r = (String)obj.get("email");
+                                reco.add(r);
+                            }
+                        }
+
+                        //creating the list layout with data
+                        @Override
+                        protected void postResponse() {
+                            //Resources LoginRes = UIManager.initFirstTheme("/theme");
+                            //new DrivesList(LoginRes, drives, adminName).show();
+                            if(reco.size() == 0){//If doesnt exist
+                                new DAO().updateVolunteer(fn,ln,em,ph,passWord,contactNames,contactNum, user.hourstotal, hoursSign);
+                                ToastBar.Status error = ToastBar.getInstance().createStatus();
+                                error.setMessage("User Updated!");
+                                error.setExpires(5000);
+                                error.show();
+                            }else {//If does, display error
+                                ToastBar.Status error = ToastBar.getInstance().createStatus();
+                                error.setMessage("Email Already Exists!");
+                                error.setExpires(5000);
+                                error.show();
+                            }
+                        }
+
+                    };
+                    connectionRequest.setUrl("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/mobileEmailExists.php?email="+em);
+                    connectionRequest.setPost(false);
+                    NetworkManager.getInstance().addToQueue(connectionRequest);
+
                 } else {
                     //Form f = new Form("Toast", BoxLayout.y());
                     ToastBar.Status error = ToastBar.getInstance().createStatus();
