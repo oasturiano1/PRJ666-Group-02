@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" styles="bgImage:loginbg.png;" title="" name="MyForm">
+  <component type="Label" icon="resFile:Thread.png" name="Label_1">
+    <layoutConstraint insets="12.932138% auto auto auto" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="Label" text="MEMBER LOGIN" name="Label_2">
+    <layoutConstraint insets="19.635891% auto auto auto" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+  <component type="TextField" styles="bgImage:;" preferredSize="90.13935mm inherit" hint="Email" hintIcon="fontImage:e0be" rows="2" name="Text_Field">
+    <layoutConstraint insets="26.657997% auto auto auto" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+</component>

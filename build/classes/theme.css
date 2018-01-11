@@ -1,0 +1,9 @@
+Buttons {
+        background-color: red;
+}
+
+@media cn1{
+    ViewVolunteers{
+        background-color: transparent;
+    }
+}
