@@ -36,6 +36,7 @@ public class UpdateForm extends Form {
     Boolean errCatch = false, errCatch0 = false,errCatch1 = false,errCatch2 = false,errCatch3 = false,errCatch4 = true,errCatch5 = false,errCatch6 = false,errCatch7 = false;
     String errorList = "";
 
+
     public UpdateForm(Resources res, userObject user) {
         super("Update");
         this.setUIID("SignUpForm");
@@ -46,6 +47,7 @@ public class UpdateForm extends Form {
         this.getToolbar().addCommandToLeftBar("",icon, (e) ->new ViewProfile(res,user.fname,user.lname,user.email,user.hourstotal,
                 user.hourssigned,user.phone,user.ename,user.ephone,
                 user.pass).show());
+        String oEmail = user.email;
         /*this.getToolbar().addCommandToOverflowMenu("Overflow", icon, (e) -> Log.p("Clicked"));
         this.getToolbar().addCommandToSideMenu("Sidemenu", icon, (e) -> Log.p("Clicked"));*/
 
@@ -259,6 +261,9 @@ public class UpdateForm extends Form {
                         protected void postResponse() {
                             //Resources LoginRes = UIManager.initFirstTheme("/theme");
                             //new DrivesList(LoginRes, drives, adminName).show();
+
+
+
                             if(reco.size() == 0){//If doesnt exist
 
                                 new DAO().updateVolunteer(fn,ln,em,ph,passWord,contactNames,contactNum, user.hourstotal, user.hourssigned);
@@ -267,10 +272,18 @@ public class UpdateForm extends Form {
                                 error.setExpires(5000);
                                 error.show();
                             }else {//If does, display error
-                                ToastBar.Status error = ToastBar.getInstance().createStatus();
-                                error.setMessage("Email Already Exists!");
-                                error.setExpires(5000);
-                                error.show();
+                                if(oEmail.compareTo(user.email) == 0){//IF email is same as current
+                                    new DAO().updateVolunteer(fn,ln,em,ph,passWord,contactNames,contactNum, user.hourstotal, user.hourssigned);
+                                    ToastBar.Status error = ToastBar.getInstance().createStatus();
+                                    error.setMessage("Profile Updated!");
+                                    error.setExpires(5000);
+                                    error.show();
+                                }else {
+                                    ToastBar.Status error = ToastBar.getInstance().createStatus();
+                                    error.setMessage("Email Already Exists!");
+                                    error.setExpires(5000);
+                                    error.show();
+                                }
                             }
                         }
 

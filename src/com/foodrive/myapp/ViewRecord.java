@@ -1,6 +1,7 @@
 package com.foodrive.myapp;
 
 
+import com.codename1.components.ToastBar;
 import com.codename1.ui.*;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
@@ -35,6 +36,11 @@ public class ViewRecord extends Form {
 
         this.getToolbar().addCommandToLeftBar("",icon, (e) -> new DAO().getAllDriveDayRecords(odate,driveId, start,adminName));
         this.getToolbar().addCommandToOverflowMenu("Edit", icon, (e) -> new editRecord(res, rec,odate,driveId, start,adminName).show());
+        this.getToolbar().addCommandToOverflowMenu("Delete",icon, (e) -> {
+            new DAO().delRecord(rec.oprecid,rec.id);
+            new DAO().getAllDrives(adminName);
+
+        });
         //this.getToolbar().addCommandToOverflowMenu("Delete", icon, (e) -> deleteFunction(user.email));
 
         final Button ok = new Button("OK");

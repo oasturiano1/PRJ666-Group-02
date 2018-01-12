@@ -40,13 +40,21 @@ public class AddDrive extends Form {
     Boolean errCatch = false, errCatch0 = false;
     String errorList = "";
     String selectedDate;
-
+/*
     private String convert(Picker datePicker) throws ParseException {
         SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yy");
         SimpleDateFormat dt2 = new SimpleDateFormat("yyyy-mm-dd");
         Date date = dt1.parse(datePicker.getText());
         String date2 = dt2.format(date);
         selectedDate = date2;
+        return  date2;
+    }*/
+
+    private String convert(Calendar datePicker) throws ParseException {
+        SimpleDateFormat dt2 = new SimpleDateFormat("YYYY-MM-DD");
+        String date2 = dt2.format(datePicker.getDate());
+        selectedDate = date2;
+        Log.p("You picked: " + selectedDate);
         return  date2;
     }
 
@@ -115,12 +123,16 @@ public class AddDrive extends Form {
         //cld.addActionListener((e) -> Log.p("You picked: " + new Date(cld.getSelectedDay())));
         //center.addComponent(cld);
 
-        Picker datePicker = new Picker();
-        datePicker.setType(Display.PICKER_TYPE_DATE);
+        Calendar datePicker = new Calendar();
+        //datePicker.setType(Display.PICKER_TYPE_DATE);
         datePicker.setDate(new Date());
         center.addComponent(datePicker);
 
-
+        try {
+            calLabel.setText(convert(datePicker));
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
 
 
         datePicker.addActionListener((e) -> {
@@ -181,8 +193,14 @@ public class AddDrive extends Form {
                 errorList = "";
                 errCatch = true;
 
+                try {
+                    calLabel.setText(convert(datePicker));
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
+
                 if(driveName.getText().isEmpty() ||
-                        datePicker.getText().isEmpty()){
+                        datePicker.getDate().toString().isEmpty()){
                     errCatch = false;//AlertBox.display("ERROR", "All fields are required!");
                     errorList +="All Fields are required!\n";
                 }else {

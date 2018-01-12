@@ -48,7 +48,7 @@ public class VolunteerList extends Form {
             PW.add(l.getPassword());
         }
         for (int iter = 0; iter < FN.size(); iter++) {
-            MultiButton mb = new MultiButton(people.get(iter).getLname() + " " + people.get(iter).getFname());
+            MultiButton mb = new MultiButton(people.get(iter).getFname() + " " + people.get(iter).getLname());
             mb.setTextLine2("more...");
             FontImage.setMaterialIcon(mb, FontImage.MATERIAL_PERSON);
             int finalIter = iter;

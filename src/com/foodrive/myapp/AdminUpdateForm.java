@@ -38,6 +38,7 @@ public class AdminUpdateForm extends Form {
     String errorList = "";
 
     public AdminUpdateForm(Resources res, userObject user,String adminName) {
+
         super("Update User");
         this.setUIID("SignUpForm");
         this.res = res;
@@ -49,7 +50,7 @@ public class AdminUpdateForm extends Form {
                 user.pass,adminName).show());
         /*this.getToolbar().addCommandToOverflowMenu("Overflow", icon, (e) -> Log.p("Clicked"));
         this.getToolbar().addCommandToSideMenu("Sidemenu", icon, (e) -> Log.p("Clicked"));*/
-
+        String oEmail = user.email;
         setLayout(new BorderLayout());
         Container north = new Container(new FlowLayout(Component.CENTER));
         north.setUIID("SignUpNorth");
@@ -298,10 +299,20 @@ public class AdminUpdateForm extends Form {
                                 error.setExpires(5000);
                                 error.show();
                             }else {//If does, display error
-                                ToastBar.Status error = ToastBar.getInstance().createStatus();
-                                error.setMessage("Email Already Exists!");
-                                error.setExpires(5000);
-                                error.show();
+
+                                if(oEmail.compareTo(user.email) == 0) {//IF email is same as current
+                                    new DAO().updateVolunteer(fn,ln,em,ph,passWord,contactNames,contactNum, user.hourstotal, hoursSign);
+                                    ToastBar.Status error = ToastBar.getInstance().createStatus();
+                                    error.setMessage("User Updated!");
+                                    error.setExpires(5000);
+                                    error.show();
+
+                                }else {
+                                    ToastBar.Status error = ToastBar.getInstance().createStatus();
+                                    error.setMessage("Email Already Exists!");
+                                    error.setExpires(5000);
+                                    error.show();
+                                }
                             }
                         }
 

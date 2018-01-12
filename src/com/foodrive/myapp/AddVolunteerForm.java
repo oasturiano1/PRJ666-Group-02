@@ -34,6 +34,8 @@ import java.util.Map;
 
 public class AddVolunteerForm extends Form {
     final Resources res;
+    Boolean errCatch = false, errCatch0 = false,errCatch1 = false,errCatch2 = false,errCatch3 = false,errCatch4 = true,errCatch5 = false,errCatch6 = false,errCatch7 = false;
+    String errorList = "";
 
     public AddVolunteerForm(Resources res, String adminName) {
         super("Add Volunteer");
@@ -105,6 +107,20 @@ public class AddVolunteerForm extends Form {
         email.getHintLabel().setUIID("SignUpFieldHint");
         email.setRows(3);
 
+        Container row4 = new Container(new BorderLayout());
+        //Label code = new Label("+1");
+        //code.setUIID("SignUpLable");
+        //row4.addComponent(BorderLayout.WEST, code);
+
+        TextField phoneNumber = new TextField();
+        phoneNumber.setUIID("SignUpField");
+        phoneNumber.setHint("Phone Number");
+        phoneNumber.getHintLabel().setUIID("SignUpFieldHint");
+        row4.addComponent(BorderLayout.CENTER, phoneNumber);
+        phoneNumber.setRows(3);
+
+        center.addComponent(row4);
+
        /* TextField Name = new TextField();
         Name.setUIID("SignUpField");
         Name.setHint("Contact Name");
@@ -121,25 +137,13 @@ public class AddVolunteerForm extends Form {
 
         TextField contactNumber = new TextField();
         contactNumber.setUIID("SignUpField");
-        contactNumber.setHint("Contact number");
+        contactNumber.setHint("Contact Number");
         contactNumber.getHintLabel().setUIID("SignUpFieldHint");
         center.addComponent(contactNumber);
         contactNumber.setRows(3);
 
 
-        Container row4 = new Container(new BorderLayout());
-        Label code = new Label("+1");
-        code.setUIID("SignUpLable");
-        row4.addComponent(BorderLayout.WEST, code);
 
-        TextField phoneNumber = new TextField();
-        phoneNumber.setUIID("SignUpField");
-        phoneNumber.setHint("Phone Number");
-        phoneNumber.getHintLabel().setUIID("SignUpFieldHint");
-        row4.addComponent(BorderLayout.CENTER, phoneNumber);
-        phoneNumber.setRows(3);
-
-        center.addComponent(row4);
 
         this.addComponent(BorderLayout.CENTER, center);
 
@@ -170,83 +174,150 @@ public class AddVolunteerForm extends Form {
 
 
         getStarted.addActionListener(new ActionListener() {
+
+
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if(checkNullData(firstName.getText(), lastName.getText(),email.getText(),phoneNumber.getText(),password.getText(),contactName.getText(), contactNumber.getText())){
+                    errCatch = true;
+                    errorList = "";
                     String fn = firstName.getText();
                     String ln = lastName.getText();
                     String em = email.getText();
                     String ph = phoneNumber.getText();
                     String passWord = password.getText();
-                    // String name = Name.getText();
-                    //String gen = HoursSigned.getText();
-                    //String ep = ephone.getText();
                     String contactNum = contactNumber.getText();
                     String contactNames = contactName.getText();
 
-                    //THIS IS TO CHECK IF EMAIL ALREADY EXISTS
-                    ArrayList<String> reco = new ArrayList<String>();
-                    boolean exists = false;
-                    ConnectionRequest connectionRequest = new ConnectionRequest() {
+                    if (firstName.getText().isEmpty() ||
+                            lastName.getText().isEmpty() ||
+                            phoneNumber.getText().isEmpty() ||
+                            email.getText().isEmpty() ||
+                            contactName.getText().isEmpty() ||
+                            contactNumber.getText().isEmpty() ||
+                            password.getText().isEmpty()) {
+                        errCatch = false;//AlertBox.display("ERROR", "All fields are required!");
+                        errorList += "All Fields are required!\n";
+                    } else {
+                        fNameTester(firstName);
+                        lNameTester(lastName);
+                        phoneTester(phoneNumber);
+                        mailTester(email);
+                        eNameTester(contactName);
+                        ePhoneTester(contactNumber);
+                        passConfTester(password);
+                    }
+
+                    if(errCatch&&errCatch0&&errCatch1&&errCatch2&&errCatch3&&errCatch4&&errCatch5&&errCatch6&&errCatch7){
+                        //THIS IS TO CHECK IF EMAIL ALREADY EXISTS
+                        ArrayList<String> reco = new ArrayList<String>();
+                        boolean exists = false;
+                        ConnectionRequest connectionRequest = new ConnectionRequest() {
 
 
-                        protected void readResponse(InputStream in) throws IOException {
-                            JSONParser json = new JSONParser();
+                            protected void readResponse(InputStream in) throws IOException {
+                                JSONParser json = new JSONParser();
 
-                            Reader reader = new InputStreamReader(in, "UTF-8");
+                                Reader reader = new InputStreamReader(in, "UTF-8");
 
-                            Map<String, Object> data = json.parseJSON(reader);
-                            java.util.List<Map<String, Object>> content = (List<Map<String, Object>>) data.get("root");
-                            reco.clear();
+                                Map<String, Object> data = json.parseJSON(reader);
+                                java.util.List<Map<String, Object>> content = (List<Map<String, Object>>) data.get("root");
+                                reco.clear();
 
 
-                            for (Map<String, Object> obj : content) {
-                                String r = (String)obj.get("email");
-                                reco.add(r);
+                                for (Map<String, Object> obj : content) {
+                                    String r = (String) obj.get("email");
+                                    reco.add(r);
+                                }
                             }
-                        }
 
-                        //creating the list layout with data
-                        @Override
-                        protected void postResponse() {
-                            //Resources LoginRes = UIManager.initFirstTheme("/theme");
-                            //new DrivesList(LoginRes, drives, adminName).show();
-                            if(reco.size() == 0){//If doesnt exist
+                            //creating the list layout with data
+                            @Override
+                            protected void postResponse() {
+                                //Resources LoginRes = UIManager.initFirstTheme("/theme");
+                                //new DrivesList(LoginRes, drives, adminName).show();
+                                if (reco.size() == 0) {//If doesnt exist
 
-                                new DAO().addVolunteer(fn,ln,em,ph,passWord,contactNum,contactNames);
-                                ToastBar.Status error = ToastBar.getInstance().createStatus();
-                                error.setMessage("Volunteer Added!");
-                                error.setExpires(5000);
-                                error.show();
-                            }else {//If does, display error
-                                ToastBar.Status error = ToastBar.getInstance().createStatus();
-                                error.setMessage("Email Already Exists!");
-                                error.setExpires(5000);
-                                error.show();
+                                    new DAO().addVolunteer(fn, ln, em, ph, passWord, contactNum, contactNames);
+                                    ToastBar.Status error = ToastBar.getInstance().createStatus();
+                                    error.setMessage("Volunteer Added!");
+                                    error.setExpires(5000);
+                                    error.show();
+                                } else {//If does, display error
+                                    ToastBar.Status error = ToastBar.getInstance().createStatus();
+                                    error.setMessage("Email Already Exists!");
+                                    error.setExpires(5000);
+                                    error.show();
+                                }
                             }
-                        }
 
-                    };
-                    connectionRequest.setUrl("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/mobileEmailExists.php?email="+em);
-                    connectionRequest.setPost(false);
-                    NetworkManager.getInstance().addToQueue(connectionRequest);
+                        };
+                        connectionRequest.setUrl("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/mobileEmailExists.php?email=" + em);
+                        connectionRequest.setPost(false);
+                        NetworkManager.getInstance().addToQueue(connectionRequest);
+                    }
+                    else {
+                        //Form f = new Form("Toast", BoxLayout.y());
+                        ToastBar.Status error = ToastBar.getInstance().createStatus();
+                        error.setMessage(errorList);
+                        error.setExpires(5000);
+                        error.show();
+                    }
 
-
-
-                    //new DAO().getAll(adminName);
-                } /*else{
-
-                   Dialog d = new Dialog("Add to my people shelf");
-                   TextArea popupBody = new TextArea("people successfully added");
-                   popupBody.setUIID("PopupBody");
-                   popupBody.setEditable(false);
-                   d.setLayout(new BorderLayout());
-                   d.addVolunteer(BorderLayout.CENTER, popupBody);
-                   d.showDialog();
-               }*/
             }
         });
 
+
+    }
+
+
+    public void fNameTester(TextField textField) {
+        errCatch0 = formValidation.isNameCor(textField.getText());
+        if(errCatch0 == false){
+            errorList += "Invalid First Name!\n";
+        }
+    }
+
+    public void lNameTester(TextField textField) {
+        errCatch1 = formValidation.isNameCor(textField.getText());
+        if(errCatch1 == false){
+            errorList += "Invalid Last Name!\n";
+        }
+    }
+
+    public void mailTester(TextField textField){
+        errCatch2 = formValidation.isMail(textField.getText());
+
+        if (errCatch2 == false) {
+            errorList += "Invalid Email Address!\n";
+        }
+
+    }
+
+    public void phoneTester(TextField textField) {
+        errCatch3 = formValidation.isPhone(textField.getText());
+        if (errCatch3 == false) {
+            errorList += "Invalid Phone Number!\n(XXX-XXX-XXXX or XXXXXXXXXX)\n";
+        }
+
+    }
+
+
+    public void passConfTester(TextField origin) {
+        errCatch5 = formValidation.isPassCor(origin.getText());
+    }
+
+    public void eNameTester(TextField textField) {
+        errCatch6 = formValidation.isNameCor(textField.getText());
+        if(errCatch0 == false){
+            errorList += "Invalid Emergency Contact Name!\n";
+        }
+    }
+
+    public void ePhoneTester(TextField textField) {
+        errCatch7 = formValidation.isPhone(textField.getText());
+        if (errCatch7 == false) {
+            errorList += "Invalid Emergency Contact Phone Number!\n(XXX-XXX-XXXX or XXXXXXXXXX)\n";
+        }
 
     }
 

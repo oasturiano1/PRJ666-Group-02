@@ -5,6 +5,7 @@ import com.codename1.components.MultiButton;
 import com.codename1.ui.Container;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.Label;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Style;
@@ -32,10 +33,13 @@ public class RecordsList extends Form {
         //TODO MAKE THE POINT TO CORRECT PLACES
         this.getToolbar().addCommandToLeftBar("",icon, (e) -> new DAO().getAllDriveDays(driveId,start,adminName));
         //this.getToolbar().addCommandToOverflowMenu("Edit", icon, (e) -> new UpdateForm(res, user).show());
-
+        Label driveDate = new Label();
+        driveDate.setUIID("driveLabel");
+        driveDate.setText("Records for "+odate);
 
         Container list = new Container(BoxLayout.y());
         list.setScrollableY(true);
+        list.add(driveDate);
         for(int iter = 0; iter<recs.size(); iter++){
             MultiButton mb = new MultiButton(recs.get(iter).fname + " " + recs.get(iter).lname);
             mb.setTextLine2("more...");

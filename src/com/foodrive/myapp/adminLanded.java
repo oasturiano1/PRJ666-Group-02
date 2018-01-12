@@ -50,7 +50,7 @@ public class adminLanded extends Form {
         FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, s);
         //res.getImage("icon_navbar_arrow_back.png");
         this.getToolbar().addCommandToLeftBar("",icon, (e) -> new Login(UIManager.initFirstTheme("/theme")).show());
-        this.getToolbar().addCommandToOverflowMenu("Overflow", icon, (e) -> Log.p("Clicked"));
+        //this.getToolbar().addCommandToOverflowMenu("Overflow", icon, (e) -> Log.p("Clicked"));
         // this.getToolbar().addCommandToSideMenu("Sidemenu", icon, (e) -> Log.p("Clicked"));
 
         setLayout(new BorderLayout());

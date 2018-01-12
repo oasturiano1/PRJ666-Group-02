@@ -280,6 +280,25 @@ public class DAO {
 
     }
 
+
+    public void delRecord(int recId,int userId){
+
+        connectionRequest=new ConnectionRequest(){
+        };
+        connectionRequest.setUrl("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/deleteRecord.php?id="+recId+"&userid="+userId);
+        connectionRequest.setPost(false);
+        NetworkManager.getInstance().addToQueue(connectionRequest);
+    }
+
+    public void delDrive(int did){
+
+        connectionRequest=new ConnectionRequest(){
+        };
+        connectionRequest.setUrl("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/deleteDrive.php?id="+did);
+        connectionRequest.setPost(false);
+        NetworkManager.getInstance().addToQueue(connectionRequest);
+    }
+
     public void updateVolunteer(String fn, String ln, String email, String phone, String pass, String Contactname, String ContactNumber, String hoursTot, String hoursSign){
 
         connectionRequest=new ConnectionRequest(){
@@ -351,7 +370,7 @@ public class DAO {
                 //new Login(UIManager.initFirstTheme("/theme")).show();
                 //TODO TOAST IF SUCCESS
                 ToastBar.Status success = ToastBar.getInstance().createStatus();
-                success.setMessage("Record Added!");
+                success.setMessage("Record Updated!");
                 success.setExpires(3000);
                 success.show();
             }

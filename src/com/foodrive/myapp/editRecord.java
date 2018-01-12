@@ -69,6 +69,8 @@ public class editRecord extends Form {
         totalHrs.setUIID("EditRecordCenter");
         center.addComponent(totalHrs);
 
+
+
         Label newHrsLabel = new Label("New Hours Contributed: ");
         newHrsLabel.setUIID("EditRecordCenter");
         center.addComponent(newHrsLabel);

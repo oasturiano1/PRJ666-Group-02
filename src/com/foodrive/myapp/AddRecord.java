@@ -39,17 +39,25 @@ import static javafx.scene.paint.Color.RED;
 
 public class AddRecord extends Form {
     final Resources res;
-    Boolean errCatch = false, errCatch0 = false;
+    Boolean errCatch = false, errCatch0 = false,errCatch1 = false,errCatch2 = false,errCatch3 = false,errCatch4 = true,errCatch5 = false,errCatch6 = false,errCatch7 = false;
     String errorList = "";
     String selectedDate = "";
     userObject picked = new userObject();
 
-    private String convert(Picker datePicker) throws ParseException {
+    /*private String convert(Picker datePicker) throws ParseException {
         SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yy");
         SimpleDateFormat dt2 = new SimpleDateFormat("yyyy-mm-dd");
         Date date = dt1.parse(datePicker.getText());
         String date2 = dt2.format(date);
         selectedDate = date2;
+        return  date2;
+    }*/
+
+    private String convert(Calendar datePicker) throws ParseException {
+        SimpleDateFormat dt2 = new SimpleDateFormat("YYYY-MM-DD");
+        String date2 = dt2.format(datePicker.getDate());
+        selectedDate = date2;
+        Log.p("You picked: " + selectedDate);
         return  date2;
     }
 
@@ -94,17 +102,35 @@ public class AddRecord extends Form {
         Label calLabel = new Label();
         calLabel.setUIID("CreateRecordField");
         center.addComponent(calLabel);
-        if(datePicked.compareTo("")==0) {
+        //if(datePicked.compareTo("")==0) {
             calLabel.setText("Record Date");
-        }else {
-            calLabel.setText(datePicked);
-            selectedDate= datePicked;
-        }
+        //}else {
+        //    calLabel.setText(datePicked);
+        //    selectedDate= datePicked;
+        //}
 
-        Picker datePicker = new Picker();
+
+        /*Picker datePicker = new Picker();
         datePicker.setType(Display.PICKER_TYPE_DATE);
         datePicker.setDate(new Date());
+        center.addComponent(datePicker);*/
+
+        //Calendar cld = new Calendar();
+        //cld.addActionListener((e) -> Log.p("You picked: " + cld.getCurrentDate()));
+        //center.addComponent(cld);
+
+
+        Calendar datePicker = new Calendar();
+        //datePicker.setType(Display.PICKER_TYPE_DATE);
+        datePicker.setDate(new Date());
         center.addComponent(datePicker);
+        datePicker.addActionListener((e) -> Log.p("You picked: " + datePicker.getDate()));
+
+        try {
+            calLabel.setText(convert(datePicker));
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
 
         datePicker.addActionListener((e) -> {
             try {
@@ -192,88 +218,85 @@ public class AddRecord extends Form {
                 errorList = "";
                 errCatch = true;
 
-
-                rec.driveId = driveId;
-                rec.volunteerId = pick.id;
-                rec.hoursContributed = Double.parseDouble(hoursCon.getText());
-                rec.driveStartDate = start;
-                rec.operationDayDate = selectedDate;
-                String supervisor = adminName;
-
-
-
-                //THIS IS TO CHECK IF DRIVE ALREADY EXISTS
-                ArrayList<newRecord> reco = new ArrayList<newRecord>();
-                boolean exists = false;
-                ConnectionRequest connectionRequest = new ConnectionRequest() {
-
-
-                    protected void readResponse(InputStream in) throws IOException {
-                        JSONParser json = new JSONParser();
-
-                        Reader reader = new InputStreamReader(in, "UTF-8");
-
-                        Map<String, Object> data = json.parseJSON(reader);
-                        java.util.List<Map<String, Object>> content = (List<Map<String, Object>>) data.get("root");
-                        reco.clear();
-
-
-                        for (Map<String, Object> obj : content) {
-                            newRecord r = new newRecord();
-
-                            r.driveStartDate = (String)obj.get("start");
-
-                            reco.add(r);
-                        }
-                    }
-
-                    //creating the list layout with data
-                    @Override
-                    protected void postResponse() {
-                        //Resources LoginRes = UIManager.initFirstTheme("/theme");
-                        //new DrivesList(LoginRes, drives, adminName).show();
-                        if(reco.size() == 0){//If doesnt exist
-                            new DAO().addRecord(rec,supervisor);
-                            ToastBar.Status error = ToastBar.getInstance().createStatus();
-                            error.setMessage("Record Added!");
-                            error.setExpires(5000);
-                            error.show();
-                        }else {//If does, display error
-                            ToastBar.Status error = ToastBar.getInstance().createStatus();
-                            error.setMessage("Record Already Exists!");
-                            error.setExpires(5000);
-                            error.show();
-                        }
-                    }
-                    //-----------------------//
-                };
-                connectionRequest.setUrl("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/mobileRecordExists.php?volid="+rec.volunteerId+"&driveid="+rec.driveId+"&opday="+rec.operationDayDate);
-                connectionRequest.setPost(false);
-                NetworkManager.getInstance().addToQueue(connectionRequest);
-
-
-
-
-
-/*
-                if(driveName.getText().isEmpty() ||
-                        datePicker.getText().isEmpty()){
-                    errCatch = false;//AlertBox.display("ERROR", "All fields are required!");
-                    errorList +="All Fields are required!\n";
-                }else {
-                    nameTester(driveName);
+                try {
+                    calLabel.setText(convert(datePicker));
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
                 }
 
-                if(errCatch&&errCatch0){
-                    new DAO().addDrive(selectedDate,driveName.getText());
-                } else {
-                    //Form f = new Form("Toast", BoxLayout.y());
+                if (selectedDate.compareTo("") == 0 ||
+                        pick.fname.compareTo("") == 0 ||
+                        hoursCon.getText().compareTo("") == 0)
+                {
+                    errorList += "All fields are required!\n";
+                    errCatch = false;
+                }
+
+
+
+                if(errCatch){
+
+                    rec.driveId = driveId;
+                    rec.volunteerId = pick.id;
+                    rec.hoursContributed = Double.parseDouble(hoursCon.getText());
+                    rec.driveStartDate = start;
+                    rec.operationDayDate = selectedDate;
+                    String supervisor = adminName;
+
+                    //THIS IS TO CHECK IF RECORD ALREADY EXISTS
+                    ArrayList<newRecord> reco = new ArrayList<newRecord>();
+                    boolean exists = false;
+                    ConnectionRequest connectionRequest = new ConnectionRequest() {
+
+
+                        protected void readResponse(InputStream in) throws IOException {
+                            JSONParser json = new JSONParser();
+
+                            Reader reader = new InputStreamReader(in, "UTF-8");
+
+                            Map<String, Object> data = json.parseJSON(reader);
+                            java.util.List<Map<String, Object>> content = (List<Map<String, Object>>) data.get("root");
+                            reco.clear();
+
+
+                            for (Map<String, Object> obj : content) {
+                                newRecord r = new newRecord();
+
+                                r.driveStartDate = (String) obj.get("start");
+
+                                reco.add(r);
+                            }
+                        }
+
+                        //creating the list layout with data
+                        @Override
+                        protected void postResponse() {
+                            //Resources LoginRes = UIManager.initFirstTheme("/theme");
+                            //new DrivesList(LoginRes, drives, adminName).show();
+                            if (reco.size() == 0) {//If doesnt exist
+                                new DAO().addRecord(rec, supervisor);
+                                ToastBar.Status error = ToastBar.getInstance().createStatus();
+                                error.setMessage("Record Added!");
+                                error.setExpires(5000);
+                                error.show();
+                            } else {//If does, display error
+                                ToastBar.Status error = ToastBar.getInstance().createStatus();
+                                error.setMessage("Record Already Exists!");
+                                error.setExpires(5000);
+                                error.show();
+                            }
+                        }
+                        //-----------------------//
+                    };
+                    connectionRequest.setUrl("http://myvmlab.senecacollege.ca:5936/phpmyadmin/DAO/mobileRecordExists.php?volid=" + rec.volunteerId + "&driveid=" + rec.driveId + "&opday=" + rec.operationDayDate);
+                    connectionRequest.setPost(false);
+                    NetworkManager.getInstance().addToQueue(connectionRequest);
+                }else{
                     ToastBar.Status error = ToastBar.getInstance().createStatus();
                     error.setMessage(errorList);
                     error.setExpires(5000);
                     error.show();
-                }*/
-
+                }
             }
         });
 
