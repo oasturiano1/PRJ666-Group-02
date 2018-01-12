@@ -356,24 +356,9 @@ public class UpdateForm extends Form {
 
     public void passConfTester(TextField origin) {
         errCatch5 = formValidation.isPassCor(origin.getText());
-        //String o1 = origin.getText().toString();
-        // String o2 = textField.getText().toString();
-
-        //errCatch = formValidation.isPassCor(textField.getText());
-
-        //if(o1.compareTo(o2) != 0){
-        //    textField.setFocusColor(RED);
-        //    textField.setPromptText("Invalid - Password does not match!");
-        //   errCatch5 = false;
-        //}else if (errCatch5 == false) {
-        //    textField.setFocusColor(RED);
-        //    textField.setPromptText("Invalid Password");
-        //} else {
-        //    textField.setFocusColor(GREEN);
-        //    textField.setPromptText("Password");
-        //    errCatch4 = true;
-        //passTester(origin,textField);
-        //}
+        if(errCatch5 == false){
+            errorList += "Password must be at least 7 characters long!\n";
+        }
 
     }
 

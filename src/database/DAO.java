@@ -145,6 +145,7 @@ public class DAO {
                     //if(checkNullData(log.getEmail(),log.getPassword())){
                         //com.codename1.ui.util.Resources LoginRes = UIManager.initFirstTheme("/theme");
                         //System.out.println("DAO:"+log.getEmail()+" "+log.getPassword()+" "+log.getDivision());
+                        if(log !=null)
                         if(log.getDivision().equals("ADMIN")||log.getDivision().equals("USER"))
                             ret = true;
                    // }
