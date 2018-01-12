@@ -30,7 +30,10 @@ public class proccess {
     proccess proccesses=this;
     Painting paint;
     //String connectionName="myvmlab.senecacollege.ca";
-    
+
+
+
+
     public proccess(){
     t=new timer(i); t.start(); i.setProccess(this); s.proccesses=this;
     }

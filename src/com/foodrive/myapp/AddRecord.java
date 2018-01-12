@@ -228,9 +228,31 @@ public class AddRecord extends Form {
                         pick.fname.compareTo("") == 0 ||
                         hoursCon.getText().compareTo("") == 0)
                 {
-                    errorList += "All fields are required!\n";
+
+                    if (selectedDate.compareTo("") == 0)
+                        errorList += "Date required!\n";
+                    if (pick.fname.compareTo("") == 0)
+                        errorList += "Volunteer required!\n";
+                    if( hoursCon.getText().compareTo("") == 0)
+                        errorList += "Hours contributed required!\n";
                     errCatch = false;
+                }else{
+                    try{
+                        Double i = Double.parseDouble(hoursCon.getText());
+
+                        if(i > 24 || i < 0){
+                            errCatch = false;
+                            errorList += "Hours must be between 1 to 24!\n";
+                        }else {
+                            errCatch = true;
+
+                        }
+                    }catch (NumberFormatException e){
+                        errCatch = false;
+                        errorList += "Hours must be a valid number!\n";
+                    }
                 }
+
 
 
 

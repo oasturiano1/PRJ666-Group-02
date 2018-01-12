@@ -1,6 +1,7 @@
 package com.foodrive.myapp;
 
 
+import com.codename1.components.ToastBar;
 import com.codename1.ui.*;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
@@ -20,6 +21,8 @@ import java.util.Date;
 
 public class editRecord extends Form {
     private final Resources res;
+    String errorList = "";
+    Boolean errCatch = false;
 
     private void deleteFunction(String email,String adminName){
         new DAO().delVolunteer(email);
@@ -27,6 +30,7 @@ public class editRecord extends Form {
     }
 
     public editRecord(Resources res, record rec, String odate, int driveId, String start, String adminName) {
+
         super(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
         //setUIID("viewAllVols");
         this.res = res;
@@ -115,9 +119,43 @@ public class editRecord extends Form {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 //TODO UPDATE
+                errorList = "";
+                errCatch = true;
+                //rec.hoursCon = Double.parseDouble(newHrs.getText());
 
-                rec.hoursCon = Double.parseDouble(newHrs.getText());
-                new DAO().updateRecord(rec,adminName,driveId,start,odate);
+                if(newHrs.getText().compareTo("")==0){
+                    errCatch = false;
+                    errorList += "Hours is required!\n";
+                } else{
+                    try{
+                        rec.hoursCon = Double.parseDouble(newHrs.getText());
+
+                        if(rec.hoursCon > 24 || rec.hoursCon < 0){
+                            errCatch = false;
+                            errorList += "Hours must be between 1 to 24!\n";
+                        }else {
+                            errCatch = true;
+
+                        }
+                    }catch (NumberFormatException e){
+                        errCatch = false;
+                        errorList += "Hours must be a valid number!\n";
+                    }
+                }
+
+                if(errCatch){
+                    new DAO().updateRecord(rec,adminName,driveId,start,odate);
+                    ToastBar.Status error = ToastBar.getInstance().createStatus();
+                    error.setMessage("Record Updated!");
+                    error.setExpires(5000);
+                    error.show();
+                }else {
+                    ToastBar.Status error = ToastBar.getInstance().createStatus();
+                    error.setMessage(errorList);
+                    error.setExpires(5000);
+                    error.show();
+                }
+
             }
         });
 

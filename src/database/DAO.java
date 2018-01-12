@@ -72,15 +72,25 @@ public class DAO {
 
 
                 protected void postResponse() {
-                    if(checkNullData(log.getEmail(),log.getPassword())){
+                    if(log != null){
                         com.codename1.ui.util.Resources LoginRes = UIManager.initFirstTheme("/theme");
                         //System.out.println("DAO:"+log.getEmail()+" "+log.getPassword()+" "+log.getDivision());
                        if(log.getDivision().equals("ADMIN"))
                            new adminLanded(LoginRes, loginUser.getEmail()).show();
                        else if(log.getDivision().equals("USER"))
                            phpGetUser(log.getEmail(),log.getPassword());
-                       else
-                           System.out.println("User needed");
+                       else{
+                           ToastBar.Status error = ToastBar.getInstance().createStatus();
+                           error.setMessage("Username or Password invalid!");
+                           error.setExpires(3000);
+                           error.show();
+                       }
+
+                    }else{
+                        ToastBar.Status error = ToastBar.getInstance().createStatus();
+                        error.setMessage("Username or Password invalid!");
+                        error.setExpires(3000);
+                        error.show();
                     }
 
                 }
