@@ -6,7 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/admin/formValidation.java" afterPath="$PROJECT_DIR$/src/admin/formValidation.java" />
+    </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -68,31 +70,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="SignUp.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/signup/SignUp.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="424" column="5" lean-forward="false" selection-start-line="424" selection-start-column="5" selection-end-line="424" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="UserEdit.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/user/UserEdit.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1836">
-              <caret line="138" column="62" lean-forward="false" selection-start-line="138" selection-start-column="62" selection-end-line="138" selection-end-column="62" />
+            <state relative-caret-position="-118">
+              <caret line="222" column="43" lean-forward="false" selection-start-line="222" selection-start-column="43" selection-end-line="222" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="adminController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="formValidation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/admin/formValidation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="adminController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/admin/adminController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15334">
-              <caret line="972" column="17" lean-forward="false" selection-start-line="972" selection-start-column="17" selection-end-line="972" selection-end-column="17" />
+            <state relative-caret-position="284">
+              <caret line="1077" column="0" lean-forward="true" selection-start-line="1077" selection-start-column="0" selection-end-line="1077" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -111,8 +113,8 @@
       <file leaf-file-name="drivesController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/drives/drivesController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="413">
-              <caret line="502" column="5" lean-forward="true" selection-start-line="502" selection-start-column="5" selection-end-line="502" selection-end-column="5" />
+            <state relative-caret-position="307">
+              <caret line="194" column="0" lean-forward="false" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -121,18 +123,18 @@
       <file leaf-file-name="addDay.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/drivedays/addDay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="313" column="52" lean-forward="false" selection-start-line="313" selection-start-column="48" selection-end-line="313" selection-end-column="52" />
+            <state relative-caret-position="226">
+              <caret line="324" column="51" lean-forward="true" selection-start-line="324" selection-start-column="51" selection-end-line="324" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DAO.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DAO.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/database/DAO.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="103">
-              <caret line="356" column="33" lean-forward="false" selection-start-line="356" selection-start-column="22" selection-end-line="356" selection-end-column="33" />
+              <caret line="683" column="56" lean-forward="false" selection-start-line="683" selection-start-column="56" selection-end-line="683" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <marker date="1514919136319" expanded="true" signature="34178:35069" ph="{...}" />
@@ -191,13 +193,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>errcatch2</find>
-      <find>phpAddData</find>
-      <find>please contact</find>
-      <find>errcatch5</find>
-      <find>passtester</find>
-      <find>passTester</find>
-      <find>fnametester</find>
       <find>invalid phon</find>
       <find>phpgetuser</find>
       <find>invalid name</find>
@@ -210,7 +205,6 @@
       <find>contributionslist</find>
       <find>tester</find>
       <find>lengt</find>
-      <find>delete</find>
       <find>userLogin</find>
       <find>isPassCor</find>
       <find>listener</find>
@@ -221,6 +215,14 @@
       <find>record</find>
       <find>adminname</find>
       <find>exists</find>
+      <find>deleterecord</find>
+      <find>deletedrive</find>
+      <find>edit</find>
+      <find>signed</find>
+      <find>hourstotal</find>
+      <find>hrTester</find>
+      <find>add</find>
+      <find>delete</find>
     </findStrings>
     <replaceStrings>
       <replace>totHours</replace>
@@ -420,11 +422,11 @@
         <option value="$PROJECT_DIR$/src/database/DAO.java" />
         <option value="$PROJECT_DIR$/src/drives/drivesController.java" />
         <option value="$PROJECT_DIR$/src/admin/adminController.java" />
-        <option value="$PROJECT_DIR$/src/admin/formValidation.java" />
         <option value="$PROJECT_DIR$/src/signup/SignUp.java" />
         <option value="$PROJECT_DIR$/src/user/UserEdit.java" />
         <option value="$PROJECT_DIR$/src/drives/drive.java" />
         <option value="$PROJECT_DIR$/src/drivedays/addDay.java" />
+        <option value="$PROJECT_DIR$/src/admin/formValidation.java" />
       </list>
     </option>
   </component>
@@ -435,11 +437,11 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="1672" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1696" />
-    <option name="height" value="1066" />
+    <option name="height" value="1026" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
@@ -474,6 +476,18 @@
               <item name="foodDrive" type="b2602c69:ProjectViewProjectNode" />
               <item name="foodDrive" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="foodDrive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="foodDrive" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="foodDrive" type="b2602c69:ProjectViewProjectNode" />
+              <item name="foodDrive" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="drives" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="foodDrive" type="b2602c69:ProjectViewProjectNode" />
@@ -719,7 +733,7 @@
     <option name="totallyTimeSpent" value="69947000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1672" y="-8" width="1696" height="1066" extended-state="7" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -740,7 +754,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27586207" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18320611" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1359,13 +1373,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/drives/addDrive.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/drivedays/driveDays.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -1447,34 +1454,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/admin/formValidation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="36" column="13" lean-forward="false" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/signup/SignUp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="424" column="5" lean-forward="false" selection-start-line="424" selection-start-column="5" selection-end-line="424" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/user/UserEdit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1836">
-          <caret line="138" column="62" lean-forward="false" selection-start-line="138" selection-start-column="62" selection-end-line="138" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/admin/adminController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15334">
-          <caret line="972" column="17" lean-forward="false" selection-start-line="972" selection-start-column="17" selection-end-line="972" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -1515,30 +1498,62 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/DAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="683" column="56" lean-forward="false" selection-start-line="683" selection-start-column="56" selection-end-line="683" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1514919136319" expanded="true" signature="34178:35069" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/user/UserEdit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-118">
+          <caret line="222" column="43" lean-forward="false" selection-start-line="222" selection-start-column="43" selection-end-line="222" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/drives/addDrive.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="69" column="31" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/drives/drivesController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="502" column="5" lean-forward="true" selection-start-line="502" selection-start-column="5" selection-end-line="502" selection-end-column="5" />
+        <state relative-caret-position="307">
+          <caret line="194" column="0" lean-forward="false" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/drivedays/addDay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="313" column="52" lean-forward="false" selection-start-line="313" selection-start-column="48" selection-end-line="313" selection-end-column="52" />
+        <state relative-caret-position="226">
+          <caret line="324" column="51" lean-forward="true" selection-start-line="324" selection-start-column="51" selection-end-line="324" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/database/DAO.java">
+    <entry file="file://$PROJECT_DIR$/src/admin/formValidation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="356" column="33" lean-forward="false" selection-start-line="356" selection-start-column="22" selection-end-line="356" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1514919136319" expanded="true" signature="34178:35069" ph="{...}" />
-          </folding>
+        <state relative-caret-position="68">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/adminController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="1077" column="0" lean-forward="true" selection-start-line="1077" selection-start-column="0" selection-end-line="1077" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

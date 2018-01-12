@@ -5,7 +5,17 @@ import java.util.regex.Pattern;
 public class formValidation {
 
     public static Boolean isPassCor(String name){//TODO DETERMINE PASSWORD RESTRICTIONS
-        return true;
+        String regex = "^.{7,25}$";
+
+
+        if(name.matches(regex)){
+            return true;
+        }else if(name.isEmpty()){
+            return false;
+        }
+        else{
+            return false;
+        }
     }
 
     public static Boolean isNameCor(String name){
